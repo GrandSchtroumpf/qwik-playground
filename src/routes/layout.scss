@@ -1,0 +1,39 @@
+// @use "~/theme/layout";
+
+header.page-header {
+  justify-content: space-between;
+}
+
+nav {
+  ul {
+    --gap: var(--size-3);
+    a {
+      opacity: 0.3;
+      &:hover, &[aria-current="page"] {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+footer.page-header {
+  display: flex;
+
+  nav {
+    ul {
+      justify-content: space-around;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  footer.page-header {
+    display: none;
+  }
+}
+
+@media (max-width: 599px)  {
+  header.page-header {
+    display: none;
+  }
+}

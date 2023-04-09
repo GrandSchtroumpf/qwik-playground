@@ -1,0 +1,14 @@
+:global(form) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-3);
+  max-width: 800px;
+  margin: auto;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--size-3);
+}

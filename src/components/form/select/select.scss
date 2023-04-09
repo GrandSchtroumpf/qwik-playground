@@ -1,0 +1,37 @@
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-2);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom: solid 2px var(--outline);
+  background-color: var(--surface);
+  color: var(--on-background-variant);
+
+  
+  &.focused, &:focus-visible {
+    background-color: var(--background-variant);
+    border-bottom-color: var(--primary);
+    outline-color: transparent;
+  }
+  
+  &.invalid {
+    border-bottom-color: var(--error);
+  }
+
+  svg {
+    margin-left: auto;
+    height: 4px;
+    transition: transform 0.1s var(--ease-in-out);
+    polygon {
+      fill: currentColor;
+    }
+    
+    &.opened {
+      transform: rotate(180deg);
+    }
+  }
+  
+}

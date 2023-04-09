@@ -1,0 +1,37 @@
+* {
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+h1, h2, h3, h4, h5, h6, p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 1.1rem;
+  line-height: 1.35rem;
+  font-weight: 500;
+}
+
+label {
+  font-size: 0.8rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+small {
+  font-size: 0.75rem;
+  line-height: 16px;
+  font-weight: 300;
+}

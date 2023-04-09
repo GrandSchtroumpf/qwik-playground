@@ -1,0 +1,18 @@
+@mixin after($color) {
+  & {
+    position: relative;
+    isolation: isolate;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--on-#{$color});
+    z-index: -1; // Between text & background
+    opacity: 0;
+    transition: opacity 0.1s var(--ease-in-out);
+  }
+  &:hover::after {
+    opacity: 0.12;
+  }
+}
