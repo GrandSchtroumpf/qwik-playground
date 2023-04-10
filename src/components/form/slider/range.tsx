@@ -23,7 +23,7 @@ function useRangeProvider(props: RangeProps) {
   useVisibleTask$(() => {
     const root = slider.value;
     if (root) {
-      const width = root.clientWidth - 16; // Remove padding
+      const width = root.clientWidth - 16; // Remove padding TODO: use width of track instead
       slider.value!.style.setProperty('--start', `${min / (max - min) * width}px`);
       slider.value!.style.setProperty('--end', `${max / (max - min) * width - 16}px`);
     }
@@ -78,7 +78,7 @@ export const Range = component$((props: RangeProps) => {
   const { slider } = useRangeProvider(props);
 
   return <fieldset class="range" ref={slider}>
-    <div class="track"></div>
+    <div class="track" ></div>
       <Slot/>
     {/* <div class="sliders">
     </div> */}

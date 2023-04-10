@@ -28,7 +28,6 @@ export const useSyncEvent = <K extends keyof GlobalEventHandlersEventMap>(
 }
 
 export const nextFocus = $((list?: NodeListOf<HTMLElement>) => {
-  console.log('NEXT', list);
   if (!list) return;
   const focusedEl = document.activeElement as HTMLElement;
   if (!focusedEl) return list[0]?.focus();

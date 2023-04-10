@@ -2,8 +2,9 @@ import { component$, event$, useStore, useStylesScoped$ } from "@builder.io/qwik
 import { routeLoader$, routeAction$ } from "@builder.io/qwik-city";
 import { useModal, Modal } from "~/components/dialog/modal";
 import { Input, Form } from "~/components/form";
-import { Autocomplete } from "~/components/form/autocomplete/autocomplete";
-import { Select, Option } from "~/components/form/select/select";
+import { Combobox } from "~/components/form/combobox/combobox";
+import { Select } from "~/components/form/select/select";
+import { Option } from "~/components/form/listbox/listbox";
 import { CheckList, CheckItem, CheckAll, CheckGroup } from "~/components/form/checkbox/checkgroup";
 import { RadioGroup, RadioItem, RadioList } from "~/components/form/radio/radio";
 import styles from './index.scss?inline';
@@ -20,6 +21,7 @@ type SigninForm = {
   age: number;
   date: string;
   type: 'a' | 'b' | 'c';
+  types: ('a' | 'b' | 'c')[];
 }
 
 // Initial Value
@@ -29,6 +31,7 @@ export const useSigninForm = routeLoader$<SigninForm>(() => ({
   age: 0,
   date: new Date().toISOString(),
   type: 'a',
+  types: ['a'],
 }));
 
 // Handle submit on server
@@ -65,14 +68,20 @@ export default component$(() => {
       <Input name="date" type="datetime-local" placeholder="Birthday">
         Birthday
       </Input>
-      <Autocomplete name="email" onSearch$={onSearch$}>
+      {/* <Autocomplete name="email" onSearch$={onSearch$}>
         {state.options.map(v => <Option key={v} value={v}>{v}</Option>)}
-      </Autocomplete>
-      <Select name="type">
+      </Autocomplete> */}
+      <Select name="types" multiple placeholder="Select multiple types">
         <Option key="a" value="a">A</Option>
         <Option key="b" value="b">B</Option>
         <Option key="c" value="c">C</Option>
       </Select>
+
+      <Combobox name="types" multiple placeholder="Select multiple types">
+        <Option key="a" value="a">A</Option>
+        <Option key="b" value="b">B</Option>
+        <Option key="c" value="c">C</Option>
+      </Combobox>
 
       <Range>
         <ThumbStart name="start"></ThumbStart>
