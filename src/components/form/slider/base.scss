@@ -1,0 +1,41 @@
+@mixin track() {
+  pointer-events: none;
+  position: relative;
+  height: 4px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: var(--primary-container);
+  width: 100%;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transition: transform 0.1s;
+    background-color: var(--outline);
+  }
+}
+
+@mixin thumb() {
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: var(--surface);
+  transition: transform 0.1s;
+  &:hover::after {
+    transform: scale(0.7);
+  }
+  &:active::after {
+    transform: scale(0.4);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: var(--on-primary-container);
+    transform: scale(0.5);
+    transition: transform 0.1s var(--ease-in-out);
+  }
+}

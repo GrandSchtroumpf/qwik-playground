@@ -10,7 +10,7 @@ import styles from './index.scss?inline';
 import { MultiButtonToggleGroup, MultiButtonToggleItem, MultiButtonToggleList } from "~/components/form/button-toggle/multi";
 import { ButtonToggleGroup, ButtonToggleItem, ButtonToggleList } from "~/components/form/button-toggle/single";
 import { SwitchGroup, SwitchItem, SwitchList } from "~/components/form/switch/switch-group";
-import { Range } from "~/components/form/slider/range";
+import { Range, ThumbEnd, ThumbStart } from "~/components/form/slider/range";
 import { Slider } from "~/components/form/slider/slider";
 
 // Form Schema
@@ -74,7 +74,10 @@ export default component$(() => {
         <Option key="c" value="c">C</Option>
       </Select>
 
-      <Range></Range>
+      <Range>
+        <ThumbStart name="start"></ThumbStart>
+        <ThumbEnd name="end"></ThumbEnd>
+      </Range>
       <Slider></Slider>
 
       {/* <ButtonToggleGroup name="type">

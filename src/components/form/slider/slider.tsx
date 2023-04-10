@@ -1,5 +1,4 @@
 import { component$, useStylesScoped$, event$, useSignal } from "@builder.io/qwik";
-// import type { Event } from "@builder.io/qwik";
 import type { InputAttributes } from "../types";
 import styles from './slider.scss?inline';
 
@@ -13,13 +12,13 @@ export const Slider = component$((props: SliderProps) => {
 
   const slider = useSignal<HTMLElement>();
   const move = event$((event: Event, input: HTMLInputElement) => {
-    const value = input.valueAsNumber;
-    const position = (value - min) / (max - min) * input.clientWidth;
+    const percent = input.valueAsNumber / (max - min);
+    const position = percent * (input.clientWidth - 16);
     slider.value?.style.setProperty('--position', `${position}px`);
   });
   return <div class="slider" ref={slider}>
-    <input type="range" {...props} value={value} min={min} max={max} onInput$={move}/>
     <div class="track"></div>
+    <input type="range" {...props} value={value} min={min} max={max} onInput$={move}/>
     <div class="thumb"></div>
   </div>
 });

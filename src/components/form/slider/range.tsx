@@ -1,14 +1,21 @@
-import { component$, useStylesScoped$, event$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
-import type { InputAttributes } from "../types";
-import styles from './slider.scss?inline';
+import { Slot, component$, useStylesScoped$, event$, useSignal, useVisibleTask$, createContextId, useContextProvider, useContext } from "@builder.io/qwik";
+import type { FieldsetAttributes, InputAttributes } from "../types";
+import styles from './range.scss?inline';
 
-interface RangeProps extends Omit<InputAttributes, 'type' | 'children'> {}
+interface RangeProps extends FieldsetAttributes {
+  min?: number | string;
+  max?: number | string;
+}
 
-export const Range = component$((props: RangeProps) => {
-  useStylesScoped$(styles);
-  const leftInput = useSignal<HTMLInputElement>();
-  const rightInput = useSignal<HTMLInputElement>();
+const RangeContext = createContextId<RangeService>('RangeContext');
+const useRangeContext = () => useContext(RangeContext);
+
+type RangeService = ReturnType<typeof useRangeProvider>;
+
+function useRangeProvider(props: RangeProps) {
   const slider = useSignal<HTMLElement>();
+  const startInput = useSignal<HTMLInputElement>();
+  const endInput = useSignal<HTMLInputElement>();
   
   const min = props.min ? Number(props.min) : 0;
   const max = props.max ? Number(props.max) : 100;
@@ -16,72 +23,103 @@ export const Range = component$((props: RangeProps) => {
   useVisibleTask$(() => {
     const root = slider.value;
     if (root) {
-      slider.value!.style.setProperty('--left', `${min / (max - min) * root.clientWidth}px`);
-      slider.value!.style.setProperty('--right', `${max / (max - min) * root.clientWidth}px`);
+      const width = root.clientWidth - 16; // Remove padding
+      slider.value!.style.setProperty('--start', `${min / (max - min) * width}px`);
+      slider.value!.style.setProperty('--end', `${max / (max - min) * width - 16}px`);
     }
   })
 
+  const service = {
+    slider,
+    startInput,
+    endInput,
+    min,
+    max,
+    focusLeft: event$((start: HTMLInputElement) => {
+      const end = endInput.value!;
+      const percent = end.valueAsNumber / (max - min) * 100;
+      start.max = end.value;
+      start.style.setProperty('width', `${percent}%`);
+      end.style.setProperty('width', `${100 - percent}%`);
+    }),
+    focusRight: event$((end: HTMLInputElement) => {
+      const start = startInput.value!;
+      const percent = start.valueAsNumber / (max - min) * 100;
+      end.min = start.value;
+      start.style.setProperty('width', `${percent}%`);
+      end.style.setProperty('width', `${100 - percent}%`);
+    }),
+  
+    change: event$(() => {
+      const end = endInput.value!;
+      const start = startInput.value!;
+      const middle = start.valueAsNumber + (end.valueAsNumber - start.valueAsNumber) / 2;
+      const percent = middle / (max - min) * 100;
+      start.style.setProperty('width', `${percent}%`);
+      end.style.setProperty('width', `${100 - percent}%`);
+      end.min = start.max = middle.toString();
+    }),
+  
+    move: event$((input: HTMLInputElement, mode: 'start' | 'end') => {
+      if (document.activeElement !== input) return; // Wait for element to have focus (change width)
+      const root = slider.value!;
+      const percent = input.valueAsNumber / (max - min);
+      const width = root.clientWidth - 16; // remove padding
+      const position = percent * (width - 16); // 16px is the size of the thumb
+      slider.value!.style.setProperty(`--${mode}`, `${position}px`);
+    }),
+  }
+  useContextProvider(RangeContext, service);
+  return service;
+}
 
-  const focusLeft = event$((left: HTMLInputElement) => {
-    const right = rightInput.value!;
-    const percent = right.valueAsNumber / (max - min) * 100;
-    left.max = right.value;
-    left.style.setProperty('width', `${percent}%`);
-    right.style.setProperty('width', `${100 - percent}%`);
-  });
-  const focusRight = event$((right: HTMLInputElement) => {
-    const left = leftInput.value!;
-    const percent = left.valueAsNumber / (max - min) * 100;
-    right.min = left.value;
-    left.style.setProperty('width', `${percent}%`);
-    right.style.setProperty('width', `${100 - percent}%`);
-  });
+export const Range = component$((props: RangeProps) => {
+  useStylesScoped$(styles);
+  const { slider } = useRangeProvider(props);
 
-  const change = event$(() => {
-    const right = rightInput.value!;
-    const left = leftInput.value!;
-    const middle = left.valueAsNumber + (right.valueAsNumber - left.valueAsNumber) / 2;
-    const percent = middle / (max - min) * 100;
-    left.style.setProperty('width', `${percent}%`);
-    right.style.setProperty('width', `${100 - percent}%`);
-    right.min = left.max = middle.toString();
-  });
-
-  const move = event$((input: HTMLInputElement, mode: 'left' | 'right') => {
-    console.log('Move', input.valueAsNumber);
-    if (document.activeElement !== input) return; // Wait for element to have focus (change width)
-    const root = slider.value!;
-    const percent = input.valueAsNumber / (max - min);
-    const position = percent * root.clientWidth;
-    slider.value!.style.setProperty(`--${mode}`, `${position}px`);
-  });
-
-  return <div class="range" ref={slider}>
+  return <fieldset class="range" ref={slider}>
     <div class="track"></div>
-    <div class="thumb left"></div>
-    <div class="thumb right"></div>
-    <div class="sliders">
-      <input class="left" 
-        type="range" 
-        ref={leftInput}
-        min={min}
-        max={max}
-        value={min}
-        onChange$={() => change()}
-        onFocus$={(_, el) => focusLeft(el)}
-        onInput$={(_, el) => move(el, 'left')}
-        {...props} />
-      <input class="right" 
-        type="range" 
-        ref={rightInput}
-        min={min}
-        max={max}
-        value={max}
-        onChange$={() => change()}
-        onFocus$={(_, el) => focusRight(el)}
-        onInput$={(_, el) => move(el, 'right')}
-        {...props} />
-    </div>
+      <Slot/>
+    {/* <div class="sliders">
+    </div> */}
 
-  </div>
+  </fieldset>
+});
+
+interface ThumbProps extends Omit<InputAttributes, 'type' | 'children'> {}
+
+export const ThumbStart = component$((props: ThumbProps) => {
+  useStylesScoped$(styles);
+  const { startInput, min, max, change, focusLeft, move} = useRangeContext();
+  return <>
+    <input
+      type="range" 
+      ref={startInput}
+      min={min}
+      max={max}
+      value={min}
+      onChange$={() => change()}
+      onFocus$={(_, el) => focusLeft(el)}
+      onInput$={(_, el) => move(el, 'start')}
+      {...props} />
+    <div class="thumb start"></div>
+  </>
+
+});
+export const ThumbEnd = component$((props: ThumbProps) => {
+  useStylesScoped$(styles);
+  const { endInput, min, max, change, focusRight, move} = useRangeContext();
+  return <>
+    <input 
+      type="range" 
+      ref={endInput}
+      min={min}
+      max={max}
+      value={max}
+      onChange$={() => change()}
+      onFocus$={(_, el) => focusRight(el)}
+      onInput$={(_, el) => move(el, 'end')}
+      {...props} />
+    <div class="thumb end"></div>
+  </>
 });
