@@ -15,6 +15,7 @@ export const Slider = component$((props: SliderProps) => {
     const percent = input.valueAsNumber / (max - min);
     const position = percent * (input.clientWidth - 16);
     slider.value?.style.setProperty('--position', `${position}px`);
+    input.nextElementSibling?.setAttribute('data-value', input.value);
   });
   return <div class="slider" ref={slider}>
     <div class="track"></div>

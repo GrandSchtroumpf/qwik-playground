@@ -79,10 +79,7 @@ export const Range = component$((props: RangeProps) => {
 
   return <fieldset class="range" ref={slider}>
     <div class="track" ></div>
-      <Slot/>
-    {/* <div class="sliders">
-    </div> */}
-
+    <Slot/>
   </fieldset>
 });
 

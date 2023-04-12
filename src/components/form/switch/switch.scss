@@ -50,7 +50,7 @@ input {
     border-radius: $size;
     background-color: var(--outline);
     transform: scale(0.9);
-    transition: transform 0.2s var(--ease-back-in-out);
+    transition: transform 0.2s var(--ease-out);
   }
 }
 
@@ -59,7 +59,7 @@ label:hover, label:focus-within {
   input:checked + .track {
     border-color: var(--primary);
     .thumb {
-      background-color: var(--primary);
+      background-color: var(--on-background-variant);
       transform: scale(1.1) translateX($distance);
     }
   }
