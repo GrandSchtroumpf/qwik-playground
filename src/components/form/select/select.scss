@@ -1,6 +1,5 @@
 .field {
   display: inline-flex;
-  align-items: center;
   gap: var(--size-2);
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -28,7 +27,15 @@
 
   button {
     flex: 1;
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
     min-height: 1rem;
+    span {
+      text-align: left;
+      display: inline-block;
+      flex: 1;
+    }
   }
 
   input[hidden] {
@@ -36,7 +43,6 @@
   }
 
   svg {
-    margin-left: auto;
     height: 4px;
     transition: transform 0.1s var(--ease-in-out);
     polygon {

@@ -22,16 +22,31 @@ export const usePopover = () => {
     if (!dialog) throw new Error('Cannot find dialog in the template ?');
 
     state.opened = true;
-    const { width, height, left, top } = origin.getBoundingClientRect();
-    dialog.style.setProperty('--width', `${width}px`);
-    dialog.style.setProperty('--height', `${height}px`);
-    if (origin.contains(dialog)) {
-      dialog.style.setProperty('--left', '0');
-      dialog.style.setProperty('--top', `${height}px`);
-    } else {
-      dialog.style.setProperty('--left', `${left}px`);
-      dialog.style.setProperty('--top', `${top + height}px`);
+    // Wait until we know the height of the dialog
+    const positionDialog = () => {
+      const dialogRect = dialog.getBoundingClientRect();
+      if (!dialogRect.height) return requestAnimationFrame(positionDialog);
+      const { width, height, left, top, bottom } = origin.getBoundingClientRect();
+      const overflowY = bottom + dialogRect.height > window.innerHeight;
+      dialog.style.setProperty('--width', `${width}px`);
+      dialog.style.setProperty('--height', `${height}px`);
+      if (origin.contains(dialog)) {
+        dialog.style.setProperty('--left', '0');
+        if (overflowY) {
+          dialog.style.setProperty('--top', `-${dialogRect.height}px`);
+        } else {
+          dialog.style.setProperty('--top', `${height}px`);
+        }
+      } else {
+        dialog.style.setProperty('--left', `${left}px`);
+        if (overflowY) {
+          dialog.style.setProperty('--top', `${top - dialogRect.height}px`);
+        } else {
+          dialog.style.setProperty('--top', `${bottom}px`);
+        }
+      }
     }
+    requestAnimationFrame(positionDialog)
   });
   const close = $(() => closeDialog(state));
   const toggle = $((origin: HTMLElement) => state.opened ? close() : open(origin));

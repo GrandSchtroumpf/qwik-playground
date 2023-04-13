@@ -63,8 +63,8 @@ export const Select = component$((props: SelectProps) => {
       aria-autocomplete="none"
       aria-expanded={popover.opened}
       aria-controls={listboxId}
-      >
-        {displayValue}
+    >
+      <span>{displayValue}</span>
       <svg class={popover.opened ? 'opened' : 'closed'} aria-owns={listboxId} viewBox="7 10 10 5" focusable="false">
         <polygon stroke="none" fill-rule="evenodd" points="7 10 12 15 17 10"></polygon>
       </svg>
