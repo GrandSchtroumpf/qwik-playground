@@ -4,7 +4,7 @@
   padding: 0 8px;
   box-sizing: border-box;
   border: none;
-  height: 24px;
+  height: 48px;
   display: flex;
   position: relative;
   align-items: center;
@@ -19,9 +19,8 @@
   grid-area: 1/1;
 }
 input {
+  @include base.input();
   width: 50%;
-  opacity: 0;
-  height: 100%;
 }
 .track {
   @include base.track();
@@ -49,9 +48,30 @@ input {
     transform: translateX(var(--end));
   }
 }
+
+
 input:focus + .thumb {
   box-shadow: 0 0 4px var(--primary);
+  &::before {
+    opacity: 1;
+  }
   &::after {
     background-color: var(--on-background-variant);
+  }
+}
+input:hover + .thumb {
+  &::before {
+    opacity: 1;
+  }
+  &::after {
+    transform: scale(0.6);
+  }
+}
+input:active + .thumb {
+  &::before {
+    opacity: 1;
+  }
+  &::after {
+    transform: scale(0.3);
   }
 }

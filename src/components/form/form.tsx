@@ -7,7 +7,7 @@ type FormAttributes = QwikJSX.IntrinsicElements['form'];
 
 export interface FormProps<T extends FormFieldRecord> extends Omit<FormAttributes, 'onSubmit$'> {
   onSubmit$?: SubmitHandler<T>;
-  value: Signal<T>
+  value?: Signal<T>
 }
 
 export const FormContext = createContextId<FormState<any>>('FormContext');
@@ -31,7 +31,7 @@ export const Form = component$((props: FormProps<any>) => {
     submitted: false,
     dirty: false,
     valid: false,
-    value: value.value,
+    value: value?.value ?? {},
     updateCount: 0
   });
   useContextProvider<FormState<any>>(FormContext, state);

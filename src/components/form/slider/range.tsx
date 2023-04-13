@@ -29,45 +29,52 @@ function useRangeProvider(props: RangeProps) {
     }
   })
 
+  const focusLeft = event$((start: HTMLInputElement) => {
+    const end = endInput.value!;
+    const percent = end.valueAsNumber / (max - min) * 100;
+    start.max = end.value;
+    start.style.setProperty('width', `${percent}%`);
+    end.style.setProperty('width', `${100 - percent}%`);
+  });
+  const focusRight = event$((end: HTMLInputElement) => {
+    const start = startInput.value!;
+    const percent = start.valueAsNumber / (max - min) * 100;
+    end.min = start.value;
+    start.style.setProperty('width', `${percent}%`);
+    end.style.setProperty('width', `${100 - percent}%`);
+  });
+  const change = event$(() => {
+    const end = endInput.value!;
+    const start = startInput.value!;
+    const middle = start.valueAsNumber + (end.valueAsNumber - start.valueAsNumber) / 2;
+    const percent = middle / (max - min) * 100;
+    start.style.setProperty('width', `${percent}%`);
+    end.style.setProperty('width', `${100 - percent}%`);
+    end.min = start.max = middle.toString();
+  });
+  const move = event$((input: HTMLInputElement, mode: 'start' | 'end') => {
+    // If input have no focus yet, resize input
+    if (document.activeElement !== input) {
+      if (mode === 'start') focusLeft(input);
+      if (mode === 'end') focusRight(input);
+    }
+    const root = slider.value!;
+    const percent = input.valueAsNumber / (max - min);
+    const width = root.clientWidth - 16; // remove padding
+    const position = percent * (width - 16); // 16px is the size of the thumb
+    slider.value!.style.setProperty(`--${mode}`, `${position}px`);
+    input.nextElementSibling?.setAttribute('data-value', input.value);
+  });
   const service = {
     slider,
     startInput,
     endInput,
     min,
     max,
-    focusLeft: event$((start: HTMLInputElement) => {
-      const end = endInput.value!;
-      const percent = end.valueAsNumber / (max - min) * 100;
-      start.max = end.value;
-      start.style.setProperty('width', `${percent}%`);
-      end.style.setProperty('width', `${100 - percent}%`);
-    }),
-    focusRight: event$((end: HTMLInputElement) => {
-      const start = startInput.value!;
-      const percent = start.valueAsNumber / (max - min) * 100;
-      end.min = start.value;
-      start.style.setProperty('width', `${percent}%`);
-      end.style.setProperty('width', `${100 - percent}%`);
-    }),
-  
-    change: event$(() => {
-      const end = endInput.value!;
-      const start = startInput.value!;
-      const middle = start.valueAsNumber + (end.valueAsNumber - start.valueAsNumber) / 2;
-      const percent = middle / (max - min) * 100;
-      start.style.setProperty('width', `${percent}%`);
-      end.style.setProperty('width', `${100 - percent}%`);
-      end.min = start.max = middle.toString();
-    }),
-  
-    move: event$((input: HTMLInputElement, mode: 'start' | 'end') => {
-      if (document.activeElement !== input) return; // Wait for element to have focus (change width)
-      const root = slider.value!;
-      const percent = input.valueAsNumber / (max - min);
-      const width = root.clientWidth - 16; // remove padding
-      const position = percent * (width - 16); // 16px is the size of the thumb
-      slider.value!.style.setProperty(`--${mode}`, `${position}px`);
-    }),
+    focusLeft,
+    focusRight,
+    change,
+    move,
   }
   useContextProvider(RangeContext, service);
   return service;
@@ -99,7 +106,7 @@ export const ThumbStart = component$((props: ThumbProps) => {
       onFocus$={(_, el) => focusLeft(el)}
       onInput$={(_, el) => move(el, 'start')}
       {...props} />
-    <div class="thumb start"></div>
+    <div class="thumb start" data-value={min}></div>
   </>
 
 });
@@ -117,6 +124,6 @@ export const ThumbEnd = component$((props: ThumbProps) => {
       onFocus$={(_, el) => focusRight(el)}
       onInput$={(_, el) => move(el, 'end')}
       {...props} />
-    <div class="thumb end"></div>
+    <div class="thumb end" data-value={max}></div>
   </>
 });

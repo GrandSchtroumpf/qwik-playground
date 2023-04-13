@@ -57,6 +57,7 @@ export const Combobox = component$((props: ComboboxProps) => {
       aria-expanded={popover.opened}
       aria-controls={listboxId}
     />
+    <input name={fieldState.name} value={fieldState.value} hidden/>
     <Popover>
       <Listbox id={listboxId} controller={controller} onSelected$={(v) => fieldState.value = v}>
         <Slot />

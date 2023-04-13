@@ -26,6 +26,9 @@
     border-bottom-color: var(--error);
   }
   
+  input[hidden] {
+    display: none;
+  }
   input {
     width: 100%;
     border: none;

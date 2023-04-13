@@ -1,46 +1,114 @@
-import { component$ } from '@builder.io/qwik';
-import type { DocumentHead} from '@builder.io/qwik-city';
-import { Link} from '@builder.io/qwik-city';
-import { globalAction$, routeLoader$ } from '@builder.io/qwik-city';
-import { api } from '~/api';
-import type { Video } from '~/api/models';
+import { $, component$, useStylesScoped$ } from "@builder.io/qwik";
+import { Input, Form } from "~/components/form";
+import { Combobox } from "~/components/form/combobox/combobox";
+import { Select } from "~/components/form/select/select";
+import { Option } from "~/components/form/listbox/listbox";
+import { CheckList, CheckItem, CheckAll, CheckGroup } from "~/components/form/checkbox/checkgroup";
+import { RadioGroup, RadioItem, RadioList } from "~/components/form/radio/radio";
+import { MultiButtonToggleGroup, MultiButtonToggleItem, MultiButtonToggleList } from "~/components/form/button-toggle/multi";
+import { ButtonToggleGroup, ButtonToggleItem, ButtonToggleList } from "~/components/form/button-toggle/single";
+import { SwitchGroup, SwitchItem, SwitchList } from "~/components/form/switch/switch-group";
+import { Range, ThumbEnd, ThumbStart } from "~/components/form/slider/range";
+import { Slider } from "~/components/form/slider/slider";
+import styles from './index.scss?inline';
 
-// routeLoader is retriggered after
-export const useVideos = routeLoader$(() => {
-  return api.query('video');
-})
-
-export const useAdd = globalAction$(() => {
-  api.add('user', { name: 'Test' })
-})
-
-const Item = component$(({ video }: { video: Video }) => {
-  return <li>
-    <Link href={'/video/'+video._id}>{video.name}</Link>
-  </li>
-})
 
 export default component$(() => {
-  const videos = useVideos();
-  const add = useAdd();
-  if (!videos.value?.length) return <button onClick$={() => add.submit()}>Create one</button>;
+  useStylesScoped$(styles);
+  const onSearch$ = $((value: string) => console.log('Search', value));
+
   return <>
-    <header>
-      <h1>List</h1>
-      <button onClick$={() => add.submit()}>Add new video</button>  
-    </header>  
-    <ul role="list" class="column">
-      {videos.value.map(video => <Item video={video} key={video.name}/>)}
-    </ul>
+    <Form>
+      <Input name="email" type="email" placeholder="email">
+        Email
+      </Input>
+      <Input name="password" type="password" placeholder="password">
+        Password
+      </Input>
+      <Input name="date" type="datetime-local" placeholder="Birthday">
+        Birthday
+      </Input>
+      {/* <Autocomplete name="email" onSearch$={onSearch$}>
+        {state.options.map(v => <Option key={v} value={v}>{v}</Option>)}
+      </Autocomplete> */}
+      <Select name="types" multiple placeholder="Select multiple types">
+        <Option key="a" value="a">A</Option>
+        <Option key="b" value="b">B</Option>
+        <Option key="c" value="c">C</Option>
+      </Select>
+
+      <Combobox name="types" multiple placeholder="Select multiple types" onSearch$={onSearch$}>
+        <Option key="a" value="a">A</Option>
+        <Option key="b" value="b">B</Option>
+        <Option key="c" value="c">C</Option>
+      </Combobox>
+
+      <Range>
+        <ThumbStart name="start"></ThumbStart>
+        <ThumbEnd name="end"></ThumbEnd>
+      </Range>
+      <Slider></Slider>
+
+      {/* <ButtonToggleGroup name="type">
+        <Option key="a" value="a">Developer</Option>
+        <Option key="c" value="c">CTO</Option>
+        <Option key="b" value="b">Engineer</Option>
+      </ButtonToggleGroup> */}
+
+      <SwitchGroup name="settings">
+        <legend>Settings</legend>
+        <SwitchList>
+          <SwitchItem name="audio">Audio</SwitchItem>
+          <SwitchItem name="video">Video</SwitchItem>
+        </SwitchList>
+      </SwitchGroup>
+
+      <ButtonToggleGroup name="type">
+        <legend>This is a checklist</legend>
+        <ButtonToggleList>
+          <ButtonToggleItem key="a" value="hello">Hello</ButtonToggleItem>
+          <ButtonToggleItem key="b" value="world">World</ButtonToggleItem>
+          <ButtonToggleItem key="c" value="world">World</ButtonToggleItem>
+          <ButtonToggleItem key="d" value="world">World</ButtonToggleItem>
+        </ButtonToggleList>
+      </ButtonToggleGroup>
+
+      <MultiButtonToggleGroup name="type">
+        <legend>This is a checklist</legend>
+        <MultiButtonToggleList>
+          <MultiButtonToggleItem key="a" value="hello">Hello</MultiButtonToggleItem>
+          <MultiButtonToggleItem key="b" value="world">World</MultiButtonToggleItem>
+          <MultiButtonToggleItem key="c" value="world">World</MultiButtonToggleItem>
+          <MultiButtonToggleItem key="d" value="world">World</MultiButtonToggleItem>
+        </MultiButtonToggleList>
+      </MultiButtonToggleGroup>
+
+      <CheckGroup name="type">
+        <legend>This is a checklist</legend>
+        <CheckAll>Check all</CheckAll>
+        <CheckList>
+          <CheckItem key="a" value="hello">Hello</CheckItem>
+          <CheckItem key="b" value="world">World</CheckItem>
+          <CheckItem key="c" value="world">World</CheckItem>
+          <CheckItem key="d" value="world">World</CheckItem>
+        </CheckList>
+      </CheckGroup>
+
+      <RadioGroup name="test">
+        <legend>This is a radio group</legend>
+        <RadioList>
+          <RadioItem key="a" value="hello">Hello</RadioItem>
+          <RadioItem key="b" value="world">World</RadioItem>
+          <RadioItem key="c" value="world">World</RadioItem>
+          <RadioItem key="d" value="world">World</RadioItem>
+        </RadioList>
+      </RadioGroup>
+
+      <footer>
+        <button type="reset">Cancel</button>
+        <button class="fill primary" type="submit">Signin</button>
+      </footer>
+    </Form>
   </>
 });
 
-export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
-  meta: [
-    {
-      name: 'description',
-      content: 'Qwik site description',
-    },
-  ],
-};

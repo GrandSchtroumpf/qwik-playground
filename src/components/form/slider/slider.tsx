@@ -20,6 +20,6 @@ export const Slider = component$((props: SliderProps) => {
   return <div class="slider" ref={slider}>
     <div class="track"></div>
     <input type="range" {...props} value={value} min={min} max={max} onInput$={move}/>
-    <div class="thumb"></div>
+    <div class="thumb" data-value={value ?? min}></div>
   </div>
 });

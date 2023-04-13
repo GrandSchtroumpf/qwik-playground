@@ -1,21 +1,12 @@
 @use "./base";
 
 .slider {
+  height: 48px;
   padding: 0 8px;
   display: grid;
   align-items: center;
   border-radius: 4px;
   --position: 0px;
-  &:hover {
-    .thumb::after {
-      transform: scale(0.7);
-    }
-  }
-  &:active {
-    .thumb::after {
-      transform: scale(0.4);
-    }
-  }
   &:focus-within {
     outline: solid 1px var(--primary);
   }
@@ -25,7 +16,7 @@ input, .track {
 }
 
 input {
-  opacity: 0;
+  @include base.input();
 }
 
 .track {
@@ -40,21 +31,29 @@ input {
   grid-area: 1 / 1;
   transform: translateX(var(--position, 0));
 }
+
 input:focus + .thumb {
   box-shadow: 0 0 4px var(--primary);
   &::before {
-    content: attr(data-value);
-    padding: 4px 8px;
-    position: absolute;
-    top: 0;
-    transform: translate(-8px, -40px);
-    background-color: var(--surface-variant);
-    color: var(--on-surface-variant);
-    border-radius: 4px;
-    text-align: center;
-    display: inline-block;
+    opacity: 1;
   }
   &::after {
     background-color: var(--on-background-variant);
+  }
+}
+input:hover + .thumb {
+  &::before {
+    opacity: 1;
+  }
+  &::after {
+    transform: scale(0.6);
+  }
+}
+input:active + .thumb {
+  &::before {
+    opacity: 1;
+  }
+  &::after {
+    transform: scale(0.3);
   }
 }

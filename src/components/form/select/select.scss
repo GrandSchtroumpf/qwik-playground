@@ -9,7 +9,6 @@
   border-bottom: solid 2px var(--outline);
   background-color: var(--surface);
   color: var(--on-background-variant);
-  min-height: 1rem;
   position: relative;
   isolation: auto; // when a button has a popover it should have isolation auto to let the popover over the other element
 
@@ -29,6 +28,7 @@
 
   button {
     flex: 1;
+    min-height: 1rem;
   }
 
   input[hidden] {

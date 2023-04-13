@@ -1,5 +1,4 @@
 import { component$, Slot, useStylesScoped$ } from '@builder.io/qwik';
-import { Link } from '@builder.io/qwik-city';
 import { Navlink, Navbar } from '~/components/navigation/navlist';
 import styles from './layout.scss?inline';
 
@@ -16,10 +15,7 @@ export default component$(() => {
   useStylesScoped$(styles);
   return <>
     <header class="page-header">
-      <MainNav/>
-      <Link href="/auth/signin" class="btn">
-        Signin
-      </Link>
+      <h1>Forms Components</h1>
     </header>
     <main>
       <Slot />

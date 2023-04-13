@@ -1,3 +1,8 @@
+@mixin input() {
+  opacity: 0;
+  height: 100%;
+}
+
 @mixin track() {
   pointer-events: none;
   position: relative;
@@ -25,9 +30,26 @@
   transition: transform 0.1s;
   &:hover::after {
     transform: scale(0.7);
+    &::before {
+      opacity: 1;
+    }
   }
   &:active::after {
     transform: scale(0.4);
+  }
+  &::before {
+    content: attr(data-value);
+    opacity: 0;
+    padding: 4px 8px;
+    position: absolute;
+    bottom: 0;
+    transform: translate(-25%, -100%);
+    background-color: var(--surface-variant);
+    color: var(--on-surface-variant);
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+    transition: opacity 0.2s var(--ease-out);
   }
   &::after {
     content: "";
@@ -36,6 +58,6 @@
     border-radius: 50%;
     background-color: var(--on-primary-container);
     transform: scale(0.5);
-    transition: transform 0.1s var(--ease-in-out);
+    transition: transform 0.2s var(--ease-out);
   }
 }
