@@ -9,7 +9,7 @@ export const Checkbox = component$((props: CheckboxProps) => {
   const id = useId();
   return <>
     <input id={id} type="checkbox" {...props} />
-    <label for="id">
+    <label for={id}>
       <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="none"></path>
       </svg>

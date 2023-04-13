@@ -13,30 +13,29 @@ export const usePopover = () => {
 
   useContextProvider(DialogContext, state);
   
-  return {
-    state,
-    /**
-     * 
-     * @note the origin must have position relative
-     */
-    open: $((origin: HTMLElement) => {
-      const dialog = state.ref.value;
-      if (!dialog) throw new Error('Cannot find dialog in the template ?');
+  /**
+   * 
+   * @note the origin must have position relative
+  */
+  const open = $((origin: HTMLElement) => {
+    const dialog = state.ref.value;
+    if (!dialog) throw new Error('Cannot find dialog in the template ?');
 
-      state.opened = true;
-      const { width, height, left, top } = origin.getBoundingClientRect();
-      dialog.style.setProperty('--width', `${width}px`);
-      dialog.style.setProperty('--height', `${height}px`);
-      if (origin.contains(dialog)) {
-        dialog.style.setProperty('--left', '0');
-        dialog.style.setProperty('--top', `${height}px`);
-      } else {
-        dialog.style.setProperty('--left', `${left}px`);
-        dialog.style.setProperty('--top', `${top + height}px`);
-      }
-    }),
-    close: $(() => closeDialog(state)),
-  }
+    state.opened = true;
+    const { width, height, left, top } = origin.getBoundingClientRect();
+    dialog.style.setProperty('--width', `${width}px`);
+    dialog.style.setProperty('--height', `${height}px`);
+    if (origin.contains(dialog)) {
+      dialog.style.setProperty('--left', '0');
+      dialog.style.setProperty('--top', `${height}px`);
+    } else {
+      dialog.style.setProperty('--left', `${left}px`);
+      dialog.style.setProperty('--top', `${top + height}px`);
+    }
+  });
+  const close = $(() => closeDialog(state));
+  const toggle = $((origin: HTMLElement) => state.opened ? close() : open(origin));
+  return { state, open, close, toggle };
 }
 
 

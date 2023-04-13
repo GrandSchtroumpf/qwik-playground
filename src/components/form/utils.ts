@@ -1,5 +1,7 @@
 import { $, useVisibleTask$, noSerialize } from '@builder.io/qwik';
-import type { Signal} from '@builder.io/qwik';
+import type { Signal, QRL } from '@builder.io/qwik';
+
+export const exist = <T>(v?: T | null): v is T => !!v;
 
 /** Transform any value into a default string */
 export const toString = $(async (value: any): Promise<string> => {
@@ -43,3 +45,16 @@ export const previousFocus = $((list?: NodeListOf<HTMLElement>) => {
   const nextIndex = (index - 1 + list.length) % list.length;
   list[nextIndex].focus();
 });
+
+
+
+export function useOnElement<K extends keyof GlobalEventHandlersEventMap>(
+  ref: Signal<HTMLElement | undefined>,
+  eventName: K,
+  eventQrl: QRL<(event: GlobalEventHandlersEventMap[K]) => void>
+) {
+  useVisibleTask$(() => {
+    ref.value?.addEventListener(eventName, eventQrl);
+    return () => ref.value?.removeEventListener(eventName, eventQrl);
+  });
+}

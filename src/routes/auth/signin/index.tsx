@@ -77,7 +77,7 @@ export default component$(() => {
         <Option key="c" value="c">C</Option>
       </Select>
 
-      <Combobox name="types" multiple placeholder="Select multiple types">
+      <Combobox name="types" multiple placeholder="Select multiple types" onSearch$={onSearch$}>
         <Option key="a" value="a">A</Option>
         <Option key="b" value="b">B</Option>
         <Option key="c" value="c">C</Option>

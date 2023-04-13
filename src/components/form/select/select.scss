@@ -1,4 +1,4 @@
-button {
+.field {
   display: inline-flex;
   align-items: center;
   gap: var(--size-2);
@@ -10,9 +10,10 @@ button {
   background-color: var(--surface);
   color: var(--on-background-variant);
   min-height: 1rem;
+  position: relative;
   isolation: auto; // when a button has a popover it should have isolation auto to let the popover over the other element
 
-  &:focus-visible {
+  &:focus-within {
     background-color: var(--background-variant);
     border-bottom-color: var(--primary);
     outline: none;
@@ -24,6 +25,14 @@ button {
   
   &[aria-invalid="true"] {
     border-bottom-color: var(--error);
+  }
+
+  button {
+    flex: 1;
+  }
+
+  input[hidden] {
+    display: none;
   }
 
   svg {

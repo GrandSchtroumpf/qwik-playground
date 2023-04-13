@@ -1,0 +1,75 @@
+ul[role="listbox"] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    pointer-events: none;
+    display: var(--active-display, 'none');
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--active-width);
+    height: var(--active-height);
+    transform: translate(var(--active-left, 0), var(--active-top, 0));
+    transition-duration: 0.1s;
+    transition-property: transform, height;
+    background-color: var(--surface-variant);
+    opacity: 0.12;
+    border-radius: 4px;
+  }
+
+  // Single selection
+  &[aria-multiselectable="false"] {
+    // default
+    &::before {
+      content: "";
+      pointer-events: none;
+      display: var(--selected-display, 'none');
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 4px;
+      transform: translate(calc(var(--selected-left, 0) + 2px), calc(var(--selected-top, 0) + 0.5*(var(--selected-height, 0) - 4px)));
+      transition-duration: 0.1s;
+      transition-property: transform, height;
+      background-color: var(--primary);
+      z-index: -1;
+    }
+    // Horizontal
+    &[aria-orientation="horizontal"] {
+      &::before {
+        background-color: var(--primary-container);
+        width: var(--selected-width);
+        height: var(--selected-height);
+        transform: translate(var(--selected-left, 0), var(--selected-top, 0));
+        transition-property: transform, width;
+      }
+    }
+  }
+}
+
+
+li[role="option"] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--on-surface-variant);
+  padding: 8px 16px;
+  cursor: pointer;
+
+  &[aria-selected="true"] {
+    color: var(--on-primary-container);
+    background-color: var(--primary-container);
+    svg {
+      background-color: var(--primary-container);
+      border: solid 1px var(--primary);
+    }
+    path {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+}
