@@ -27,19 +27,19 @@ export const usePopover = () => {
       const dialogRect = dialog.getBoundingClientRect();
       if (!dialogRect.height) return requestAnimationFrame(positionDialog);
       const { width, height, left, top, bottom } = origin.getBoundingClientRect();
-      const overflowY = bottom + dialogRect.height > window.innerHeight;
+      const overflowBottom = bottom + dialogRect.height > window.innerHeight;
       dialog.style.setProperty('--width', `${width}px`);
       dialog.style.setProperty('--height', `${height}px`);
       if (origin.contains(dialog)) {
         dialog.style.setProperty('--left', '0');
-        if (overflowY) {
+        if (overflowBottom) {
           dialog.style.setProperty('--top', `-${dialogRect.height}px`);
         } else {
           dialog.style.setProperty('--top', `${height}px`);
         }
       } else {
         dialog.style.setProperty('--left', `${left}px`);
-        if (overflowY) {
+        if (overflowBottom) {
           dialog.style.setProperty('--top', `${top - dialogRect.height}px`);
         } else {
           dialog.style.setProperty('--top', `${bottom}px`);

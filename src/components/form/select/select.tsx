@@ -1,12 +1,12 @@
 import { component$, Slot, useComputed$, useStylesScoped$, useSignal, event$, useId } from "@builder.io/qwik";
 import { usePopover, Popover } from "../../dialog/popover";
 import { useField } from "../field";
-import styles from './select.scss?inline';
 import type { QwikKeyboardEvent } from "@builder.io/qwik";
 import type { FieldProps } from "../field";
 import type { DisplayProps } from "../types";
 import { toString } from "../utils";
 import { Listbox } from "../listbox/listbox";
+import styles from './select.scss?inline';
 
 
 interface SelectProps<T = any> extends FieldProps<T>, DisplayProps<T> {

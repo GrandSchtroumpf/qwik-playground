@@ -54,4 +54,8 @@
     }
   }
   
+  & :global(dialog) {
+    max-height: 275px;
+    overflow: auto;
+  }
 }

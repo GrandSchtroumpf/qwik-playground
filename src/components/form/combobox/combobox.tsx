@@ -1,7 +1,7 @@
 import { component$, Slot, useComputed$, useStylesScoped$, useSignal, event$, useId } from "@builder.io/qwik";
 import { usePopover, Popover } from "../../dialog/popover";
 import { useField } from "../field";
-import type { QwikKeyboardEvent, QRL } from "@builder.io/qwik";
+import type { QwikKeyboardEvent, Signal } from "@builder.io/qwik";
 import type { FieldProps } from "../field";
 import type { DisplayProps } from "../types";
 import { toString } from "../utils";
@@ -10,7 +10,7 @@ import styles from './combobox.scss?inline';
 
 
 interface ComboboxProps<T = any> extends FieldProps<T>, DisplayProps<T> {
-  onSearch$: QRL<(value: string) => any>
+  search: Signal<string>;
   multiple?: boolean;
   placeholder?: string;
 }
@@ -21,7 +21,6 @@ export const Combobox = component$((props: ComboboxProps) => {
   const listboxId = useId();
   const root = useSignal<HTMLElement>();
   const controller = useSignal<HTMLElement>();
-  const onSearch$ = props.onSearch$;
   const multiple = props.multiple ?? false;
 
   // Contexts
@@ -41,6 +40,10 @@ export const Combobox = component$((props: ComboboxProps) => {
     }
   });
 
+  const onSelected$ = event$((value: string | string[]) => {
+    fieldState.value = value;
+    if (!multiple) close();
+  });
 
   return <div class="field" ref={root}>
     <input ref={controller}
@@ -49,7 +52,7 @@ export const Combobox = component$((props: ComboboxProps) => {
       onKeyDown$={onKeyDown$}
       onFocus$={() => toggle(root.value!)}
       onBlur$={() => close()}
-      onInput$={(_, el) => onSearch$(el.value)}
+      onInput$={(_, el) => props.search.value = el.value}
       aria-haspopup="listbox" 
       aria-disabled="false"
       aria-invalid="false"
@@ -59,7 +62,7 @@ export const Combobox = component$((props: ComboboxProps) => {
     />
     <input name={fieldState.name} value={fieldState.value} hidden/>
     <Popover>
-      <Listbox id={listboxId} controller={controller} onSelected$={(v) => fieldState.value = v}>
+      <Listbox id={listboxId} controller={controller} onSelected$={onSelected$}>
         <Slot />
       </Listbox>
     </Popover>

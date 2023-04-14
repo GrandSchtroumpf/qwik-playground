@@ -1,4 +1,4 @@
-import { $, component$, useStylesScoped$ } from "@builder.io/qwik";
+import { $, component$, useComputed$, useId, useSignal, useStylesScoped$ } from "@builder.io/qwik";
 import { Input, Form } from "~/components/form";
 import { Combobox } from "~/components/form/combobox/combobox";
 import { Select } from "~/components/form/select/select";
@@ -10,12 +10,23 @@ import { ButtonToggleGroup, ButtonToggleItem, ButtonToggleList } from "~/compone
 import { SwitchGroup, SwitchItem, SwitchList } from "~/components/form/switch/switch-group";
 import { Range, ThumbEnd, ThumbStart } from "~/components/form/slider/range";
 import { Slider } from "~/components/form/slider/slider";
+import MOVIES from '~/DATA/movies.json';
 import styles from './index.scss?inline';
 
+type Movie = typeof MOVIES[number];
 
 export default component$(() => {
   useStylesScoped$(styles);
-  const onSearch$ = $((value: string) => console.log('Search', value));
+  const search = useSignal('');
+  const movies = useComputed$(() => {
+    const token = search.value.toLowerCase();
+    return MOVIES.filter(movie => movie.Title.toLocaleLowerCase().includes(token));
+  });
+  const displayTitle = $((id: string) => MOVIES.find(movie => movie.imdbID === id)?.Title ?? '');
+  const displayTitles = $((ids: string[] = []) => {
+    const movies = MOVIES.filter(movie => ids.includes(movie.imdbID));
+    return movies.map(movie => movie.Title).join(', ');
+  });
 
   return <>
     <Form>
@@ -29,20 +40,20 @@ export default component$(() => {
         Birthday
       </Input>
 
-      <Select name="types" multiple placeholder="Select multiple types">
-        <Option key="a" value="a">A</Option>
-        <Option key="b" value="b">B</Option>
-        <Option key="c" value="c">C</Option>
-        <Option key="e" value="e">E</Option>
-        <Option key="f" value="f">F</Option>
+      <Select name="movie" multiple placeholder="Select multiple types" display$={displayTitles}>
+        {movies.value.map(movie => 
+          <Option key={useId()} value={movie.imdbID}>
+            {movie.Title}
+          </Option>
+        )}
       </Select>
 
-      <Combobox name="types" multiple placeholder="Select multiple types" onSearch$={onSearch$}>
-        <Option key="a" value="a">A</Option>
-        <Option key="b" value="b">B</Option>
-        <Option key="c" value="c">C</Option>
-        <Option key="e" value="e">E</Option>
-        <Option key="f" value="f">F</Option>
+      <Combobox name="movie" placeholder="Select multiple types" display$={displayTitle} search={search}>
+        {movies.value.map(movie => 
+          <Option key={useId()} value={movie.imdbID}>
+            {movie.Title}
+          </Option>
+        )}
       </Combobox>
 
       <Range>
@@ -60,7 +71,7 @@ export default component$(() => {
       </SwitchGroup>
 
       <ButtonToggleGroup name="type">
-        <legend>This is a checklist</legend>
+        <legend>Button Toggle</legend>
         <ButtonToggleList>
           <ButtonToggleItem key="a" value="hello">Hello</ButtonToggleItem>
           <ButtonToggleItem key="b" value="world">World</ButtonToggleItem>
@@ -70,7 +81,7 @@ export default component$(() => {
       </ButtonToggleGroup>
 
       <MultiButtonToggleGroup name="type">
-        <legend>This is a checklist</legend>
+        <legend>Button Toggle with multiple choices</legend>
         <MultiButtonToggleList>
           <MultiButtonToggleItem key="a" value="hello">Hello</MultiButtonToggleItem>
           <MultiButtonToggleItem key="b" value="world">World</MultiButtonToggleItem>

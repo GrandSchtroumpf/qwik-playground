@@ -5,6 +5,7 @@ import styles from './range.scss?inline';
 interface RangeProps extends FieldsetAttributes {
   min?: number | string;
   max?: number | string;
+  step?: number | string;
 }
 
 const RangeContext = createContextId<RangeService>('RangeContext');
@@ -19,6 +20,7 @@ function useRangeProvider(props: RangeProps) {
   
   const min = props.min ? Number(props.min) : 0;
   const max = props.max ? Number(props.max) : 100;
+  const step = props.step ? Number(props.step) : 1;
 
   useVisibleTask$(() => {
     const root = slider.value;
@@ -63,7 +65,7 @@ function useRangeProvider(props: RangeProps) {
     const width = root.clientWidth - 16; // remove padding
     const position = percent * (width - 16); // 16px is the size of the thumb
     slider.value!.style.setProperty(`--${mode}`, `${position}px`);
-    input.nextElementSibling?.setAttribute('data-value', input.value);
+    input.nextElementSibling?.setAttribute('data-value', `${Math.floor(input.valueAsNumber)}`);
   });
   const service = {
     slider,
@@ -71,6 +73,7 @@ function useRangeProvider(props: RangeProps) {
     endInput,
     min,
     max,
+    step,
     focusLeft,
     focusRight,
     change,
@@ -90,17 +93,18 @@ export const Range = component$((props: RangeProps) => {
   </fieldset>
 });
 
-interface ThumbProps extends Omit<InputAttributes, 'type' | 'children'> {}
+interface ThumbProps extends Omit<InputAttributes, 'type' | 'children' | 'step' | 'min' | 'max'> {}
 
 export const ThumbStart = component$((props: ThumbProps) => {
   useStylesScoped$(styles);
-  const { startInput, min, max, change, focusLeft, move} = useRangeContext();
+  const { startInput, min, max, step, change, focusLeft, move} = useRangeContext();
   return <>
     <input
       type="range" 
       ref={startInput}
       min={min}
       max={max}
+      step={step}
       value={min}
       onChange$={() => change()}
       onFocus$={(_, el) => focusLeft(el)}
@@ -112,13 +116,14 @@ export const ThumbStart = component$((props: ThumbProps) => {
 });
 export const ThumbEnd = component$((props: ThumbProps) => {
   useStylesScoped$(styles);
-  const { endInput, min, max, change, focusRight, move} = useRangeContext();
+  const { endInput, min, max, step, change, focusRight, move} = useRangeContext();
   return <>
     <input 
       type="range" 
       ref={endInput}
       min={min}
       max={max}
+      step={step}
       value={max}
       onChange$={() => change()}
       onFocus$={(_, el) => focusRight(el)}

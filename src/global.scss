@@ -22,6 +22,9 @@ input {
   &:focus-visible {
     border-bottom-color: var(--primary);
   }
+  &[type="datetime-local"] {
+    font-family: system-ui; // required 
+  }
 }
 
 /// BUTTON ///
