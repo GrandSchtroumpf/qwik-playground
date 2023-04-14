@@ -13,7 +13,7 @@ import { Slider } from "~/components/form/slider/slider";
 import MOVIES from '~/DATA/movies.json';
 import styles from './index.scss?inline';
 
-type Movie = typeof MOVIES[number];
+// type Movie = typeof MOVIES[number];
 
 export default component$(() => {
   useStylesScoped$(styles);
