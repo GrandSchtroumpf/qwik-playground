@@ -28,9 +28,7 @@ export default component$(() => {
       <Input name="date" type="datetime-local" placeholder="Birthday">
         Birthday
       </Input>
-      {/* <Autocomplete name="email" onSearch$={onSearch$}>
-        {state.options.map(v => <Option key={v} value={v}>{v}</Option>)}
-      </Autocomplete> */}
+
       <Select name="types" multiple placeholder="Select multiple types">
         <Option key="a" value="a">A</Option>
         <Option key="b" value="b">B</Option>
@@ -39,17 +37,19 @@ export default component$(() => {
         <Option key="f" value="f">F</Option>
       </Select>
 
+      <Combobox name="types" multiple placeholder="Select multiple types" onSearch$={onSearch$}>
+        <Option key="a" value="a">A</Option>
+        <Option key="b" value="b">B</Option>
+        <Option key="c" value="c">C</Option>
+        <Option key="e" value="e">E</Option>
+        <Option key="f" value="f">F</Option>
+      </Combobox>
+
       <Range>
         <ThumbStart name="start"></ThumbStart>
         <ThumbEnd name="end"></ThumbEnd>
       </Range>
       <Slider></Slider>
-
-      {/* <ButtonToggleGroup name="type">
-        <Option key="a" value="a">Developer</Option>
-        <Option key="c" value="c">CTO</Option>
-        <Option key="b" value="b">Engineer</Option>
-      </ButtonToggleGroup> */}
 
       <SwitchGroup name="settings">
         <legend>Settings</legend>
@@ -78,14 +78,6 @@ export default component$(() => {
           <MultiButtonToggleItem key="d" value="world">World</MultiButtonToggleItem>
         </MultiButtonToggleList>
       </MultiButtonToggleGroup>
-
-      <Combobox name="types" multiple placeholder="Select multiple types" onSearch$={onSearch$}>
-        <Option key="a" value="a">A</Option>
-        <Option key="b" value="b">B</Option>
-        <Option key="c" value="c">C</Option>
-        <Option key="e" value="e">E</Option>
-        <Option key="f" value="f">F</Option>
-      </Combobox>
 
       <CheckGroup name="type">
         <legend>This is a checklist</legend>
