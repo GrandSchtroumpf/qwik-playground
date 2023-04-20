@@ -29,23 +29,6 @@ export const useSyncEvent = <K extends keyof GlobalEventHandlersEventMap>(
   });
 }
 
-export const nextFocus = $((list?: NodeListOf<HTMLElement>) => {
-  if (!list) return;
-  const focusedEl = document.activeElement as HTMLElement;
-  if (!focusedEl) return list[0]?.focus();
-  const index = Array.from(list).indexOf(focusedEl);
-  const nextIndex = (index + 1) % list.length;
-  list[nextIndex].focus();
-});
-export const previousFocus = $((list?: NodeListOf<HTMLElement>) => {
-  if (!list) return;
-  const focusedEl = document.activeElement as HTMLElement;
-  if (!focusedEl) return list[list.length - 1]?.focus();
-  const index = Array.from(list).indexOf(focusedEl);
-  const nextIndex = (index - 1 + list.length) % list.length;
-  list[nextIndex].focus();
-});
-
 
 
 export function useOnElement<K extends keyof GlobalEventHandlersEventMap>(

@@ -5,7 +5,7 @@ import type { FieldProps } from "../field";
 import type { SelectionGroupProps, SelectionItemProps } from '../selection-list/selection-list';
 import type { FieldsetAttributes } from "../types";
 import styles from './button-toggle.scss?inline';
-import { nextFocus, previousFocus } from "../utils";
+import { nextFocus, previousFocus } from "../../utils";
 
 export interface CheckgroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 

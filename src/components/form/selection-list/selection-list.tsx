@@ -2,7 +2,7 @@ import { $, component$, Slot, useContext, useId, useSignal, useContextProvider, 
 import { FieldContext, useField } from "../field";
 import type { FieldProps } from "../field";
 import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../types";
-import { nextFocus, previousFocus } from "../utils";
+import { nextFocus, previousFocus } from "../../utils";
 
 export interface SelectionGroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 

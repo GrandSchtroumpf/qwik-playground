@@ -12,6 +12,7 @@ import { Range, ThumbEnd, ThumbStart } from "~/components/form/slider/range";
 import { Slider } from "~/components/form/slider/slider";
 import MOVIES from '~/DATA/movies.json';
 import styles from './index.scss?inline';
+import { Accordion, Details, DetailsPanel, Summary } from "~/components/accordion/accordion";
 
 // type Movie = typeof MOVIES[number];
 
@@ -29,6 +30,45 @@ export default component$(() => {
   });
 
   return <>
+
+    <Accordion multiple>
+      <Details>
+        <Summary>Hello</Summary>
+        <DetailsPanel>
+          <input type="text" placeholder="Test"/>
+          <input type="number" placeholder="age"/>
+        </DetailsPanel>
+      </Details>
+      <Details>
+        <Summary>Coucou</Summary>
+        <DetailsPanel>
+          <ul>
+            <li>One</li>
+            <li>Two</li>
+            <li>Three</li>
+            <li>One</li>
+            <li>Two</li>
+            <li>Three</li>
+            <li>One</li>
+            <li>Two</li>
+            <li>Three</li>
+            <li>One</li>
+            <li>Two</li>
+            <li>Three</li>
+            <li>One</li>
+            <li>Two</li>
+            <li>Three</li>
+          </ul>
+        </DetailsPanel>
+      </Details>
+      <Details>
+        <Summary>Hello</Summary>
+        <DetailsPanel>
+          Hello World
+        </DetailsPanel>
+      </Details>
+    </Accordion>
+
     <Form>
       <Input name="email" type="email" placeholder="email">
         Email

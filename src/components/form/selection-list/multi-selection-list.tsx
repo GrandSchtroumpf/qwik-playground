@@ -1,7 +1,7 @@
 import { $, component$, createContextId, Slot, useContext, useContextProvider, useSignal, useId } from "@builder.io/qwik";
 import { FieldContext, useField } from "../field";
 import type { FieldProps } from "../field";
-import { nextFocus, previousFocus } from "../utils";
+import { nextFocus, previousFocus } from "../../utils";
 import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../types";
 
 export interface MultiSelectionGroupProps extends FieldProps, Omit<FieldsetAttributes, 'onKeyDown$'> {}
