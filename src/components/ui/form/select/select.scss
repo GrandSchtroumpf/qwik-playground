@@ -84,3 +84,17 @@
     overflow: auto;
   }
 }
+
+@media (max-width: 599px) {
+  .select {
+
+    dialog.popover {
+      max-height: 400px;
+    }
+    [role="option"] {
+      label {
+        padding: var(--size-2);
+      }
+    }
+  }
+}

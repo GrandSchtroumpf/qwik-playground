@@ -1,4 +1,5 @@
 import { component$, useStyles$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { Accordion, Details, DetailsPanel, Summary } from "~/components/ui/accordion/accordion";
 import { FormField, Input, Label } from "~/components/ui/form";
 import styles from './index.scss?inline';
@@ -39,4 +40,16 @@ export default component$(() => {
     </DetailsPanel>
   </Details>
 </Accordion>
-})
+});
+
+export const head: DocumentHead = () => {
+  return {
+    title: "Accordion",
+    meta: [
+      {
+        name: 'description',
+        content: 'An accordion component built with Qwik',
+      }
+    ],
+  };
+};

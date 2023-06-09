@@ -1,4 +1,5 @@
 import { component$, useStyles$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { Input } from "~/components/ui/form";
 import { Select, Option } from "~/components/ui/form/select/select";
 import { SwitchGroup, SwitchItem, SwitchList } from "~/components/ui/form/switch/switch-group";
@@ -20,6 +21,7 @@ export default component$(() => {
       <FormField>
         <Label>Select from the list</Label>
         <Select placeholder="Movie">
+          <Option>-- Select a movie --</Option>
           {MOVIES.map(movie => (
           <Option key={movie.imdbID} value={movie.imdbID}>
             {movie.Title}
@@ -46,3 +48,14 @@ export default component$(() => {
   </>;
 });
 
+export const head: DocumentHead = () => {
+  return {
+    title: "Form",
+    meta: [
+      {
+        name: 'description',
+        content: 'An example of form using several components built with Qwik',
+      }
+    ],
+  };
+};

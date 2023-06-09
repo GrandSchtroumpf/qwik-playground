@@ -1,4 +1,5 @@
 import { component$, useStyles$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import { FormField, Input, Label } from "~/components/ui/form";
 import { Tab, TabGroup, TabList, TabPanel, TabPanelList } from "~/components/ui/tabs/tabs";
 import styles from './index.scss?inline';
@@ -38,3 +39,15 @@ export default component$(() => {
     </TabPanelList>
   </TabGroup>
 });
+
+export const head: DocumentHead = () => {
+  return {
+    title: "Tabs",
+    meta: [
+      {
+        name: 'description',
+        content: 'Tabs component built with Qwik',
+      }
+    ],
+  };
+};

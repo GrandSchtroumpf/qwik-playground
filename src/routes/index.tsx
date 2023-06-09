@@ -1,4 +1,5 @@
 import { component$, event$, useSignal, useStyles$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
 import styles from './index.scss?inline';
 
 // type Movie = typeof MOVIES[number];
@@ -46,3 +47,14 @@ export default component$(() => {
   </>;
 });
 
+export const head: DocumentHead = () => {
+  return {
+    title: "Qwik Playground",
+    meta: [
+      {
+        name: 'description',
+        content: 'Playground to test qwik components and CSS new properties',
+      }
+    ],
+  };
+};
