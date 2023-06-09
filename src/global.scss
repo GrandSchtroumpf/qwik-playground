@@ -148,8 +148,8 @@
     --surface-lower: oklch(var(--base-surface) / 0.08);
     --background-image: linear-gradient(
       160deg,
-      oklch(25% var(--chroma) var(--hue)),
-      oklch(10% var(--chroma) var(--hue))
+      oklch(30% var(--chroma) var(--hue)),
+      oklch(15% var(--chroma) var(--hue))
     );
   }
 }

@@ -3,6 +3,8 @@
   position: sticky;
   top: 0;
   height: 100dvh;
+  padding: var(--size-2);
+  box-sizing: border-box;
   ul {
     display: flex;
     flex-direction: column;
@@ -30,6 +32,8 @@
 
 .page-header {
   grid-area: header;
+  margin: var(--size-2);
+  border-radius: var(--size-0);
   box-sizing: border-box;
   padding: var(--size-1) var(--size-2);
   display: flex;
