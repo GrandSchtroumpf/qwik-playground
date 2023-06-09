@@ -1,0 +1,81 @@
+$size: 24px;
+fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 4px;
+  border: solid 1px var(--outline);
+  &:focus-within {
+    border-color: var(--primary);
+  }
+  &:has(input:invalid) {
+    border-color: var(--error);
+  }
+
+}
+ul {
+  list-style: none;
+  margin-block: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 24px;
+}
+li {
+  position: relative;
+}
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: $size;
+  cursor: pointer;
+  svg {
+    pointer-events: none;
+    height: 1.2rem;
+    width: 1.2rem;
+    border-radius: 4px;
+    border: solid 1px var(--outline);
+    
+    path {
+      d: path('M 2 13 L 8 19 L 23 5');
+      stroke: currentColor;
+      stroke-width: 2px;
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      transition: d 0.1s 0.2s ease-out, stroke-dashoffset 0.2s var(--ease-out);
+    }
+  }
+}
+input {
+  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+  height: 1.2rem;
+  width: 1.2rem;
+  margin: 0;
+  &:checked, &:indeterminate {
+    & + label svg {
+      border-color: var(--primary-container);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      path {
+        stroke-dashoffset: 0;
+        transition: d 0.1s ease-out, stroke-dashoffset 0.2s var(--ease-out);
+      }
+    }
+  }
+  &:checked + label svg path {
+    d: path('M 2 13 L 8 19 L 23 5');
+  }
+  &:indeterminate + label svg path {
+    d: path('M 4 13 L 13 13 L 20 13');
+  }
+  &:focus-visible + label svg {
+    border-color: var(--primary);
+  }
+  &:hover + label svg {
+    box-shadow: 0 0 2px var(--on-primary-container);
+  }
+}

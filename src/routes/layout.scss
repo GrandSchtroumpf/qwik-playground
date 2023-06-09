@@ -1,39 +1,97 @@
-// @use "~/theme/layout";
-
-header.page-header {
-  justify-content: space-between;
+.main-nav {
+  grid-area: nav;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  ul {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--size-0);
+    background-color: var(--surface);
+    margin-block: 0;
+    padding-left: 0;
+    list-style: none;
+    height: 100%;
+  }
+  li {
+    display: contents;
+  }
+  .btn-list {
+    padding: var(--size-1) var(--size-2);
+    color: inherit;
+    &:hover {
+      background-color: var(--surface);
+    }
+    &:active {
+      background-color: var(--surface-high);
+    }
+  }
 }
 
-nav {
-  ul {
-    --gap: var(--size-3);
-    a {
-      opacity: 0.3;
-      &:hover, &[aria-current="page"] {
-        opacity: 1;
+.page-header {
+  grid-area: header;
+  box-sizing: border-box;
+  padding: var(--size-1) var(--size-2);
+  display: flex;
+  gap: var(--size-1);
+  align-items: center;
+  background-color: var(--surface-lower);
+  h1 {
+    margin-right: auto;
+    font-size: 1.3rem;
+  }
+  .hue-slider {
+    display: inline-flex;
+    gap: var(--size-1);
+    align-items: center;
+  }
+}
+
+main {
+  grid-area: main;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 899px) {
+  .main-nav {
+    position: fixed;
+    width: 100vw;
+    opacity: 0;
+    z-index: 1;
+    background-color: oklch(20% var(--chroma) var(--hue) / 0.6);
+    pointer-events: none;
+    &.open {
+      pointer-events: all;
+      opacity: 1;
+      cursor: pointer;
+      ul {
+        transform: translateX(0);
+      }
+    }
+    ul {
+      width: 200px;
+      transform: translateX(-100%);
+      transition: 0.3s transform var(--ease-out);
+      background-color: var(--overlay);
+    }
+  }
+  .page-header {
+    display: grid;
+    grid-template-columns: 40px auto;
+    grid-template-rows: 40px 48px;
+    gap: var(--size-0);
+    .hue-slider {
+      grid-column: 1 / 3;
+      display: flex;
+      .slider {
+        flex: 1;
       }
     }
   }
 }
-
-footer.page-header {
-  display: flex;
-
-  nav {
-    ul {
-      justify-content: space-around;
-    }
-  }
-}
-
-@media (min-width: 600px) {
-  footer.page-header {
-    display: none;
-  }
-}
-
-@media (max-width: 599px)  {
-  header.page-header {
+@media (min-width: 900px) {
+  .sidenav-trigger {
     display: none;
   }
 }

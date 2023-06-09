@@ -1,0 +1,50 @@
+@use "./base";
+.range {
+  border-radius: 4px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border: none;
+  height: 48px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  --start: 0;
+  --end: 100%;
+  input {
+    @include base.input();
+    width: 50%;
+  }
+  .track {
+    @include base.track();
+    position: absolute;
+    width: calc(100% - 16px); // Remove padding
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: var(--outline);
+      transition: transform 0.1s;
+      transform: translateX(calc(-100% + var(--start)));
+    }
+    &::after {
+      transform: translateX(var(--end));
+    }
+  }
+  .thumb {
+    @include base.thumb();
+    position: absolute;
+    &.start {
+      transform: translateX(var(--start));
+    }
+    &.end {
+      transform: translateX(var(--end));
+    }
+  }
+  
+
+}
+.sliders {
+  display: flex;
+  grid-area: 1/1;
+ 
+}

@@ -1,27 +1,48 @@
-import { component$, Slot, useStylesScoped$ } from '@builder.io/qwik';
-import { Navlink, Navbar } from '~/components/navigation/navlist';
+import { component$, Slot, useSignal, useStyles$, useVisibleTask$ } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
+import { Slider } from '~/components/ui/form/slider/slider';
+import clsq from '~/components/utils/clsq';
 import styles from './layout.scss?inline';
 
-
-const MainNav = component$(() => {
-  useStylesScoped$(styles);
-  return <Navbar>
-    <Navlink href="/">Explorer</Navlink>
-    <Navlink href="/marketplace">Marketplace</Navlink>
-  </Navbar>
-})
-
 export default component$(() => {
-  useStylesScoped$(styles);
+  useStyles$(styles);
+  const hue = useSignal('0');
+  const open = useSignal(false);
+  useVisibleTask$(({ track }) => {
+    track(() => hue.value);
+    document.documentElement.style.setProperty('--hue', hue.value);
+  })
   return <>
+    <nav onClick$={() => open.value = false} class={clsq('main-nav', open.value ? 'open' : 'close')}>
+      <ul role="list">
+        <li>
+          <Link class="btn-list" href="/">Theme</Link>
+        </li>
+        <li>
+          <Link class="btn-list" href="/form">Form</Link>
+        </li>
+        <li>
+          <Link class="btn-list" href="/accordion">Accordion</Link>
+        </li>
+        <li>
+          <Link class="btn-list" href="/tabs">Tabs</Link>
+        </li>
+      </ul>
+    </nav>
     <header class="page-header">
-      <h1>Forms Components</h1>
+      <button class="btn-icon sidenav-trigger" onClick$={() => open.value = true}>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </svg>
+      </button>
+      <h1>Playground</h1>
+      <label class="hue-slider">
+        Hue
+        <Slider position="end" min="0" max="360" onChange$={(e, input) => hue.value = input.value}></Slider>
+      </label>
     </header>
     <main>
       <Slot />
     </main>
-    <footer class="page-header">
-      <MainNav/>
-    </footer>
   </>;
 });
