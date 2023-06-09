@@ -1,5 +1,5 @@
 import { component$, Slot, useContext, useId, useStyles$ } from "@builder.io/qwik";
-import { FieldContext, useField } from "../field";
+import { FieldContext } from "../field";
 import type { FieldProps } from '../field';
 import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../../types";
 import styles from './radio.scss?inline';
@@ -7,7 +7,6 @@ import styles from './radio.scss?inline';
 export interface RadioGroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 
 export const RadioGroup = component$((props: RadioGroupProps) => {
-  useField(props);
   useStyles$(styles);
   return <fieldset class="radio-group" {...props}>
     <Slot />
