@@ -1,4 +1,5 @@
-import { component$, createContextId, event$, Signal, Slot, useContext, useContextProvider, useId, useSignal, useStore, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import type { Signal} from "@builder.io/qwik";
+import { component$, createContextId, event$, Slot, useContext, useContextProvider, useId, useSignal, useStore, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import styles from './carousel.scss?inline';
 
 const CarouselContext = createContextId<{ ids: Signal<string[]> }>('CarouselContext');

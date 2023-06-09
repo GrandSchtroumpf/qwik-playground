@@ -42,9 +42,6 @@ function getMenuPosition(origin: HTMLElement, dialog: HTMLDialogElement, options
   positionDialog();
 }
 
-function getContextMenuPosition(position: { x: number, y: number }, dialog: HTMLDialogElement) {
-  
-}
 
 export const Popover = component$((props: PopoverProps) => {
   useStyles$(styles);
