@@ -90,6 +90,20 @@ export const Range = component$((props: RangeProps) => {
   useStyles$(styles);
   const { slider, move } = useRangeProvider(props);
   const { min, max } = props;
+
+  // Update UI on resize
+  useVisibleTask$(() => {
+    const obs = new ResizeObserver(() => {
+      const inputs = slider.value?.querySelectorAll<HTMLInputElement>('input');
+      move(inputs?.item(0), 'start');
+      move(inputs?.item(1), 'end');
+    });
+    obs.observe(slider.value!);
+    return () => obs.disconnect();
+  });
+  
+
+  // Update position on reset
   useOnReset(slider, $(() => {
     const inputs = slider.value?.querySelectorAll<HTMLInputElement>('input');
     inputs!.item(0).value = `${min ?? 0}`;
@@ -107,7 +121,6 @@ export const Range = component$((props: RangeProps) => {
 interface ThumbProps extends Omit<InputAttributes, 'type' | 'children' | 'step' | 'min' | 'max'> {}
 
 export const ThumbStart = component$((props: ThumbProps) => {
-  useStyles$(styles);
   const { startInput, min, max, step, resize, focusLeft, move} = useRangeContext();
   return <>
     <input
@@ -129,7 +142,6 @@ export const ThumbStart = component$((props: ThumbProps) => {
 
 });
 export const ThumbEnd = component$((props: ThumbProps) => {
-  useStyles$(styles);
   const { endInput, min, max, step, resize, focusRight, move} = useRangeContext();
   return <>
     <input 

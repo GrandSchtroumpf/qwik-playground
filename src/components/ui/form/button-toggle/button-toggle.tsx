@@ -21,11 +21,12 @@ interface ButtonToggleGroupProps extends UlAttributes {
 export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
   useStyles$(styles);
   const root = useSignal<HTMLElement>();
+  const active = useSignal('');
   const id = useId();
   const nameId = props.name ?? id;
   const multi = props.multi ?? false;
 
-  const change = $((_: any, input: HTMLInputElement) => {
+  const change = $((input: HTMLInputElement) => {
     if (!root.value) return;
     if (!multi) {
       if (input.checked) {
@@ -41,7 +42,18 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
     }
   });
 
+  // Update UI on resize
+  useVisibleTask$(() => {
+    const obs = new ResizeObserver(([entry]) => {
+      if (!active.value) return;
+      const input = document.getElementById(active.value);
+      if (input) moveActive(entry.target as HTMLElement, input);
+    });
+    obs.observe(root.value!);
+    return () => obs.disconnect();
+  });
   
+  // Prevent default on keydown
   useVisibleTask$(() => {
     const handler = (event: KeyboardEvent) => {
       if (disabledKeys.includes(event.key)) event.preventDefault();
@@ -50,6 +62,15 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
     return () => root.value?.removeEventListener('keydown', handler);
   });
 
+  // Update on active element
+  useVisibleTask$(({ track }) => {
+    track(() => active.value);
+    if (!active.value) return;
+    const input = document.getElementById(active.value);
+    if (input) change(input as HTMLInputElement);
+  });
+
+  // Remove active on reset
   useOnReset(root, $(() => removeActive(root.value!)));
 
   const onKeyDown$ = $((event: QwikKeyboardEvent<HTMLInputElement>) => {
@@ -69,7 +90,7 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
 
   useContextProvider(FieldContext, {
     name: nameId,
-    change,
+    change: $((event: any, input: HTMLInputElement) => active.value = input.id),
   });
 
   return <ul ref={root} role="list"
