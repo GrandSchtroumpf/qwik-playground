@@ -26,7 +26,6 @@ export const Carousel = component$(() => {
       const leaving = !entry.isIntersecting;
       // TODO: Keep state of visible items.
       if (leaving) {
-        console.log('Leaving', index)
         if (index === 0) state.previousVisible = false;
         // not working with current rootMargin
         if (index === maxIndex) state.nextVisible = false;

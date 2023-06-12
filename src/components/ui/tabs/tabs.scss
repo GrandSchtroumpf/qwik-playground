@@ -10,6 +10,9 @@
   box-sizing: border-box;
   position: relative;
   isolation: isolate;
+  &:focus-within {
+    border-color: var(--primary);
+  }
   &::before {
     content: '';
     z-index: -1;
@@ -34,10 +37,8 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid transparent;
-  transition: outline-color 0.2s;
   &:focus-visible {
-    border-color: var(--outline);
-    outline: none;
+    outline: solid 1px var(--outline);
   }
   &:hover {
     background-color: var(--surface-lower);

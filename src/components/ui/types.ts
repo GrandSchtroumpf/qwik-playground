@@ -7,3 +7,4 @@ export type LiAttributes = QwikJSX.IntrinsicElements['li'];
 export type FieldsetAttributes = QwikJSX.IntrinsicElements['fieldset'];
 export type InputAttributes = QwikJSX.IntrinsicElements['input'];
 export type DialogAttributes = QwikJSX.IntrinsicElements['dialog'];
+export type OutputAttributes = QwikJSX.IntrinsicElements['output'];

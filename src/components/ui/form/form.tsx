@@ -36,12 +36,8 @@ export const Form = component$((props: FormProps<any>) => {
   });
   useContextProvider<FormState<any>>(FormContext, state);
   
-  const submit = $((event: QwikSubmitEvent<HTMLFormElement>, form: HTMLFormElement) => {
+  const submit = $((event: QwikSubmitEvent<HTMLFormElement>) => {
     state.submitted = true;
-    const data = new FormData(form);
-    for (const key of data.keys()) {
-      console.log(key, data.getAll(key));
-    }
     if (onSubmit$) onSubmit$(state.value, event);
   });
 

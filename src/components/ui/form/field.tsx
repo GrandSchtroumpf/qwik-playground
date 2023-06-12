@@ -1,5 +1,5 @@
 import { createContextId, useComputed$ } from "@builder.io/qwik";
-import type { QRL,  } from "@builder.io/qwik";
+import type { QRL, QwikChangeEvent} from "@builder.io/qwik";
 import type { FormField } from "./types";
 
 export interface FieldProps<T = any> {
@@ -18,7 +18,7 @@ export interface FieldState<T extends FormField = any> {
   focused?: boolean;
   touched?: boolean;
   disabled?: boolean;
-  change: QRL<() => void>;
+  change: QRL<(event: QwikChangeEvent<HTMLInputElement>, input: HTMLInputElement) => void>;
 }
 
 export const FieldContext = createContextId<FieldState<any>>('FieldContext');

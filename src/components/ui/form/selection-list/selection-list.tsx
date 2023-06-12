@@ -37,10 +37,17 @@ export const SelectionList = component$((props: SelectionListProps) => {
 
 export const SelectionItem = component$((props: SelectionItemProps) => {
   const id = useId();
+  const mode = props.mode || 'radio';
   const { name, change } = useContext(FieldContext);
   
+  const toggle = $((event: any, el: HTMLInputElement) => {
+    if (mode === 'radio') return;
+    el.checked = !el.checked;
+    change(event, el);
+  });
+
   return <li {...props}>
-    <input id={id} type="radio" name={name} value={props.value} onChange$={change} />
+    <input id={id} type="radio" name={name} value={props.value} onChange$={change} onClick$={toggle} />
     <label for={id}>
       <Slot/>
     </label>

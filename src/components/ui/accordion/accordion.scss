@@ -33,6 +33,7 @@
   }
   
   .details-panel {
+    will-change: transform;
     background-color: var(--surface);
     transform-origin: top;
     height: 0;

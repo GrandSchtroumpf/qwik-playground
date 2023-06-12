@@ -1,11 +1,14 @@
 import { component$, Slot, useSignal, useStyles$, useVisibleTask$ } from '@builder.io/qwik';
 import { Link } from '@builder.io/qwik-city';
 import { Slider } from '~/components/ui/form/slider/slider';
+import { Toaster, useToasterProvider } from '~/components/ui/toaster/toaster';
 import clsq from '~/components/utils/clsq';
 import styles from './layout.scss?inline';
 
 export default component$(() => {
   useStyles$(styles);
+  useToasterProvider();
+
   const hue = useSignal('0');
   const open = useSignal(false);
   useVisibleTask$(({ track }) => {
@@ -44,5 +47,6 @@ export default component$(() => {
     <main>
       <Slot />
     </main>
+    <Toaster/>
   </>;
 });

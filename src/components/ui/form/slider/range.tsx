@@ -1,5 +1,6 @@
-import { Slot, component$, useStyles$, event$, useSignal, useVisibleTask$, createContextId, useContextProvider, useContext } from "@builder.io/qwik";
+import { Slot, component$, useStyles$, event$, useSignal, useVisibleTask$, createContextId, useContextProvider, useContext, $ } from "@builder.io/qwik";
 import clsq from "~/components/utils/clsq";
+import { useOnReset } from "../../utils";
 import type { FieldsetAttributes, InputAttributes } from "../types";
 import styles from './range.scss?inline';
 
@@ -88,19 +89,13 @@ function useRangeProvider(props: RangeProps) {
 export const Range = component$((props: RangeProps) => {
   useStyles$(styles);
   const { slider, move } = useRangeProvider(props);
-  useVisibleTask$(() => {
-    const form = slider.value?.form;
-    if (!form) return;
-    const handler = () => {
-      requestAnimationFrame(() => {
-        const inputs = slider.value?.querySelectorAll('input');
-        move(inputs?.item(0), 'start');
-        move(inputs?.item(1), 'end');
-      });
-    }
-    form.addEventListener('reset', handler);
-    return () => form.removeEventListener('reset', handler);
-  });
+  useOnReset(slider, $(() => {
+    requestAnimationFrame(() => {
+      const inputs = slider.value?.querySelectorAll('input');
+      move(inputs?.item(0), 'start');
+      move(inputs?.item(1), 'end');
+    });
+  }));
 
   return <fieldset {...props} class={clsq('range', props.class)} ref={slider}>
     <div class="track" ></div>

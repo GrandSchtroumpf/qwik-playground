@@ -1,50 +1,83 @@
-fieldset {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: none;
-  padding: 0;
-  padding-top: 8px;
-}
-ul {
-  padding-left: 0;
+.button-toggle-group {
+  --color: var(--surface-higher);
+  --on-color: var(--text);
+  position: relative;
   margin-block: 0;
+  padding: var(--size-0);
+  box-sizing: border-box;
   list-style: none;
   display: flex;
   border-radius: 4px;
   border: 1px solid var(--outline);
+  background-color: var(--surface);
   overflow: hidden;
-  &:focus-within {
+  &:focus-within, &:active {
     border-color: var(--primary);
   }
   &:has(input:invalid) {
     border-color: var(--error);
   }
+
+  li {
+    flex: 1;
+    position: relative;
+  }
+  input {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin: 0;
+    &:hover + label {
+      background-color: var(--surface-low);
+    }
+    &:focus-visible:not(:checked) + label {
+      // Use divider because surface-low is same as outline
+      outline: solid 1px var(--divider);
+      background-color: var(--surface-low);
+    }
+    &:checked + label {
+      color: var(--on-color);
+    }
+  }
+  label {
+    cursor: pointer;
+    display: block;
+    padding: 8px 16px;
+    text-align: center;
+    position: relative;
+  }
 }
-li {
-  flex: 1;
+
+.button-toggle-group.single {
   position: relative;
-}
-input {
-  cursor: pointer;
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  &:focus + label {
-    background-color: var(--surface);
-    color: var(--on-surface);
-  }
-  &:checked + label {
-    background-color: var(--primary-container);
-    color: var(--on-primary-container);
+  isolation: isolate;
+  gap: var(--size-0);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: var(--active-width, 0);
+    height: var(--active-height, 0);
+    transform-origin: 0 0;
+    border-radius: var(--size-0);
+    transform: translate(var(--active-x, 0), var(--active-y, 0));
+    transition: transform 0.2s var(--ease-out), width 0.2s var(--ease-out);
+    background-color: var(--color);
   }
 }
-label {
-  display: block;
-  padding: 8px 16px;
-  text-align: center;
+.button-toggle-group.multi {
+  input:checked + label {
+    background-color: var(--color);
+  }
+}
+
+.button-toggle-group.primary {
+  --color: var(--primary);
+  --on-color: var(--on-primary);
 }

@@ -1,5 +1,6 @@
-import { component$, useStyles$, event$, useSignal, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useStyles$, event$, useSignal, $ } from "@builder.io/qwik";
 import clsq from "~/components/utils/clsq";
+import { useOnReset } from "../../utils";
 import type { InputAttributes } from "../types";
 import styles from './slider.scss?inline';
 
@@ -14,13 +15,10 @@ export const Slider = component$((props: SliderProps) => {
   const max = props.max ? Number(props.max) : 100;
   const step = props.step ? Number(props.step) : 1;
 
-  useVisibleTask$(() => {
+  useOnReset(slider, $(() => {
     const input = slider.value?.querySelector<HTMLInputElement>('input');
-    if (!input?.form) return;
-    const handler = () => requestAnimationFrame(() => move(null, input));
-    input.form.addEventListener('reset', handler);
-    return () => input?.form?.removeEventListener('reset', handler);
-  });
+    requestAnimationFrame(() => move(null, input!))
+  }));
 
   const move = event$((event: any, input: HTMLInputElement) => {
     const percent = input.valueAsNumber / (max - min);

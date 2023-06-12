@@ -56,3 +56,34 @@ export function relativePosition(root: Point, target: Point): Point {
     y: target.y - root.y,
   }
 }
+
+export const nextFrame = () => new Promise((res) => requestAnimationFrame(res));
+
+
+export function moveActive(origin: HTMLElement, target: HTMLElement) {
+  const targetBox = target.getBoundingClientRect();
+  const originBox = origin.getBoundingClientRect();
+  const { x, y } = relativePosition(originBox, targetBox);
+  origin.style.setProperty('--active-x', `${x}px`);
+  origin.style.setProperty('--active-y', `${y}px`);
+  origin.style.setProperty('--active-width', `${targetBox.width}px`);
+  origin.style.setProperty('--active-height', `${targetBox.height}px`);
+}
+
+export function removeActive(origin: HTMLElement) {
+  origin.style.setProperty('--active-x', '0');
+  origin.style.setProperty('--active-y', '0');
+  origin.style.setProperty('--active-width', '0');
+  origin.style.setProperty('--active-height', '0');
+}
+
+
+export const useOnReset = (root: Signal<HTMLElement | undefined>, handler: QRL<(...params: any[]) => any>) => {
+  useVisibleTask$(() => {
+    const input = root.value?.querySelector<HTMLInputElement>('input');
+    if (!input?.form) return;
+    // const handler = () => requestAnimationFrame(() => move(null, input));
+    input.form.addEventListener('reset', handler);
+    return () => input?.form?.removeEventListener('reset', handler);
+  });
+}

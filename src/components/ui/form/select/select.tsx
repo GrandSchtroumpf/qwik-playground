@@ -40,7 +40,6 @@ export const Select = component$((props: SelectProps) => {
         value.push(text);
       }
     }
-    console.log('Update', value);
     display.value = value.join(', ');
   });
   
