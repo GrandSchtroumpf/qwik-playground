@@ -89,12 +89,13 @@ function useRangeProvider(props: RangeProps) {
 export const Range = component$((props: RangeProps) => {
   useStyles$(styles);
   const { slider, move } = useRangeProvider(props);
+  const { min, max } = props;
   useOnReset(slider, $(() => {
-    requestAnimationFrame(() => {
-      const inputs = slider.value?.querySelectorAll('input');
-      move(inputs?.item(0), 'start');
-      move(inputs?.item(1), 'end');
-    });
+    const inputs = slider.value?.querySelectorAll<HTMLInputElement>('input');
+    inputs!.item(0).value = `${min ?? 0}`;
+    inputs!.item(1).value = `${max ?? 100}`;
+    move(inputs?.item(0), 'start');
+    move(inputs?.item(1), 'end');
   }));
 
   return <fieldset {...props} class={clsq('range', props.class)} ref={slider}>

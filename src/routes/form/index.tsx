@@ -50,11 +50,9 @@ export default component$(() => {
         </SwitchList>
       </SwitchGroup>
       <ButtonToggleGroup class="primary">
-        <ButtonToggleItem value="lowest">lowest</ButtonToggleItem>
         <ButtonToggleItem value="low">low</ButtonToggleItem>
         <ButtonToggleItem value="medium">medium</ButtonToggleItem>
         <ButtonToggleItem value="high">high</ButtonToggleItem>
-        <ButtonToggleItem value="highest">highest</ButtonToggleItem>
       </ButtonToggleGroup>
       <footer class="form-actions">
         <button class="btn" type="reset">Cancel</button>
