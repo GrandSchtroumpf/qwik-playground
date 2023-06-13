@@ -65,10 +65,10 @@ export const TabList = component$(() => {
   const onKeydown$ = event$((event: QwikKeyboardEvent) => {
     const key = event.key;
     if (key === 'ArrowDown' || key === 'ArrowRight') {
-      nextFocus(ref.value?.querySelectorAll('[role="tab"]') as any);
+      nextFocus(ref.value?.querySelectorAll<HTMLElement>('[role="tab"]'));
     }
     if (key === 'ArrowUp' || key === 'ArrowLeft') {
-      previousFocus(ref.value?.querySelectorAll('[role="tab"]') as any);
+      previousFocus(ref.value?.querySelectorAll<HTMLElement>('[role="tab"]'));
     }
     if (key === ' ' || key === 'Enter') (document.activeElement as HTMLElement).click();
   });

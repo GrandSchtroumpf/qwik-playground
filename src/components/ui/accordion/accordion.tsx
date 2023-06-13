@@ -107,8 +107,8 @@ export const Accordion = component$((props: AccordionProps) => {
   });
   useContextProvider(AccordionContext, {
     state,
-    next: $(() => nextFocus(ref.value?.querySelectorAll('button.details-controller') as any)),
-    previous: $(() => previousFocus(ref.value?.querySelectorAll('button.details-controller') as any)),
+    next: $(() => nextFocus(ref.value?.querySelectorAll<HTMLElement>('button.details-controller'))),
+    previous: $(() => previousFocus(ref.value?.querySelectorAll<HTMLElement>('button.details-controller'))),
     openAll: $(() => {
       const list = ref.value!.querySelectorAll('li.details')!;
       state.opened = Array.from(list).map(item => item.id);

@@ -8,35 +8,42 @@ import styles from './dialog.scss?inline';
 interface PopoverProps extends Omit<DialogAttributes, 'open'> {
   origin: Signal<HTMLElement | undefined>;
   open: Signal<boolean>;
+  position: 'block' | 'inline';
   onOpen$?: QRL<() => void>
   onClose$?: QRL<() => void>
 }
 
 interface PopoverOption {
-  position: 'block' | 'inline',
+  position: PopoverProps['position'],
 
 }
+
 
 function getMenuPosition(origin: HTMLElement, dialog: HTMLDialogElement, options: PopoverOption) {
   const originRect = origin.getBoundingClientRect();
   const positionDialog = () => {
     const dialogRect = dialog.getBoundingClientRect();
     if (!dialogRect.height) return requestAnimationFrame(positionDialog);
-    const overflowWidth = dialogRect.width + originRect.left > window.innerWidth;
-    const overflowHeight = dialogRect.height + originRect.top > window.innerHeight;
-    const inset = { top: 0, left: 0, right: 0, bottom: 0 };
+    dialog.style.removeProperty('inset-inline-start');
+    dialog.style.removeProperty('inset-inline-end');
+    dialog.style.removeProperty('inset-block-start');
+    dialog.style.removeProperty('inset-block-end');
     if (options.position === 'inline') {
-      if (overflowHeight) inset.top = window.innerWidth - dialogRect.width + originRect.left;
-      if (overflowWidth) inset.right = originRect.width;
-      else inset.left = originRect.width;
-    } else {      
-      if (overflowWidth) inset.right = window.innerWidth - dialogRect.width + originRect.left;
-      if (overflowHeight) inset.bottom = originRect.height;
-      else inset.top = originRect.height;
-    }
-    for (const [key, value] of Object.entries(inset)) {
-      if (!value) dialog.style.removeProperty(key);
-      if (value) dialog.style.setProperty(key, `${value}px`);
+      const overflowWidth = (dialogRect.width + originRect.width + originRect.left) > window.innerWidth;
+      if (overflowWidth) dialog.style.setProperty('inset-inline-start', `-${originRect.width}px`);
+      else dialog.style.setProperty('inset-inline-start', `${originRect.width}px`);
+      
+      const overflowHeight = (dialogRect.height + originRect.top) > window.innerHeight;
+      if (overflowHeight) dialog.style.setProperty('inset-block-end', '0');
+      else dialog.style.setProperty('inset-block-start', '0');
+    } else {
+      const overflowHeight = (dialogRect.height + originRect.height + originRect.top) > window.innerHeight;
+      if (overflowHeight) dialog.style.setProperty('inset-block-end', `${originRect.height}px`);
+      else dialog.style.setProperty('inset-block-start', `${originRect.height}px`);
+      
+      const overflowWidth = (dialogRect.width + originRect.left) > window.innerWidth;
+      if (overflowWidth) dialog.style.setProperty('inset-inline-end', '0');
+      else dialog.style.setProperty('inset-inline-start', '0');
     }
   }
   positionDialog();
@@ -47,15 +54,11 @@ export const Popover = component$((props: PopoverProps) => {
   useStyles$(styles);
   const opened = props.open;
   const origin = props.origin;
+  const position = props.position ?? 'block';
   const ref = useSignal<HTMLDialogElement>();
   const closing = useSignal(false);
   const onClose$ = props.onClose$;
-
-  const position = $((dialog: HTMLDialogElement) => {
-    // Wait until we know the height of the dialog
-    if (!origin.value) throw new Error('No origin provided for dialog');
-    getMenuPosition(origin.value, dialog, { position: 'block' });
-  });
+  const propsClass = props.class;
 
   const close = $(() => {
     if (!ref.value) return;
@@ -75,7 +78,7 @@ export const Popover = component$((props: PopoverProps) => {
           const outside = event.target !== ref.value && !ref.value?.contains(event.target as HTMLElement);
           if (outside) opened.value = false;
         }
-        position(ref.value!);
+        getMenuPosition(origin.value!, ref.value!, { position });
         ref.value!.show();
         document.addEventListener('click', handler);
         return () => document.removeEventListener('click', handler);
@@ -105,7 +108,12 @@ export const Popover = component$((props: PopoverProps) => {
   });
 
 
-  const classes = useComputed$(() => ['popover', closing.value ? 'closing' : ''].join(' '));
+  const classes = useComputed$(() => [
+    'popover',
+    propsClass,
+    closing.value ? 'closing' : ''
+  ].join(' '));
+
   return <dialog class={classes} ref={ref} >
     <Slot />
   </dialog>

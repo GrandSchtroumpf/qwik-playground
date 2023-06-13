@@ -30,6 +30,9 @@ export default component$(() => {
         <li>
           <Link class="btn-list" href="/tabs">Tabs</Link>
         </li>
+        <li>
+          <Link class="btn-list" href="/menu">Menu</Link>
+        </li>
       </ul>
     </nav>
     <header class="page-header">

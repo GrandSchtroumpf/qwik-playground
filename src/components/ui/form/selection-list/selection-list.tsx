@@ -13,8 +13,8 @@ export function useSelectionList() {
   const listRef = useSignal<HTMLUListElement>();
   const service = {
     listRef,
-    next: $(() => nextFocus(listRef.value?.querySelectorAll('input[type="radio"]') as any)),
-    previous: $(() => previousFocus(listRef.value?.querySelectorAll('input[type="radio"]') as any)),
+    next: $(() => nextFocus(listRef.value?.querySelectorAll<HTMLElement>('input[type="radio"]'))),
+    previous: $(() => previousFocus(listRef.value?.querySelectorAll<HTMLElement>('input[type="radio"]'))),
   };
   useContextProvider(SelectionListContext, service);
   return service;

@@ -18,7 +18,6 @@
     display: block;
     align-self: var(--toast-position);
     margin-bottom: var(--toaster-gap, var(--size-1));
-    will-change: transform;
     animation: 
       stayhidden .05s,
       slideup .3s .05s var(--ease-out);

@@ -26,21 +26,23 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
   const nameId = props.name ?? id;
   const multi = props.multi ?? false;
 
-  const change = $((input: HTMLInputElement) => {
-    if (!root.value) return;
-    if (!multi) {
-      if (input.checked) {
-        moveActive(root.value, input);
-      } else {
-        removeActive(root.value);
-      }
-      // Uncheck other (works only because changing check don't trigger onChange)
-      const checked = root.value.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked');
-      for (const el of checked) {
-        if (el !== input) el.checked = false;
-      }
-    }
-  });
+  // const change = $((input: HTMLInputElement) => {
+  //   if (!root.value) return;
+  //   if (!multi) {
+  //     console.log(input.checked);
+  //     if (input.checked) {
+  //       moveActive(root.value, input);
+  //     } else {
+  //       console.log('remve')
+  //       removeActive(root.value);
+  //     }
+  //     // Uncheck other (works only because changing check don't trigger onChange)
+  //     const checked = root.value.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked');
+  //     for (const el of checked) {
+  //       if (el !== input) el.checked = false;
+  //     }
+  //   }
+  // });
 
   // Update UI on resize
   useVisibleTask$(() => {
@@ -65,9 +67,14 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
   // Update on active element
   useVisibleTask$(({ track }) => {
     track(() => active.value);
-    if (!active.value) return;
-    const input = document.getElementById(active.value);
-    if (input) change(input as HTMLInputElement);
+    if (!root.value || multi) return;
+    if (!active.value) return removeActive(root.value);
+    const input = document.getElementById(active.value) as HTMLInputElement;
+    moveActive(root.value, input);
+    // Uncheck other (works only because changing check don't trigger onChange)
+    const selector = `input[type="checkbox"]:checked:not(#${active.value})`;
+    const checked = root.value.querySelectorAll<HTMLInputElement>(selector);
+    for (const el of checked) el.checked = false;
   });
 
   // Remove active on reset
@@ -76,10 +83,10 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
   const onKeyDown$ = $((event: QwikKeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
     if (key === 'ArrowDown' || key === 'ArrowRight') {
-      nextFocus(root.value?.querySelectorAll('input[type="checkbox"]') as any);
+      nextFocus(root.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'));
     }
     if (key === 'ArrowUp' || key === 'ArrowLeft') {
-      previousFocus(root.value?.querySelectorAll('input[type="checkbox"]') as any);
+      previousFocus(root.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'));
     }
     if (event.target instanceof HTMLInputElement) {
       const radio = event.target;
@@ -90,7 +97,10 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
 
   useContextProvider(FieldContext, {
     name: nameId,
-    change: $((event: any, input: HTMLInputElement) => active.value = input.id),
+    change: $((event: any, input: HTMLInputElement) => {
+      if (multi) return;
+      active.value = input.checked ? input.id : '';
+    }),
   });
 
   return <ul ref={root} role="list"

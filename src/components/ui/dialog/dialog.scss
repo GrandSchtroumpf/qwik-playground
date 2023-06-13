@@ -68,7 +68,6 @@ dialog {
 @media (min-width: 600px) {
   dialog.popover {
     width: 100%;
-    top: var(--top);
     animation: slideup 0.1s var(--ease-out);
     &.closing {
       animation: fadeout 0.1s var(--ease-in);
@@ -82,7 +81,6 @@ dialog {
 @media (max-width: 599px) {
   dialog.popover {
     position: fixed;
-    margin: auto;
     width: 80vw;
     animation: scalein 0.1s var(--ease-out);
     &.closing {

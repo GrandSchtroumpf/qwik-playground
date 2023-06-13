@@ -49,8 +49,8 @@ export function useMultiSelectionList() {
         checkAllRef.value.indeterminate = someChecked;
       }
     }),
-    next: $(() => nextFocus(listRef.value?.querySelectorAll('input[type="checkbox"]') as any)),
-    previous: $(() => previousFocus(listRef.value?.querySelectorAll('input[type="checkbox"]') as any)),
+    next: $(() => nextFocus(listRef.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'))),
+    previous: $(() => previousFocus(listRef.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'))),
   };
   useContextProvider(MultiSelectionListContext, service);
   return service;
@@ -78,8 +78,8 @@ export const MultiSelectionList = component$((props: UlAttributes) => {
     for (const checkbox of checkboxes) checkbox.checked = shouldCheckAll;
   });
 
-  const next = $(() => nextFocus(ref.value?.querySelectorAll('input[type="checkbox"]') as any));
-  const previous = $(() => previousFocus(ref.value?.querySelectorAll('input[type="checkbox"]') as any));
+  const next = $(() => nextFocus(ref.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]')));
+  const previous = $(() => previousFocus(ref.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]')));
 
   // Prevent default behavior
   useVisibleTask$(() => {
