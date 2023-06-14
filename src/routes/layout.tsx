@@ -1,5 +1,4 @@
 import { component$, Slot, useSignal, useStyles$, useVisibleTask$ } from '@builder.io/qwik';
-import { Link } from '@builder.io/qwik-city';
 import { Slider } from '~/components/ui/form/slider/slider';
 import { Toaster, useToasterProvider } from '~/components/ui/toaster/toaster';
 import clsq from '~/components/utils/clsq';
@@ -19,19 +18,19 @@ export default component$(() => {
     <nav onClick$={() => open.value = false} class={clsq('main-nav', open.value ? 'open' : 'close')}>
       <ul role="list">
         <li>
-          <Link class="btn-list" href="/">Theme</Link>
+          <a class="btn-list" href="/">Theme</a>
         </li>
         <li>
-          <Link class="btn-list" href="/form">Form</Link>
+          <a class="btn-list" href="/form">Form</a>
         </li>
         <li>
-          <Link class="btn-list" href="/accordion">Accordion</Link>
+          <a class="btn-list" href="/accordion">Accordion</a>
         </li>
         <li>
-          <Link class="btn-list" href="/tabs">Tabs</Link>
+          <a class="btn-list" href="/tabs">Tabs</a>
         </li>
         <li>
-          <Link class="btn-list" href="/menu">Menu</Link>
+          <a class="btn-list" href="/menu">Menu</a>
         </li>
       </ul>
     </nav>

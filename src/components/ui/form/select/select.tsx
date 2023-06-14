@@ -105,7 +105,7 @@ export const Select = component$((props: SelectProps) => {
         </svg>
       </button>
       <Slot name="suffix"/>
-      <Popover origin={origin} open={opened}>
+      <Popover origin={origin} open={opened} position="block">
         {selectionList}
       </Popover>
     </div>

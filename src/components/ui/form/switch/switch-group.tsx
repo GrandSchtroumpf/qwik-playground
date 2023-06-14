@@ -4,6 +4,7 @@ import { nextFocus, previousFocus, useKeyboard } from "../../utils";
 import type { FieldsetAttributes, UlAttributes } from "../types";
 import type { SwitchProps } from "./switch";
 import styles from './switch.scss?inline';
+import clsq from "~/components/utils/clsq";
 
 const preventKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ctrl+a'];
 
@@ -26,14 +27,14 @@ export const SwitchGroup = component$((props: FieldsetAttributes) => {
     if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') previousFocus(list);
     if (event.ctrlKey && event.key === 'a') toggleAll();
   }));
-  return <fieldset class="switch-group" {...props} ref={ref}>
+  return <fieldset {...props} class={clsq("switch-group", props.class)} ref={ref}>
     <Slot/>
   </fieldset>
 });
 
 export const SwitchList = component$((props: UlAttributes) => {
   useStyles$(styles);
-  return <ul class="switch-list" {...props}>
+  return <ul {...props} class={clsq("switch-list", props.class)}>
     <Slot/>
   </ul>
 });

@@ -7,7 +7,7 @@ interface CheckboxProps extends Omit<InputAttributes, 'type' | 'children'> {}
 export const Checkbox = component$((props: CheckboxProps) => {
   useStyles$(styles);
   const id = useId();
-  return <>
+  return <div class="checkbox">
     <input id={id} type="checkbox" {...props} />
     <label for={id}>
       <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
@@ -15,5 +15,5 @@ export const Checkbox = component$((props: CheckboxProps) => {
       </svg>
       <Slot/>
     </label>
-  </>
+  </div>
 })

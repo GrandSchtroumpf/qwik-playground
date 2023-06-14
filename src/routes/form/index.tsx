@@ -9,6 +9,8 @@ import MOVIES from '~/DATA/movies.json';
 import { ButtonToggleGroup, ButtonToggleItem } from "~/components/ui/form/button-toggle/button-toggle";
 import { useToaster } from "~/components/ui/toaster/toaster";
 import styles from './index.scss?inline';
+import { RadioGroup, RadioItem, RadioList } from "~/components/ui/form/radio/radio";
+import { CheckAll, CheckGroup, CheckItem, CheckList } from "~/components/ui/form/checkbox/checkgroup";
 
 // type Movie = typeof MOVIES[number];
 
@@ -42,18 +44,35 @@ export default component$(() => {
         <ThumbStart></ThumbStart>
         <ThumbEnd></ThumbEnd>
       </Range>
-      <SwitchGroup>
+      <SwitchGroup class="outlined">
         <legend>Some Switch</legend>
         <SwitchList>
           <SwitchItem>Switch 1</SwitchItem>
           <SwitchItem>Switch 2</SwitchItem>
         </SwitchList>
       </SwitchGroup>
-      <ButtonToggleGroup class="primary">
+      <ButtonToggleGroup class="outlined primary">
         <ButtonToggleItem value="low">low</ButtonToggleItem>
         <ButtonToggleItem value="medium">medium</ButtonToggleItem>
         <ButtonToggleItem value="high">high</ButtonToggleItem>
       </ButtonToggleGroup>
+      <RadioGroup class="outlined">
+        <legend>Some radio</legend>
+        <RadioList>
+          <RadioItem name="radio" value="1">Radio 1</RadioItem>
+          <RadioItem name="radio" value="2">Radio 2</RadioItem>
+          <RadioItem name="radio" value="3">Radio 3</RadioItem>
+        </RadioList>
+      </RadioGroup>
+      <CheckGroup class="outlined">
+        <legend>Some Checkbox</legend>
+        <CheckAll>Check All</CheckAll>
+        <CheckList>
+          <CheckItem name="checkbox" value="1">Checkbox 1</CheckItem>
+          <CheckItem name="checkbox" value="2">Checkbox 2</CheckItem>
+          <CheckItem name="checkbox" value="3">Checkbox 3</CheckItem>
+        </CheckList>
+      </CheckGroup>
       <footer class="form-actions">
         <button class="btn" type="reset">Cancel</button>
         <button class="btn-fill" type="submit">Save</button>

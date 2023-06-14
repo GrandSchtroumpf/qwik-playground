@@ -43,6 +43,10 @@
     }
   }
 
+  .popover {
+    width: 100%;
+  }
+
   [role="listbox"] {
     list-style: none;
     padding-left: 0;
@@ -88,7 +92,8 @@
 @media (max-width: 599px) {
   .select {
 
-    dialog.popover {
+    .popover {
+      max-width: 80vw;
       max-height: 400px;
     }
     [role="option"] {
