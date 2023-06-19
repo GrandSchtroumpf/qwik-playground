@@ -6,7 +6,7 @@ export default component$(() => {
   useStyles$(styles);
   return <section class="menus">
     <MenuRoot>
-      <MenuTrigger class="btn-fill">
+      <MenuTrigger class="btn-fill primary">
         Open a menu
         <Menu q:slot="menu">
           <MenuItem>Item 1</MenuItem>

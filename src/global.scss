@@ -36,6 +36,7 @@
 .theme, :root, ::backdrop {
   accent-color: var(--primary);
   --primary-hue: var(--hue);
+  --secondary-hue: calc(var(--hue) + 90);
   --text: oklch(10% var(--chroma) var(--hue));
   --background: oklch(90% var(--chroma) var(--hue));
   --background-blur: none;
@@ -43,8 +44,11 @@
   --primary: oklch(65% 0.3 var(--primary-hue));
   --on-primary: oklch(100% 0.05 var(--primary-hue));
 
-  --secondary: oklch(40% 0.3 calc(var(--hue) + 180)); // oklch(80% 0.15 var(--hue));
-  --on-secondary: oklch(10% 0.15 var(--hue));
+  --secondary: oklch(65% 0.3 var(--secondary-hue)); // oklch(80% 0.15 var(--hue));
+  --on-secondary: oklch(100% 0.15 var(--secondary-hue));
+
+  --warn: oklch(65% 0.21 30);
+  --on-warn: oklch(100% 0 30);
 
 
   --overlay: oklch(98% var(--chroma) var(--hue));
@@ -61,24 +65,28 @@
   --divider: oklch(30% var(--chroma) var(--hue));
   
   --background-image: linear-gradient(
-    160deg,
-    oklch(95% 0.02 var(--hue)),
-    oklch(93% 0 var(--hue))
+    var(--gradient-direction),
+    var(--gradient-from),
+    var(--gradient-to)
   );
+
+  --gradient-direction: 160deg;
+  --gradient-from: oklch(95% 0.02 var(--hue));
+  --gradient-to: oklch(93% 0 var(--hue));
   
   @media (prefers-color-scheme: dark) {
     --chroma: 0.02;
     --text: oklch(100% var(--chroma) var(--hue));
     --background: oklch(20% var(--chroma) var(--hue));
+
     --primary: oklch(80% 0.2 var(--primary-hue));
     --on-primary: oklch(20% 0.15 var(--primary-hue));
-    
-    --secondary: oklch(30% 0.15 var(--hue));
-    --on-secondary: oklch(100% 0.15 var(--hue));
-    
+
+    --secondary: oklch(80% 0.2 var(--secondary-hue));
+    --on-secondary: oklch(20% 0.15 var(--secondary-hue));
+
     --divider: oklch(70% var(--chroma) var(--hue));
-    
-    
+        
     --overlay: oklch(35% var(--chroma) var(--hue));
     
     --base-surface: 90% var(--chroma) var(--hue);
@@ -87,18 +95,56 @@
     --surface: oklch(var(--base-surface) / 0.16);
     --surface-low: oklch(var(--base-surface) / 0.12);
     --surface-lower: oklch(var(--base-surface) / 0.08);
-    --background-image: linear-gradient(
-        160deg,
-        oklch(30% var(--chroma) var(--hue)),
-        oklch(15% var(--chroma) var(--hue))
-      );
-    
+
+    --gradient-from: oklch(30% var(--chroma) var(--hue));
+    --gradient-to: oklch(15% var(--chroma) var(--hue));    
   }
 }
 
+/****************/
+/* Colors Utils */
+/****************/
 .primary {
   --color: var(--primary);
-  --on-color: var(--primary);
+  --on-color: var(--on-primary);
+}
+.secondary {
+  --color: var(--secondary);
+  --on-color: var(--on-secondary);
+}
+.warn {
+  --color: var(--warn);
+  --on-color: var(--on-warn);
+}
+.gradient {
+  --on-gradient: var(--on-primary);
+  --gradient-from: var(--primary);
+  --gradient-to: var(--secondary);
+  &.btn, &.btn-fill, &.btn-outlined {
+    background-image: linear-gradient(
+      var(--gradient-direction),
+      var(--gradient-from),
+      var(--gradient-to)
+    );
+    &:hover {
+      background-image: linear-gradient(
+        var(--gradient-direction),
+        color-mix(in oklch, var(--on-gradient) var(--alpha-hover), var(--gradient-from)),
+        color-mix(in oklch, var(--on-gradient) var(--alpha-hover), var(--gradient-to))
+      );
+    }
+    &:active {
+      background-image: linear-gradient(
+        var(--gradient-direction),
+        color-mix(in oklch, var(--on-gradient) var(--alpha-focus), var(--gradient-from)),
+        color-mix(in oklch, var(--on-gradient) var(--alpha-focus), var(--gradient-to))
+      );
+    }
+  }
+}
+#svg-gradient {
+  --gradient-from: var(--primary);
+  --gradient-to: var(--secondary);
 }
 
 
@@ -161,6 +207,7 @@
 }
 
 html {
+
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -216,68 +263,97 @@ a[class*="btn"] {
   text-decoration: none;
 }
 
+
 .btn {
   border: none;
   padding: 8px 16px;
   background-color: transparent;
   border: none;
   border-radius: 20px;
+  color: var(--color, var(--text));
   &:hover {
-    background-color: var(--surface);
+    background-color: color-mix(in oklch, var(--color, var(--text)) var(--alpha-hover), transparent);
   }
   &:active {
-    background-color: var(--surface-high);
+    background-color: color-mix(in oklch, var(--color, var(--text)) var(--alpha-focus), transparent);
+  }
+  &.gradient {
+    position: relative;
+    isolation: isolate;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: -1;
+    }
+    &:hover::before {
+      background-color: color-mix(in oklch, var(--text) var(--alpha-hover), transparent);
+    }
+    &:active::before {
+      background-color: color-mix(in oklch, var(--text) var(--alpha-focus), transparent);
+    }
   }
 }
 
 .btn-fill {
-  --color: var(--primary);
-  --on-color: var(--on-primary);
   border: none;
-  background-color: var(--color);
-  color: var(--on-color);
+  background-color: var(--color, var(--background));
+  color: var(--on-color, var(--text));
   padding: 8px 16px;
   border-radius: 20px;
   &:hover {
-    background-color: color-mix(in oklch, var(--on-color) var(--alpha-hover), var(--color));
+    background-color: color-mix(
+      in oklch,
+      var(--on-color, var(--text)) var(--alpha-hover),
+      var(--color, var(--background))
+    );
   }
   &:active {
-    background-color: color-mix(in oklch, var(--on-color) var(--alpha-focus), var(--color));
+    background-color: color-mix(
+      in oklch,
+      var(--on-color, var(--text)) var(--alpha-focus),
+      var(--color, var(--background))
+    );
   }
-  &.secondary {
-    --color: var(--secondary);
-    --on-color: var(--on-secondary);
-  }
-  &.warn {
-    --color: var(--warn);
-    --on-color: var(--on-warn);
+  &.gradient {
+    color: var(--on-gradient);
   }
 }
 
-.btn-tonal {
-  border: none;
-  background-color: var(--surface-high);
-  padding: 8px 16px;
-  border-radius: 40px;
-  &:hover {
-    background-color: color-mix(in oklch, var(--text) var(--alpha-hover), var(--surface-high));
-  }
-  &:active {
-    background-color: color-mix(in oklch, var(--text) var(--alpha-focus), var(--surface-high));
-  }
-}
-
-.btn-outline {
+.btn-outlined {
   transition: background-color 0.1s ease-in-out;
-  background-color: var(--surface-lower);
-  border: 1px solid var(--outline);
+  background-color: transparent;
+  border: var(--border-width, 1px) solid var(--color, var(--outline));
   padding: 8px 16px;
   border-radius: 40px;
   &:hover {
-    background-color: var(--surface);
+    background-color: color-mix(in oklch, var(--color, var(--text)) var(--alpha-hover), transparent);
   }
   &:active {
-    background-color: var(--surface-higher);
+    background-color: color-mix(in oklch, var(--color, var(--text)) var(--alpha-focus), transparent);
+  }
+  &.gradient {
+    position: relative;
+    isolation: isolate;
+    border: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: var(--border-width, 1px);
+      background-color: var(--background);
+      border-radius: inherit;
+      z-index: -1;
+    }
+    &:hover::before {
+      background-color: color-mix(in oklch, var(--text) var(--alpha-hover), var(--background));
+    }
+    &:active::before {
+      background-color: color-mix(in oklch, var(--text) var(--alpha-focus), var(--background));
+    }
   }
 }
 
@@ -287,12 +363,34 @@ a[class*="btn"] {
   border-radius: 20px;
   height: 40px;
   width: 40px;
+  padding: 8px;
+  color: var(--color, var(--text));
   &:hover {
     background-color: var(--surface);
   }
   &:active {
     background-color: var(--surface-higher);
   }
+  svg {
+    height: 24px;
+    width: 24px;
+    fill: currentColor;
+  }
+  &.gradient {
+    path {
+      fill: url(#svg-gradient);
+    }
+  }
+  
 }
 
 
+.btn, .btn-fill, .btn-icon, .btn-outlined {
+  font-size: 0.9rem;
+  // Use :disabled for buttons & .disabled for anchors
+  &:disabled, &.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+}

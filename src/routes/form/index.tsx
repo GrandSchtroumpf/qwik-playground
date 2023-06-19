@@ -76,7 +76,7 @@ export default component$(() => {
       </CheckGroup>
       <footer class="form-actions">
         <button class="btn" type="reset">Cancel</button>
-        <button class="btn-fill" type="submit">Save</button>
+        <button class="btn-fill primary" type="submit">Save</button>
       </footer>
     </Form>
   </>;

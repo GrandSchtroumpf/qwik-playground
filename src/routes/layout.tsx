@@ -1,6 +1,7 @@
 import { component$, Slot, useSignal, useStyles$, useVisibleTask$ } from '@builder.io/qwik';
 import { Link } from '@builder.io/qwik-city';
 import { Slider } from '~/components/ui/form/slider/slider';
+import { SvgGradient } from '~/components/ui/svg-gradient';
 import { Toaster, useToasterProvider } from '~/components/ui/toaster/toaster';
 import clsq from '~/components/utils/clsq';
 import styles from './layout.scss?inline';
@@ -33,6 +34,9 @@ export default component$(() => {
         <li>
           <Link class="btn-list" href="/menu">Menu</Link>
         </li>
+        <li>
+          <Link class="btn-list" href="/button">Button</Link>
+        </li>
       </ul>
     </nav>
     <header class="page-header">
@@ -51,5 +55,6 @@ export default component$(() => {
       <Slot />
     </main>
     <Toaster/>
+    <SvgGradient/>
   </>;
 });
