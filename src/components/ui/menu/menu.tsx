@@ -81,7 +81,7 @@ interface MenuProps extends Omit<MenuAttributes, 'id'> {}
 export const Menu = component$((props: MenuProps) => {
   const {root} = useContext(MenuRootContext);
   const list = useSignal<HTMLElement>();
-  const { menuId, triggerId, origin, open } = useContext(MenuContext); //menus[props.id];
+  const { menuId, triggerId, origin, open } = useContext(MenuContext);
   useKeyboard(list, ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'], $((event, el) => {
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
       nextFocus(el.querySelectorAll<HTMLElement>('button, input'))
@@ -145,7 +145,8 @@ export const MenuItemTrigger = component$((props: MenuTriggerProps) => {
 
 
 export const MenuGroup = component$(() => {
-  return <fieldset>
+  const { triggerId } = useContext(MenuContext);
+  return <fieldset aria-labelledby={triggerId}>
     <Slot/>
   </fieldset>
 })

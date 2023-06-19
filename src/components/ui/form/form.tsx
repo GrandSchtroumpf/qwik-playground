@@ -1,6 +1,7 @@
-import type { QwikJSX, Signal, QwikSubmitEvent } from "@builder.io/qwik";
+import { QwikJSX, Signal, QwikSubmitEvent, useTask$, useSignal } from "@builder.io/qwik";
 import { $, component$, createContextId, useContextProvider, useStore, Slot, useContext } from "@builder.io/qwik";
 import type { FormFieldRecord, SubmitHandler } from "./types";
+import { getFormValue } from "./utils";
 
 type FormAttributes = QwikJSX.IntrinsicElements['form'];
 
@@ -27,6 +28,7 @@ export function useForm<T extends FormFieldRecord>() {
 
 export const Form = component$((props: FormProps<any>) => {
   const { onSubmit$, value, ...attributes } = props;
+  const ref = useSignal<HTMLFormElement>();
   const state = useStore<FormState>({
     submitted: false,
     dirty: false,
@@ -35,13 +37,20 @@ export const Form = component$((props: FormProps<any>) => {
     updateCount: 0
   });
   useContextProvider<FormState<any>>(FormContext, state);
+
+  useTask$(({ track }) => {
+    track(() => state.updateCount);
+    if (!ref.value) return;
+    const value = getFormValue(ref.value);
+    state.value = value;
+  });
   
   const submit = $((event: QwikSubmitEvent<HTMLFormElement>) => {
     state.submitted = true;
     if (onSubmit$) onSubmit$(state.value, event);
   });
 
-  return <form {...attributes} onSubmit$={submit} preventdefault:submit>
+  return <form {...attributes} ref={ref} onSubmit$={submit} preventdefault:submit>
     <Slot/>
   </form>
 });

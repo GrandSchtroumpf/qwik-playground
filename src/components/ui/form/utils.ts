@@ -41,3 +41,13 @@ export function useOnElement<K extends keyof GlobalEventHandlersEventMap>(
     return () => ref.value?.removeEventListener(eventName, eventQrl);
   });
 }
+
+
+export function getFormValue<T>(form: HTMLFormElement) {
+  const data = new FormData(form);
+  const result: Record<string, any> = {};
+  for (const [key, value] of data.entries()) {
+    result[key] = value;
+  }
+  return result as T;
+}

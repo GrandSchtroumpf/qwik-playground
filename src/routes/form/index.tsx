@@ -25,11 +25,11 @@ export default component$(() => {
 
   return <>
     <form preventdefault:submit onSubmit$={save}>
-      <FormField>
+      <FormField class="outlined">
         <Label>Text here</Label>
         <Input name="title" placeholder="Some Text here" />
       </FormField>
-      <FormField>
+      <FormField class="outlined">
         <Label>Select from the list</Label>
         <Select placeholder="Movie">
           <Option>-- Select a movie --</Option>

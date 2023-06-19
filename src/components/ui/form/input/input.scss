@@ -1,13 +1,4 @@
 .field {
-  box-sizing: border-box;
-  padding: var(--size-1) var(--size-2);
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  background-color: var(--surface);
-  border: none;
-  border-bottom: solid 2px var(--outline);
-  display: inline-flex;
-
   input {
     flex: 1;
     font-size: 1rem;
@@ -22,12 +13,4 @@
       outline: none;
     }
   }
-  &:hover {
-    background-color: color-mix(in oklch, var(--text) var(--alpha-hover), var(--surface));
-  }
-  &:focus-within, &:active {
-    background-color: var(--surface-high);
-    border-bottom-color: var(--primary);
-  }
 }
-

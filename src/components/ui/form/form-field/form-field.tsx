@@ -1,4 +1,6 @@
 import { component$, useId, Slot, createContextId, useContextProvider, useContext, useStyles$ } from "@builder.io/qwik";
+import type { DivAttributes } from "../types";
+import clsq from "~/components/utils/clsq";
 import styles from './form-field.scss?inline';
 
 interface FormFieldState {
@@ -7,11 +9,11 @@ interface FormFieldState {
 
 export const FormFieldContext = createContextId<FormFieldState>('FormFieldContext');
 
-export const FormField = component$(() => {
+export const FormField = component$((props: DivAttributes) => {
   useStyles$(styles);
   const id = useId();
   useContextProvider(FormFieldContext, { id })
-  return <div class="form-field">
+  return <div {...props} class={clsq('form-field', props.class)}>
     <Slot/>
   </div>
 });
