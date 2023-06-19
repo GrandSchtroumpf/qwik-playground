@@ -14,7 +14,7 @@
   .track {
     @include base.track();
     position: absolute;
-    width: calc(100% - 2 * var(--fieldset-padding-inline)); // Remove padding
+    width: calc(100% - (2 * var(--fieldset-padding-inline))); // Remove padding
     &::before {
       content: "";
       position: absolute;

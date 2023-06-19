@@ -1,5 +1,5 @@
 @mixin fieldset() {
-  --fieldset-padding-inline: 0;
+  --fieldset-padding-inline: 0px;
   border-radius: var(--size-0);
   padding-block: calc(var(--fieldset-padding-inline) / 2);
   padding-inline: var(--fieldset-padding-inline);
@@ -17,6 +17,7 @@
     }
   }
   &.fill {
+    --fieldset-padding-inline: 16px;
     background-color: var(--surface);
   }
 }
