@@ -42,15 +42,24 @@ $size: 24px;
         color: var(--on-color, var(--on-primary));
         path {
           stroke-dashoffset: 0;
-          transition: d 0.1s ease-out, stroke-dashoffset 0.2s var(--ease-out);
+          transition: d 0.1s var(--ease-out),
+            stroke-dashoffset 0.2s var(--ease-out),
+            transform 0.3s var(--ease-back-in-out);
         }
       }
     }
-    &:checked + label svg path {
-      d: path('M 2 13 L 8 19 L 23 5');
-      stroke: var(--on-color, var(--on-primary));
+    &:checked + label {
+      path {
+        d: path('M 2 13 L 8 19 L 23 5');
+        stroke: var(--on-color, var(--on-primary));
+      }
+      &:hover {
+        path {
+          transform: scale(0.8);
+        }
+      }
     }
-    &:indeterminate + label svg path {
+    &:indeterminate + label path {
       d: path('M 4 13 L 13 13 L 20 13');
       stroke: var(--on-color, var(--on-primary));
     }
@@ -73,11 +82,14 @@ $size: 24px;
       transition: background-color 0.2s, border-color 0.2s;
       
       path {
+        transform-origin: center;
         d: path('M 2 13 L 8 19 L 23 5');
         stroke-width: 2px;
         stroke-dasharray: 30;
         stroke-dashoffset: 30;
-        transition: d 0.1s 0.2s ease-out, stroke-dashoffset 0.2s var(--ease-out);
+        transition: d 0.1s 0.2s var(--ease-out),
+          stroke-dashoffset 0.2s var(--ease-out),
+          transform 0.3s var(--ease-back-in-out);
       }
     }
     &:hover {

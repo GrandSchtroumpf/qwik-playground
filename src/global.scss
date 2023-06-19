@@ -1,4 +1,5 @@
 :root {
+  --font-family: system-ui,  sans-serif;
   --size-0: 4px;
   --size-1: 8px;
   --size-2: 16px;
@@ -163,7 +164,7 @@ html {
   -moz-tab-size: 4;
   -o-tab-size: 4;
   tab-size: 4;
-  font-family: system-ui,  sans-serif;
+  font-family: var(--font-family);
   font-size: 1rem;
   color-scheme: dark light;
   background-image: var(--background-image);
@@ -195,8 +196,8 @@ h1, h2, h3, h4, h5, h6, p {
 
 
 button {
+  font-family: var(--font-family);
   cursor: pointer;
-  border: none;
 }
 
 pre {
@@ -211,6 +212,7 @@ a[class*="btn"] {
 }
 
 .btn {
+  border: none;
   padding: 8px 16px;
   background-color: transparent;
   border: none;
@@ -226,6 +228,7 @@ a[class*="btn"] {
 .btn-fill {
   --color: var(--primary);
   --on-color: var(--on-primary);
+  border: none;
   background-color: var(--color);
   color: var(--on-color);
   padding: 8px 16px;
@@ -247,6 +250,7 @@ a[class*="btn"] {
 }
 
 .btn-tonal {
+  border: none;
   background-color: var(--surface-high);
   padding: 8px 16px;
   border-radius: 40px;
@@ -273,6 +277,7 @@ a[class*="btn"] {
 }
 
 .btn-icon {
+  border: none;
   background-color: transparent;
   border-radius: 20px;
   height: 40px;

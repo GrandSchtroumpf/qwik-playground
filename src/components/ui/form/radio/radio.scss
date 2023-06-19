@@ -33,14 +33,21 @@
     &:focus-visible + label svg {
       outline: solid 1px var(--divider);
     }
-    &:checked + label svg {
-      border-color: var(--color, var(--primary));
-      background-color: var(--color, var(--primary));
+    &:checked + label {
+      svg {
+        border-color: var(--color, var(--primary));
+        background-color: var(--color, var(--primary));
+      }
       circle {
         transform: scale(1);
       }
+      &:hover {
+        circle {
+          transform: scale(1.2);
+        }
+      }
     }
-    &:active + label svg {
+    &:active + label {
       circle {
         transform: scale(0.6);
       }

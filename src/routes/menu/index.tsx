@@ -6,22 +6,22 @@ export default component$(() => {
   useStyles$(styles);
   return <section class="menus">
     <MenuRoot>
-      <MenuTrigger menuId="menu1" class="btn-fill">
+      <MenuTrigger class="btn-fill">
         Open a menu
+        <Menu q:slot="menu">
+          <MenuItem>Item 1</MenuItem>
+          <MenuItem>Item 2</MenuItem>
+          <MenuItemTrigger>
+            Menu Radio
+            <Menu q:slot="menu">
+              <MenuGroup>
+                <MenuRadio name="radio" value="1">Item 1</MenuRadio>
+                <MenuRadio name="radio" value="2">Item 2</MenuRadio>
+              </MenuGroup>
+            </Menu>
+          </MenuItemTrigger>
+        </Menu>
       </MenuTrigger>
-      <Menu id="menu1">
-        <MenuItem>Item 1</MenuItem>
-        <MenuItem>Item 2</MenuItem>
-        <MenuItemTrigger menuId="menu-radio">
-          Menu Radio
-        </MenuItemTrigger>
-      </Menu>
-      <Menu id="menu-radio">
-        <MenuGroup>
-          <MenuRadio name="radio" value="1">Item 1</MenuRadio>
-          <MenuRadio name="radio" value="2">Item 2</MenuRadio>
-        </MenuGroup>
-      </Menu>
     </MenuRoot>
   </section>
 })
