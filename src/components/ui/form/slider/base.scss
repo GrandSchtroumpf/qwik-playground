@@ -1,7 +1,29 @@
+@mixin fieldset() {
+  --fieldset-padding-inline: 0;
+  border-radius: var(--size-0);
+  padding-block: calc(var(--fieldset-padding-inline) / 2);
+  padding-inline: var(--fieldset-padding-inline);
+  border: none;
+  height: 48px;
+  display: grid;
+  align-items: center;
+  &.outlined {
+    --fieldset-padding-inline: 16px;
+    border: 1px solid var(--outline);
+    box-sizing: border-box;
+    height: unset;
+    &:focus-within, &:active {
+      border-color: var(--primary);
+    }
+  }
+  &.fill {
+    background-color: var(--surface);
+  }
+}
+
 @mixin input() {
   opacity: 0;
-  height: 100%;
-    
+  height: 48px;
   &:hover + .thumb {
     &::before {
       opacity: 1;
@@ -30,11 +52,11 @@
   overflow: hidden;
   border-radius: 4px;
   background-color: var(--primary);
-  width: 100%;
   &::after {
     content: "";
     position: absolute;
-    inset: 0;
+    width: 100%;
+    height: 100%;
     transition: transform 0.1s;
     background-color: var(--outline);
   }

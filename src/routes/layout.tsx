@@ -16,7 +16,7 @@ export default component$(() => {
     document.documentElement.style.setProperty('--hue', hue.value);
   })
   return <>
-    <nav onClick$={() => open.value = false} class={clsq('main-nav', open.value ? 'open' : 'close')}>
+    <nav aria-label="primary" onClick$={() => open.value = false} class={clsq('main-nav', open.value ? 'open' : 'close')}>
       <ul role="list">
         <li>
           <Link class="btn-list" href="/">Theme</Link>

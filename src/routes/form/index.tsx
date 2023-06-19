@@ -40,7 +40,8 @@ export default component$(() => {
           ))}
         </Select>
       </FormField>
-      <Range>
+      <Range class="outlined">
+        <legend>Select a range</legend>
         <ThumbStart></ThumbStart>
         <ThumbEnd></ThumbEnd>
       </Range>
