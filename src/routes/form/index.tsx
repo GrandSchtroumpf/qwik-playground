@@ -1,6 +1,6 @@
 import { component$, event$, useStyles$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { Input } from "~/components/ui/form";
+import { Form, Input } from "~/components/ui/form";
 import { Select, Option } from "~/components/ui/form/select/select";
 import { SwitchGroup, SwitchItem, SwitchList } from "~/components/ui/form/switch/switch-group";
 import { Range, ThumbEnd, ThumbStart } from "~/components/ui/form/slider/range";
@@ -24,15 +24,15 @@ export default component$(() => {
   })
 
   return <>
-    <form preventdefault:submit onSubmit$={save}>
+    <Form onSubmit$={save}>
       <FormField class="outlined">
         <Label>Text here</Label>
         <Input name="title" placeholder="Some Text here" />
       </FormField>
       <FormField class="outlined">
         <Label>Select from the list</Label>
-        <Select placeholder="Movie">
-          <Option>-- Select a movie --</Option>
+        <Select name="select" multiple placeholder="Movie">
+          {/* <Option>-- Select a movie --</Option> */}
           {MOVIES.map(movie => (
           <Option key={movie.imdbID} value={movie.imdbID}>
             {movie.Title}
@@ -40,45 +40,45 @@ export default component$(() => {
           ))}
         </Select>
       </FormField>
-      <Range class="outlined">
+      <Range name="range" class="outlined">
         <legend>Select a range</legend>
         <ThumbStart></ThumbStart>
         <ThumbEnd></ThumbEnd>
       </Range>
-      <SwitchGroup class="outlined">
+      <SwitchGroup name="switch" class="outlined">
         <legend>Some Switch</legend>
         <SwitchList>
-          <SwitchItem>Switch 1</SwitchItem>
-          <SwitchItem>Switch 2</SwitchItem>
+          <SwitchItem name="1">Switch 1</SwitchItem>
+          <SwitchItem name="2">Switch 2</SwitchItem>
         </SwitchList>
       </SwitchGroup>
-      <ButtonToggleGroup class="outlined primary">
+      <ButtonToggleGroup name="toggle" class="outlined primary">
         <ButtonToggleItem value="low">low</ButtonToggleItem>
         <ButtonToggleItem value="medium">medium</ButtonToggleItem>
         <ButtonToggleItem value="high">high</ButtonToggleItem>
       </ButtonToggleGroup>
-      <RadioGroup class="outlined">
+      <RadioGroup name="radio" class="outlined">
         <legend>Some radio</legend>
         <RadioList>
-          <RadioItem name="radio" value="1">Radio 1</RadioItem>
-          <RadioItem name="radio" value="2">Radio 2</RadioItem>
-          <RadioItem name="radio" value="3">Radio 3</RadioItem>
+          <RadioItem value="1">Radio 1</RadioItem>
+          <RadioItem value="2">Radio 2</RadioItem>
+          <RadioItem value="3">Radio 3</RadioItem>
         </RadioList>
       </RadioGroup>
-      <CheckGroup class="outlined">
+      <CheckGroup name="checkbox" class="outlined">
         <legend>Some Checkbox</legend>
         <CheckAll>Check All</CheckAll>
         <CheckList>
-          <CheckItem name="checkbox" value="1">Checkbox 1</CheckItem>
-          <CheckItem name="checkbox" value="2">Checkbox 2</CheckItem>
-          <CheckItem name="checkbox" value="3">Checkbox 3</CheckItem>
+          <CheckItem value="1">Checkbox 1</CheckItem>
+          <CheckItem value="2">Checkbox 2</CheckItem>
+          <CheckItem value="3">Checkbox 3</CheckItem>
         </CheckList>
       </CheckGroup>
       <footer class="form-actions">
         <button class="btn" type="reset">Cancel</button>
         <button class="btn-fill" type="submit">Save</button>
       </footer>
-    </form>
+    </Form>
   </>;
 });
 

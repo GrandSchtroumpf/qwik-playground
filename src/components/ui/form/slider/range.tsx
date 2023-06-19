@@ -1,4 +1,4 @@
-import { Slot, component$, useStyles$, event$, useSignal, useVisibleTask$, createContextId, useContextProvider, useContext, $ } from "@builder.io/qwik";
+import { Slot, component$, useStyles$, event$, useSignal, useVisibleTask$, createContextId, useContextProvider, useContext, $, useId } from "@builder.io/qwik";
 import clsq from "~/components/utils/clsq";
 import { useOnReset } from "../../utils";
 import type { FieldsetAttributes, InputAttributes } from "../types";
@@ -20,6 +20,7 @@ function useRangeProvider(props: RangeProps) {
   const track = useSignal<HTMLElement>();
   const startInput = useSignal<HTMLInputElement>();
   const endInput = useSignal<HTMLInputElement>();
+  const nameId = props.name ?? useId();
   
   const min = props.min ? Number(props.min) : 0;
   const max = props.max ? Number(props.max) : 100;
@@ -71,6 +72,7 @@ function useRangeProvider(props: RangeProps) {
   });
 
   const service = {
+    nameId,
     slider,
     track,
     startInput,
@@ -124,11 +126,11 @@ export const Range = component$((props: RangeProps) => {
 interface ThumbProps extends Omit<InputAttributes, 'type' | 'children' | 'step' | 'min' | 'max'> {}
 
 export const ThumbStart = component$((props: ThumbProps) => {
-  const { startInput, min, max, step, resize, focusLeft, move} = useRangeContext();
+  const { nameId, startInput, min, max, step, resize, focusLeft, move} = useRangeContext();
   return <>
     <input
       type="range" 
-      name="start"
+      name={nameId + '.start'}
       ref={startInput}
       min={min}
       max={max}
@@ -145,11 +147,11 @@ export const ThumbStart = component$((props: ThumbProps) => {
 
 });
 export const ThumbEnd = component$((props: ThumbProps) => {
-  const { endInput, min, max, step, resize, focusRight, move} = useRangeContext();
+  const { nameId, endInput, min, max, step, resize, focusRight, move} = useRangeContext();
   return <>
     <input 
       type="range" 
-      name="end"
+      name={nameId + '.end'}
       ref={endInput}
       min={min}
       max={max}

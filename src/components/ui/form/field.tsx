@@ -1,4 +1,4 @@
-import { createContextId, useComputed$ } from "@builder.io/qwik";
+import { createContextId, useComputed$, useContext, useId } from "@builder.io/qwik";
 import type { QRL, QwikChangeEvent} from "@builder.io/qwik";
 import type { FormField } from "./types";
 
@@ -31,6 +31,30 @@ export const useFieldClass = (state: FieldState<any>, ...classes: string[]) => {
     state.invalid ? 'invalid' : '',
     ...classes
   ].join(' ')));
+}
+
+export const FieldGroupContext = createContextId<{ name?: string }>('FieldGroupContext');
+/** Get name from the group if any */
+export const useGroupName = (props: { name?: string }) => {
+  if (props.name) return props.name;
+  try {
+    const { name } = useContext(FieldGroupContext);
+    return name ?? useId();
+  } catch(err) {
+    return useId();
+  }
+}
+
+/** Combine name from the group */
+export const useRecordName = (props: { name?: string }) => {
+  const nameId = props.name ?? useId();
+  try {
+    const { name: groupName } = useContext(FieldGroupContext);
+    if (!groupName) return nameId;
+    return `${groupName}.${nameId}`;
+  } catch(err) {
+    return nameId;
+  }
 }
 
 // export function useFormField<T extends FormFieldRecord, N extends Extract<keyof T, string> = Extract<keyof T, string>>(name: N) {

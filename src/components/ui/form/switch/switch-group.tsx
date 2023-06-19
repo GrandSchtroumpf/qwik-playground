@@ -1,15 +1,18 @@
-import { Slot, component$, useStyles$, useSignal, $ } from "@builder.io/qwik";
+import { Slot, component$, useStyles$, useSignal, $, useContextProvider } from "@builder.io/qwik";
 import { Switch } from "./switch";
 import { nextFocus, previousFocus, useKeyboard } from "../../utils";
 import type { FieldsetAttributes, UlAttributes } from "../types";
 import type { SwitchProps } from "./switch";
 import styles from './switch.scss?inline';
 import clsq from "~/components/utils/clsq";
+import { FieldGroupContext } from "../field";
 
 const preventKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ctrl+a'];
 
 export const SwitchGroup = component$((props: FieldsetAttributes) => {
   useStyles$(styles);
+  useContextProvider(FieldGroupContext, { name: props.name });
+
   const ref = useSignal<HTMLElement>();
   const toggleAll = $(() => {
     if (!ref.value) return;

@@ -46,8 +46,30 @@ export function useOnElement<K extends keyof GlobalEventHandlersEventMap>(
 export function getFormValue<T>(form: HTMLFormElement) {
   const data = new FormData(form);
   const result: Record<string, any> = {};
-  for (const [key, value] of data.entries()) {
-    result[key] = value;
+  for (const key of data.keys()) {
+    const inputs = form.querySelectorAll<HTMLInputElement>(`input[name="${key}"]`);
+    const isMulti = inputs.length > 1 && Array.from(inputs).every(input => input.type === 'checkbox');
+    if (isMulti) {
+      setDeepValue(result, key, data.getAll(key));
+    } else {
+      const value = data.get(key);
+      // Single checkbox value
+      if (value === 'on' || value === 'off' && inputs[0].type === 'checkbox') {
+        setDeepValue(result, key, value === 'on' ? true : false);
+      } else {
+        setDeepValue(result, key, value);
+      }
+    }
   }
   return result as T;
+}
+
+function setDeepValue(base: Record<string, any>, key: string, value: any) {
+  const [prefix, ...rest] = key.split('.');
+  if (rest.length) {
+    base[prefix] ||= {};
+    setDeepValue(base[prefix], rest.join('.'), value);
+  } else {
+    base[prefix] = value;
+  }
 }

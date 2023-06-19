@@ -1,7 +1,8 @@
-import { $, component$,  Slot, useContext, useId, useSignal, useStyles$ } from "@builder.io/qwik";
+import { $, component$, Slot, useContext, useContextProvider, useId, useSignal, useStyles$ } from "@builder.io/qwik";
 import { Checkbox } from "./checkbox";
 import { useMultiSelectionList, MultiSelectionListContext } from '../selection-list/multi-selection-list';
-import type { FieldProps } from "../field";
+import type { FieldProps} from "../field";
+import { FieldGroupContext, useGroupName } from "../field";
 import type { MultiSelectionGroupProps} from '../selection-list/multi-selection-list';
 import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../../types";
 import { useKeyboard } from "../../utils";
@@ -15,6 +16,8 @@ export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
   useStyles$(styles);
   const lastActive = useSignal<HTMLElement | null>();
   const { listRef, checkAllRef, toggleAll, next, previous } = useMultiSelectionList();
+
+  useContextProvider(FieldGroupContext, { name: props.name });
 
   useKeyboard(listRef, disabledKeys, $((event) => {
     const key = event.key;
@@ -61,9 +64,10 @@ interface CheckItemProps extends Omit<InputAttributes, 'type' | 'children'>{
 export const CheckItem = component$((props: CheckItemProps) => {
   const { updateMode } = useContext(MultiSelectionListContext);
   const id = useId();
+  const nameId = useGroupName(props);
   
   return <li class="check-item">
-    <input class="checkbox-input" {...props} id={id} type="checkbox" onChange$={updateMode}/>
+    <input class="checkbox-input" {...props} name={nameId} id={id} type="checkbox" onChange$={updateMode}/>
     <label class="checkbox-label" for={id}>
       <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="none"></path>
