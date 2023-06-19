@@ -22,6 +22,19 @@ article {
     line-height: 1.5rem;
   }
 }
+
+.theme-slider {
+  display: flex;
+  gap: var(--size-2);
+  align-items: center;
+  > :first-child {
+    width: 100px;
+  }
+  > :last-child {
+    flex: 1;
+  }
+}
+
 code {
   background-color: var(--surface-higher);
   border: 1px solid var(--outline);

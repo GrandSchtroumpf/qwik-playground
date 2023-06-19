@@ -1,5 +1,6 @@
-import { component$, event$, useSignal, useStyles$ } from "@builder.io/qwik";
+import { $, component$, event$, useSignal, useStyles$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import { Slider } from "~/components/ui/form/slider/slider";
 import styles from './index.scss?inline';
 
 // type Movie = typeof MOVIES[number];
@@ -11,6 +12,14 @@ export default component$(() => {
     const rand = Math.floor(Math.random() * 360);
     localTheme.value?.style.setProperty('--hue', `${rand}`);
   });
+
+  const changeHue = $((event: any, input: HTMLInputElement) => {
+    document.documentElement.style.setProperty('--hue', input.value);
+  });
+  const changeChroma = $((event: any, input: HTMLInputElement) => {
+    document.documentElement.style.setProperty('--chroma', input.value);
+  });
+
   return <>
     <h2>Welcome to my playground</h2>
     <article>
@@ -32,6 +41,20 @@ export default component$(() => {
         <button class="btn-fill primary" onClick$={random}>Shuffle Local Theme</button>
       </footer>
     </article>
+
+    <article>
+      <h3>Change theme</h3>
+      {/* TODO: improve labelling */}
+      <div class="theme-slider">
+        <label>Hue: </label>
+        <Slider name="hue" min="0" max="360" onChange$={changeHue}></Slider>
+      </div>
+      <div class="theme-slider">
+        <label>Chroma: </label>
+        <Slider name="chroma" min="0" max="0.1" step="0.01" onChange$={changeChroma}></Slider>
+      </div>
+    </article>
+
     <article>
       <h3>Light & Dark</h3>
       <p>
