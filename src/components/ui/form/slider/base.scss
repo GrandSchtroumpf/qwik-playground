@@ -13,12 +13,26 @@
     box-sizing: border-box;
     height: unset;
     &:focus-within, &:active {
-      border-color: var(--primary);
+      border-color: var(--color, var(--primary));
     }
   }
   &.fill {
     --fieldset-padding-inline: 16px;
     background-color: var(--surface);
+  }
+  &.gradient {
+    .track {
+      background-color: unset;
+      background-image: var(--background-image);
+    }
+    .thumb.start::after {
+      --color: var(--gradient-start);
+      --on-color: var(--on-gradient);
+    }
+    .thumb.end::after {
+      --color: var(--gradient-end);
+      --on-color: var(--on-gradient);
+    }
   }
 }
 
@@ -34,13 +48,13 @@
     }
   }
   &:active + .thumb, &:focus-visible + .thumb {
-    border: solid 1px var(--on-primary);
+    border: solid 1px var(--on-color, var(--on-primary));
     &::before {
       opacity: 1;
     }
     &::after {
       transform: scale(0.4);
-      background-color: var(--on-primary);
+      background-color: var(--on-color, var(--on-primary));
     }
   }
 }
@@ -52,7 +66,7 @@
   width: 100%;
   overflow: hidden;
   border-radius: 4px;
-  background-color: var(--primary);
+  background-color: var(--color, var(--primary));
   &::after {
     content: "";
     position: absolute;
@@ -93,7 +107,7 @@
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background-color: var(--primary);
+    background-color: var(--color, var(--primary));
     transform: scale(0.7);
     transition: transform 0.3s var(--ease-out);
   }

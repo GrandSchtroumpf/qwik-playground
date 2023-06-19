@@ -66,13 +66,13 @@
   
   --background-image: linear-gradient(
     var(--gradient-direction),
-    var(--gradient-from),
-    var(--gradient-to)
+    var(--gradient-start),
+    var(--gradient-end)
   );
 
   --gradient-direction: 160deg;
-  --gradient-from: oklch(95% 0.02 var(--hue));
-  --gradient-to: oklch(93% 0 var(--hue));
+  --gradient-start: oklch(95% 0.02 var(--hue));
+  --gradient-end: oklch(93% 0 var(--hue));
   
   @media (prefers-color-scheme: dark) {
     --chroma: 0.02;
@@ -96,8 +96,8 @@
     --surface-low: oklch(var(--base-surface) / 0.12);
     --surface-lower: oklch(var(--base-surface) / 0.08);
 
-    --gradient-from: oklch(30% var(--chroma) var(--hue));
-    --gradient-to: oklch(15% var(--chroma) var(--hue));    
+    --gradient-start: oklch(30% var(--chroma) var(--hue));
+    --gradient-end: oklch(15% var(--chroma) var(--hue));    
   }
 }
 
@@ -118,33 +118,34 @@
 }
 .gradient {
   --on-gradient: var(--on-primary);
-  --gradient-from: var(--primary);
-  --gradient-to: var(--secondary);
+  --gradient-start: var(--primary);
+  --gradient-end: var(--secondary);
+  --background-image: linear-gradient(
+    var(--gradient-direction),
+    var(--gradient-start),
+    var(--gradient-end)
+  );
   &.btn, &.btn-fill, &.btn-outlined {
-    background-image: linear-gradient(
-      var(--gradient-direction),
-      var(--gradient-from),
-      var(--gradient-to)
-    );
+    background-image: var(--background-image);
     &:hover {
       background-image: linear-gradient(
         var(--gradient-direction),
-        color-mix(in oklch, var(--on-gradient) var(--alpha-hover), var(--gradient-from)),
-        color-mix(in oklch, var(--on-gradient) var(--alpha-hover), var(--gradient-to))
+        color-mix(in oklch, var(--on-gradient) var(--alpha-hover), var(--gradient-start)),
+        color-mix(in oklch, var(--on-gradient) var(--alpha-hover), var(--gradient-end))
       );
     }
     &:active {
       background-image: linear-gradient(
         var(--gradient-direction),
-        color-mix(in oklch, var(--on-gradient) var(--alpha-focus), var(--gradient-from)),
-        color-mix(in oklch, var(--on-gradient) var(--alpha-focus), var(--gradient-to))
+        color-mix(in oklch, var(--on-gradient) var(--alpha-focus), var(--gradient-start)),
+        color-mix(in oklch, var(--on-gradient) var(--alpha-focus), var(--gradient-end))
       );
     }
   }
 }
 #svg-gradient {
-  --gradient-from: var(--primary);
-  --gradient-to: var(--secondary);
+  --gradient-start: var(--primary);
+  --gradient-end: var(--secondary);
 }
 
 
