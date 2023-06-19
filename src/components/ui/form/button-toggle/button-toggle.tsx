@@ -1,4 +1,4 @@
-import { $, component$,  Slot, useSignal, useVisibleTask$, useStyles$, useContextProvider, useId, useContext } from "@builder.io/qwik";
+import { $, component$,  Slot, useSignal, useVisibleTask$, useStyles$, useContextProvider, useId, useContext, createContextId } from "@builder.io/qwik";
 import type { QwikKeyboardEvent } from "@builder.io/qwik";
 import type { FieldProps } from "../field";
 import { FieldContext } from "../field";
@@ -13,6 +13,8 @@ export interface CheckgroupProps extends FieldProps, Omit<FieldsetAttributes, 'r
 
 const disabledKeys = ['Enter', ' ', 'ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'];
 
+const ButtonToggleGroupContext = createContextId<{ multi: boolean }>('ButtonToggleGroupContext');
+
 interface ButtonToggleGroupProps extends UlAttributes {
   name?: string;
   multi?: boolean;
@@ -26,23 +28,7 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
   const nameId = props.name ?? id;
   const multi = props.multi ?? false;
 
-  // const change = $((input: HTMLInputElement) => {
-  //   if (!root.value) return;
-  //   if (!multi) {
-  //     console.log(input.checked);
-  //     if (input.checked) {
-  //       moveActive(root.value, input);
-  //     } else {
-  //       console.log('remve')
-  //       removeActive(root.value);
-  //     }
-  //     // Uncheck other (works only because changing check don't trigger onChange)
-  //     const checked = root.value.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked');
-  //     for (const el of checked) {
-  //       if (el !== input) el.checked = false;
-  //     }
-  //   }
-  // });
+  useContextProvider(ButtonToggleGroupContext, { multi });
 
   // Update UI on resize
   useVisibleTask$(() => {
@@ -72,7 +58,7 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
     const input = document.getElementById(active.value) as HTMLInputElement;
     moveActive(root.value, input);
     // Uncheck other (works only because changing check don't trigger onChange)
-    const selector = `input[type="checkbox"]:checked:not(#${active.value})`;
+    const selector = `input:checked:not(#${active.value})`;
     const checked = root.value.querySelectorAll<HTMLInputElement>(selector);
     for (const el of checked) el.checked = false;
   });
@@ -83,10 +69,10 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
   const onKeyDown$ = $((event: QwikKeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
     if (key === 'ArrowDown' || key === 'ArrowRight') {
-      nextFocus(root.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'));
+      nextFocus(root.value?.querySelectorAll<HTMLElement>('input'));
     }
     if (key === 'ArrowUp' || key === 'ArrowLeft') {
-      previousFocus(root.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'));
+      previousFocus(root.value?.querySelectorAll<HTMLElement>('input'));
     }
     if (event.target instanceof HTMLInputElement) {
       const radio = event.target;
@@ -116,9 +102,11 @@ export const ButtonToggleGroup = component$((props: ButtonToggleGroupProps) => {
 export const ButtonToggleItem = component$((props: SelectionItemProps) => {
   const id = useId();
   const { name, change } = useContext(FieldContext);
+  const { multi } = useContext(ButtonToggleGroupContext);
+  const type = multi ? 'checkbox' : 'radio';
 
   return  <li {...props}>
-    <input id={id} type="checkbox" name={name} value={props.value} onChange$={change}/>
+    <input id={id} type={type} name={name} value={props.value} onChange$={change}/>
     <label for={id}>
       <Slot/>
     </label>

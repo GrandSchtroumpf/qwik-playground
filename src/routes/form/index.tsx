@@ -52,7 +52,7 @@ export default component$(() => {
           <SwitchItem name="2">Switch 2</SwitchItem>
         </SwitchList>
       </SwitchGroup>
-      <ButtonToggleGroup name="toggle" class="outlined primary">
+      <ButtonToggleGroup name="toggle" class="outlined primary" multi>
         <ButtonToggleItem value="low">low</ButtonToggleItem>
         <ButtonToggleItem value="medium">medium</ButtonToggleItem>
         <ButtonToggleItem value="high">high</ButtonToggleItem>
