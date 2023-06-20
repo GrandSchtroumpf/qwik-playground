@@ -5,7 +5,7 @@ import { Select, Option } from "~/components/ui/form/select/select";
 import { Range, ThumbEnd, ThumbStart } from "~/components/ui/form/slider/range";
 import { FormField, Label } from "~/components/ui/form/form-field/form-field";
 import MOVIES from '~/DATA/movies.json';
-import { ButtonToggleGroup, ButtonToggleItem } from "~/components/ui/form/button-toggle/button-toggle";
+import { ToggleGroup, Toggle } from "~/components/ui/form/toggle/toggle";
 import { useToaster } from "~/components/ui/toaster/toaster";
 import { RadioGroup, RadioItem, RadioList } from "~/components/ui/form/radio/radio";
 import { CheckAll, CheckGroup, CheckItem, CheckList } from "~/components/ui/form/checkbox/checkgroup";
@@ -50,11 +50,12 @@ export default component$(() => {
         <Switch name="1">Switch 1</Switch>
         <Switch name="2">Switch 2</Switch>
       </SwitchGroup>
-      <ButtonToggleGroup name="toggle" class="outlined primary" multi>
-        <ButtonToggleItem value="low">low</ButtonToggleItem>
-        <ButtonToggleItem value="medium">medium</ButtonToggleItem>
-        <ButtonToggleItem value="high">high</ButtonToggleItem>
-      </ButtonToggleGroup>
+      <ToggleGroup name="toggle" class="outlined primary">
+        <legend>Toggle Group</legend>
+        <Toggle value="low">low</Toggle>
+        <Toggle value="medium">medium</Toggle>
+        <Toggle value="high">high</Toggle>
+      </ToggleGroup>
       <RadioGroup name="radio" class="outlined">
         <legend>Some radio</legend>
         <RadioList>

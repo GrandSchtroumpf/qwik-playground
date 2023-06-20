@@ -8,6 +8,7 @@ $distance: calc($size - $padding);
   flex-direction: column;
   gap: var(--size-1);
   border-radius: 4px;
+  padding: var(--size-1) var(--size-2);
   &.outlined {
     border: solid 1px var(--outline);
   }

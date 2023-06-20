@@ -73,3 +73,15 @@ function setDeepValue(base: Record<string, any>, key: string, value: any) {
     base[prefix] = value;
   }
 }
+
+
+export function toggleAll(root: Signal<HTMLElement | undefined>) {
+  if (!root.value) return;
+  const checkboxes = root.value.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+  let amount = 0;
+  for (const checkbox of checkboxes) {
+    if (checkbox.checked) amount++;
+  }
+  const shouldCheckAll = amount !== checkboxes.length;
+  for (const checkbox of checkboxes) checkbox.checked = shouldCheckAll;
+}
