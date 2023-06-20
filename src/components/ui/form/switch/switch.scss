@@ -21,22 +21,16 @@ $distance: calc($size - $padding);
     border-color: var(--error);
   }
 }
-.switch-list {
-  padding-left: 0;
-  margin-block: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-1);
-}
 
 .switch {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--size-1);
-  padding: 4px;
-  cursor: pointer;
+  label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--size-1);
+    padding: 4px;
+    cursor: pointer;
+  }
   .track {
     box-sizing: border-box;
     height: calc($size + 4px);
@@ -60,7 +54,7 @@ $distance: calc($size - $padding);
     z-index: -1;
     position: absolute;
     opacity: 0;
-    &:checked + .track {
+    &:checked + label .track {
       border-color: var(--primary);
       background-color: var(--primary);
       .thumb {
@@ -68,7 +62,7 @@ $distance: calc($size - $padding);
         transform: translateX($distance);
       }
     }
-    &:active + .track {
+    &:active + label .track {
       .thumb {
         transform: scale(1.1, 1) translateX(-2px);
       }

@@ -39,17 +39,13 @@ export function useFormController(input: Signal<HTMLInputElement | undefined>) {
 }
 
 export function useForm<T extends FormFieldRecord>() {
-  try {
-    return useContext<FormState<T>>(FormContext);
-  } catch(err) {
-    return {
-      submitted: false,
-      dirty: false,
-      valid: false,
-      value: {},
-      updateCount: 0
-    }
-  }
+  return useContext<FormState<T>, FormState<T>>(FormContext, {
+    submitted: false,
+    dirty: false,
+    valid: false,
+    value: {},
+    updateCount: 0
+  } as any);
 }
 
 export const Form = component$((props: FormProps<any>) => {

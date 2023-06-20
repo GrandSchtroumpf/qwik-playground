@@ -2,15 +2,15 @@ import { component$, event$, useStyles$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form, Input } from "~/components/ui/form";
 import { Select, Option } from "~/components/ui/form/select/select";
-import { SwitchGroup, SwitchItem, SwitchList } from "~/components/ui/form/switch/switch-group";
 import { Range, ThumbEnd, ThumbStart } from "~/components/ui/form/slider/range";
 import { FormField, Label } from "~/components/ui/form/form-field/form-field";
 import MOVIES from '~/DATA/movies.json';
 import { ButtonToggleGroup, ButtonToggleItem } from "~/components/ui/form/button-toggle/button-toggle";
 import { useToaster } from "~/components/ui/toaster/toaster";
-import styles from './index.scss?inline';
 import { RadioGroup, RadioItem, RadioList } from "~/components/ui/form/radio/radio";
 import { CheckAll, CheckGroup, CheckItem, CheckList } from "~/components/ui/form/checkbox/checkgroup";
+import { SwitchGroup, Switch } from "~/components/ui/form/switch/switch";
+import styles from './index.scss?inline';
 
 // type Movie = typeof MOVIES[number];
 
@@ -31,8 +31,8 @@ export default component$(() => {
       </FormField>
       <FormField class="outlined">
         <Label>Select from the list</Label>
-        <Select name="select" multiple placeholder="Movie">
-          {/* <Option>-- Select a movie --</Option> */}
+        <Select name="select" placeholder="Movie">
+          <Option>-- Select a movie --</Option>
           {MOVIES.map(movie => (
           <Option key={movie.imdbID} value={movie.imdbID}>
             {movie.Title}
@@ -40,17 +40,15 @@ export default component$(() => {
           ))}
         </Select>
       </FormField>
-      <Range name="range" class="gradient outlined">
+      <Range name="range" class="outlined">
         <legend>Select a range</legend>
         <ThumbStart></ThumbStart>
         <ThumbEnd></ThumbEnd>
       </Range>
       <SwitchGroup name="switch" class="outlined">
         <legend>Some Switch</legend>
-        <SwitchList>
-          <SwitchItem name="1">Switch 1</SwitchItem>
-          <SwitchItem name="2">Switch 2</SwitchItem>
-        </SwitchList>
+        <Switch name="1">Switch 1</Switch>
+        <Switch name="2">Switch 2</Switch>
       </SwitchGroup>
       <ButtonToggleGroup name="toggle" class="outlined primary" multi>
         <ButtonToggleItem value="low">low</ButtonToggleItem>

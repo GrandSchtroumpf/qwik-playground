@@ -1,18 +1,51 @@
-import { Slot, component$, useStyles$ } from "@builder.io/qwik";
-import { useRecordName } from "../field";
-import type { InputAttributes } from "../types";
+import { Slot, component$, useStyles$, useContextProvider, useSignal, $, useId } from "@builder.io/qwik";
+import clsq from "~/components/utils/clsq";
+import { nextFocus, previousFocus, useKeyboard } from "../../utils";
+import { FieldGroupContext, useRecordName } from "../field";
+import type { FieldsetAttributes, InputAttributes } from "../types";
 import styles from './switch.scss?inline';
+
+const preventKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ctrl+a'];
+
+export const SwitchGroup = component$((props: FieldsetAttributes) => {
+  useStyles$(styles);
+  useContextProvider(FieldGroupContext, { name: props.name });
+
+  const ref = useSignal<HTMLElement>();
+  const toggleAll = $(() => {
+    if (!ref.value) return;
+    const checkboxes = ref.value.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
+    let amount = 0;
+    for (const checkbox of checkboxes) {
+      if (checkbox.checked) amount++;
+    }
+    const shouldCheckAll = amount !== checkboxes.length;
+    for (const checkbox of checkboxes) checkbox.checked = shouldCheckAll;
+  });
+  useKeyboard(ref, preventKeys, $((event) => {
+    const list = ref.value?.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLElement>;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') nextFocus(list);
+    if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') previousFocus(list);
+    if (event.ctrlKey && event.key === 'a') toggleAll();
+  }));
+  return <fieldset {...props} class={clsq("switch-group", props.class)} ref={ref}>
+    <Slot/>
+  </fieldset>
+});
 
 export type SwitchProps = Omit<InputAttributes, 'type' | 'role' | 'children'>;
 
 export const Switch = component$((props: SwitchProps) => {
   useStyles$(styles);
+  const id = useId();
   const name = useRecordName(props);
-  return <label class="switch">
-    <input {...props} type="checkbox" role="switch" name={name} />
-    <div class="track">
-      <span class="thumb"></span>
-    </div>
-    <Slot />
-  </label>
+  return <div class="switch">
+    <input {...props} type="checkbox" role="switch" id={id} name={name} />
+    <label for={id}>
+      <div class="track" aria-hidden="true">
+        <span class="thumb"></span>
+      </div>
+      <Slot />
+    </label>
+  </div>
 })
