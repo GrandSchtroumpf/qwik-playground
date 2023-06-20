@@ -7,7 +7,7 @@ import { FormField, Label } from "~/components/ui/form/form-field/form-field";
 import MOVIES from '~/DATA/movies.json';
 import { ToggleGroup, Toggle } from "~/components/ui/form/toggle/toggle";
 import { useToaster } from "~/components/ui/toaster/toaster";
-import { RadioGroup, RadioItem, RadioList } from "~/components/ui/form/radio/radio";
+import { RadioGroup, Radio } from "~/components/ui/form/radio/radio";
 import { CheckAll, CheckGroup, CheckItem, CheckList } from "~/components/ui/form/checkbox/checkgroup";
 import { SwitchGroup, Switch } from "~/components/ui/form/switch/switch";
 import styles from './index.scss?inline';
@@ -58,11 +58,9 @@ export default component$(() => {
       </ToggleGroup>
       <RadioGroup name="radio" class="outlined">
         <legend>Some radio</legend>
-        <RadioList>
-          <RadioItem value="1">Radio 1</RadioItem>
-          <RadioItem value="2">Radio 2</RadioItem>
-          <RadioItem value="3">Radio 3</RadioItem>
-        </RadioList>
+        <Radio value="1">Radio 1</Radio>
+        <Radio value="2">Radio 2</Radio>
+        <Radio value="3">Radio 3</Radio>
       </RadioGroup>
       <CheckGroup name="checkbox" class="outlined">
         <legend>Some Checkbox</legend>

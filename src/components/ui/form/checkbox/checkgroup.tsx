@@ -14,12 +14,13 @@ export interface CheckgroupProps extends FieldProps, Omit<FieldsetAttributes, 'r
 const disabledKeys = ['Enter', 'ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'];
 export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
   useStyles$(styles);
+  const root = useSignal<HTMLElement>();
   const lastActive = useSignal<HTMLElement | null>();
-  const { listRef, checkAllRef, toggleAll, next, previous } = useMultiSelectionList();
+  const { checkAllRef, toggleAll, next, previous } = useMultiSelectionList();
 
   useContextProvider(FieldGroupContext, { name: props.name });
 
-  useKeyboard(listRef, disabledKeys, $((event) => {
+  useKeyboard(root, disabledKeys, $((event) => {
     const key = event.key;
     if (event.ctrlKey && key === 'a') toggleAll();
     if (key === 'ArrowDown') next();
@@ -37,7 +38,7 @@ export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
     }
   }));
 
-  return <fieldset {...props} ref={listRef} class={clsq('check-group', props.class)} >
+  return <fieldset {...props} ref={root} class={clsq('check-group', props.class)} >
     <Slot />
   </fieldset>
 })

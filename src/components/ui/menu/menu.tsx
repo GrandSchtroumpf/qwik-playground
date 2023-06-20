@@ -151,8 +151,8 @@ export const MenuGroup = component$(() => {
   </fieldset>
 })
 
-type RadioItemProps = Omit<InputAttributes, 'type' | 'children'>;
-export const MenuRadio = component$((props: RadioItemProps) => {
+type RadioProps = Omit<InputAttributes, 'type' | 'children'>;
+export const MenuRadio = component$((props: RadioProps) => {
   const id = useId();
   return <li class="menu-radio">
     <input id={id} role="menuitemradio" type="radio" {...props} value={props.value} />

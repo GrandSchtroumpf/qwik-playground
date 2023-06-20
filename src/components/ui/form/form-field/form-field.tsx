@@ -20,7 +20,7 @@ export const FormField = component$((props: DivAttributes) => {
 
 export const Label = component$(() => {
   const { id } = useContext(FormFieldContext);
-  return <label for={id}>
+  return <label for={id} id={'label-' + id}>
     <Slot/>
   </label>
 })

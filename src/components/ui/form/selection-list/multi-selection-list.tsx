@@ -102,7 +102,7 @@ export const MultiSelectionList = component$((props: UlAttributes) => {
     }
   });
 
-  return <ul ref={ref} onKeyDown$={onKeyDown$} {...props}>
+  return <ul {...props} ref={ref} onKeyDown$={onKeyDown$} aria-multiselectable="true">
     <Slot />
   </ul>
 });

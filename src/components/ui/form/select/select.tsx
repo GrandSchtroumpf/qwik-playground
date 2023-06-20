@@ -8,6 +8,7 @@ import type { SelectionItemProps } from "../selection-list/types";
 import { SelectionItem, SelectionList } from "../selection-list/selection-list";
 import { MultiSelectionItem, MultiSelectionList } from "../selection-list/multi-selection-list";
 import styles from './select.scss?inline';
+import { FormFieldContext } from "../form-field/form-field";
 
 
 interface SelectProps<T = any> extends FieldProps<T>, DisplayProps<T> {
@@ -23,12 +24,13 @@ const SelectContext = createContextId<{
 
 export const Select = component$((props: SelectProps) => {
   useStyles$(styles);
-  const id = useId();
+  const { id } = useContext(FormFieldContext);
   const origin = useSignal<HTMLElement>();
   const opened = useSignal(false);
   const multiple = props.multiple ?? false;
   const display = useSignal('');
-  const nameId = props.name ?? id;
+  const nameId = props.name ?? useId();
+  const popoverId = useId();
 
   // Listeners
   const update = event$(() => {
@@ -73,10 +75,10 @@ export const Select = component$((props: SelectProps) => {
   });
 
   const selectionList = multiple 
-  ? <MultiSelectionList role="listbox">
+  ? <MultiSelectionList role="listbox" aria-labelledby={'label-' + id}>
     <Slot />
   </MultiSelectionList>
-  : <SelectionList role="listbox">
+  : <SelectionList role="listbox" aria-labelledby={'label-' + id}>
     <Slot />
   </SelectionList>
 
@@ -87,7 +89,7 @@ export const Select = component$((props: SelectProps) => {
       onBlur$={() => opened.value = false}
       >
       <Slot name="prefix"/>
-      <button type="button"
+      <button type="button" id={id}
         role="combobox"
         aria-haspopup="listbox" 
         aria-disabled="false"
@@ -100,12 +102,12 @@ export const Select = component$((props: SelectProps) => {
         <span class={display.value ? 'value' : 'placeholder'}>
           {display.value || props.placeholder}
         </span>
-        <svg class={opened.value ? 'opened' : 'closed'} aria-owns={id} viewBox="7 10 10 5" focusable="false">
+        <svg viewBox="7 10 10 5" class={opened.value ? 'opened' : 'closed'} aria-hidden="true" focusable="false">
           <polygon stroke="none" fill-rule="evenodd" points="7 10 12 15 17 10"></polygon>
         </svg>
       </button>
       <Slot name="suffix"/>
-      <Popover origin={origin} open={opened} position="block">
+      <Popover origin={origin} open={opened} position="block" id={popoverId}>
         {selectionList}
       </Popover>
     </div>

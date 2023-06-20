@@ -29,7 +29,7 @@ export const SelectionGroup = component$((props: SelectionGroupProps) => {
 
 export type SelectionListProps = UlAttributes;
 export const SelectionList = component$((props: SelectionListProps) => {
-  return <ul {...props}>
+  return <ul {...props} aria-multiselectable="false">
     <Slot />
   </ul>
 });
