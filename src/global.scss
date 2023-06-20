@@ -281,6 +281,7 @@ a[class*="btn"] {
   &.gradient {
     position: relative;
     isolation: isolate;
+    -webkit-background-clip: text;  // webkit required for android
     background-clip: text;
     -webkit-text-fill-color: transparent;
     &::before {

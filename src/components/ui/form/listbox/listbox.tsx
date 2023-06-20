@@ -7,6 +7,7 @@ import { useComputed$ } from "@builder.io/qwik";
 import { useContext } from "@builder.io/qwik";
 import { useContextProvider } from "@builder.io/qwik";
 import styles from './listbox.scss?inline';
+import { ArrowsKeys } from "../../utils";
 
 const preventKeys = [...ArrowsKeys, 'Enter', ' '];
 

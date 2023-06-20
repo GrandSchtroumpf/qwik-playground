@@ -16,6 +16,10 @@
     display: flex;
     align-items: center;
     min-height: 1rem;
+    // Prevent blue flash on android
+    &[aria-expanded="true"] {
+      -webkit-tap-highlight-color: transparent;
+    }
     &:focus-visible {
       outline: none;
       span.value {
