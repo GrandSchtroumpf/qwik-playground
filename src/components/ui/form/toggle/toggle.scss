@@ -29,7 +29,7 @@
     height: 100%;
     margin: 0;
     opacity: 0;
-    &:focus-visible:not(:checked) + label {
+    &:focus:not(:checked) + label {
       // Use divider because surface-low is same as outline
       outline: solid 1px var(--divider);
       background-color: var(--surface-low);

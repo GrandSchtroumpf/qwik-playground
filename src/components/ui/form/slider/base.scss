@@ -47,7 +47,7 @@
       transform: scale(0.6);
     }
   }
-  &:active + .thumb, &:focus-visible + .thumb {
+  &:active + .thumb, &:focus + .thumb {
     border: solid 1px var(--on-color, var(--on-primary));
     &::before {
       opacity: 1;

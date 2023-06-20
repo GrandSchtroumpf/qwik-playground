@@ -11,103 +11,106 @@ export const Icon = component$((props: QwikJSX.IntrinsicElements['svg']) => {
 
 export default component$(() => {
   useStyles$(styles);
-  return <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th>Basic</th>
-        <th>Primary</th>
-        <th>Secondary</th>
-        <th>Warn</th>
-        <th>Disabled</th>
-        <th>Gradient</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>btn</th>
-        <td>
-          <button class="btn">Basic</button>
-        </td>
-        <td>
-          <button class="btn primary">Primary</button>
-        </td>
-        <td>
-          <button class="btn secondary">Secondary</button>
-        </td>
-        <td>
-          <button class="btn warn">Warn</button>
-        </td>
-        <td>
-          <button class="btn disabled">Diabled</button>
-        </td>
-        <td>
-          <button class="btn gradient">Gradient</button>
-        </td>
-      </tr>
-      <tr>
-        <th>btn-fill</th>
-        <td>
-          <button class="btn-fill">Basic</button>
-        </td>
-        <td>
-          <button class="btn-fill primary">Primary</button>
-        </td>
-        <td>
-          <button class="btn-fill secondary">Secondary</button>
-        </td>
-        <td>
-          <button class="btn-fill warn">Warn</button>
-        </td>
-        <td>
-          <button class="btn-fill disabled">Diabled</button>
-        </td>
-        <td>
-          <button class="btn-fill gradient">Gradient</button>
-        </td>
-      </tr>
-      <tr>
-        <th>btn-outlined</th>
-        <td>
-          <button class="btn-outlined">Basic</button>
-        </td>
-        <td>
-          <button class="btn-outlined primary">Primary</button>
-        </td>
-        <td>
-          <button class="btn-outlined secondary">Secondary</button>
-        </td>
-        <td>
-          <button class="btn-outlined warn">Warn</button>
-        </td>
-        <td>
-          <button class="btn-outlined disabled">Diabled</button>
-        </td>
-        <td>
-          <button class="btn-outlined gradient">Gradient</button>
-        </td>
-      </tr>
-      <tr>
-        <th>btn-icon</th>
-        <td>
-          <button class="btn-icon"><Icon/></button>
-        </td>
-        <td>
-          <button class="btn-icon primary"><Icon/></button>
-        </td>
-        <td>
-          <button class="btn-icon secondary"><Icon/></button>
-        </td>
-        <td>
-          <button class="btn-icon warn"><Icon/></button>
-        </td>
-        <td>
-          <button class="btn-icon disabled"><Icon/></button>
-        </td>
-        <td>
-          <button class="btn-icon gradient"><Icon/></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  return <section aria-labelledby="button-title">
+    <h2 id="button-title">Buttons</h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Basic</th>
+          <th>Primary</th>
+          <th>Secondary</th>
+          <th>Warn</th>
+          <th>Disabled</th>
+          <th>Gradient</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>btn</th>
+          <td>
+            <button class="btn">Basic</button>
+          </td>
+          <td>
+            <button class="btn primary">Primary</button>
+          </td>
+          <td>
+            <button class="btn secondary">Secondary</button>
+          </td>
+          <td>
+            <button class="btn warn">Warn</button>
+          </td>
+          <td>
+            <button class="btn disabled">Diabled</button>
+          </td>
+          <td>
+            <button class="btn gradient">Gradient</button>
+          </td>
+        </tr>
+        <tr>
+          <th>btn-fill</th>
+          <td>
+            <button class="btn-fill">Basic</button>
+          </td>
+          <td>
+            <button class="btn-fill primary">Primary</button>
+          </td>
+          <td>
+            <button class="btn-fill secondary">Secondary</button>
+          </td>
+          <td>
+            <button class="btn-fill warn">Warn</button>
+          </td>
+          <td>
+            <button class="btn-fill disabled">Diabled</button>
+          </td>
+          <td>
+            <button class="btn-fill gradient">Gradient</button>
+          </td>
+        </tr>
+        <tr>
+          <th>btn-outlined</th>
+          <td>
+            <button class="btn-outlined">Basic</button>
+          </td>
+          <td>
+            <button class="btn-outlined primary">Primary</button>
+          </td>
+          <td>
+            <button class="btn-outlined secondary">Secondary</button>
+          </td>
+          <td>
+            <button class="btn-outlined warn">Warn</button>
+          </td>
+          <td>
+            <button class="btn-outlined disabled">Diabled</button>
+          </td>
+          <td>
+            <button class="btn-outlined gradient">Gradient</button>
+          </td>
+        </tr>
+        <tr>
+          <th>btn-icon</th>
+          <td>
+            <button class="btn-icon"><Icon/></button>
+          </td>
+          <td>
+            <button class="btn-icon primary"><Icon/></button>
+          </td>
+          <td>
+            <button class="btn-icon secondary"><Icon/></button>
+          </td>
+          <td>
+            <button class="btn-icon warn"><Icon/></button>
+          </td>
+          <td>
+            <button class="btn-icon disabled"><Icon/></button>
+          </td>
+          <td>
+            <button class="btn-icon gradient"><Icon/></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 })

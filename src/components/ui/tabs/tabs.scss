@@ -37,7 +37,7 @@
   box-sizing: border-box;
   position: relative;
   border: 1px solid transparent;
-  &:focus-visible {
+  &:focus {
     outline: solid 1px var(--outline);
   }
   &:hover {

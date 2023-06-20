@@ -1,33 +1,33 @@
-import { component$, Slot, useStyles$, useSignal, event$, useId, useContextProvider, createContextId, useContext, $, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, Slot, useStyles$, useSignal, event$, useId, useContextProvider, createContextId, useContext, $, useVisibleTask$, useTask$ } from "@builder.io/qwik";
 import { Popover } from "../../dialog/popover";
-import type { QwikKeyboardEvent , Signal , QwikMouseEvent } from "@builder.io/qwik";
+import type { Signal } from "@builder.io/qwik";
 import { FieldContext } from "../field";
 import type { FieldProps } from "../field";
 import type { DisplayProps } from "../types";
 import type { SelectionItemProps } from "../selection-list/types";
-import { SelectionItem, SelectionList } from "../selection-list/selection-list";
-import { MultiSelectionItem, MultiSelectionList } from "../selection-list/multi-selection-list";
 import styles from './select.scss?inline';
 import { FormFieldContext } from "../form-field/form-field";
+import { focusNextInput, focusPreviousInput, useKeyboard } from "../../utils";
 
 
 interface SelectProps<T = any> extends FieldProps<T>, DisplayProps<T> {
-  multiple?: boolean;
+  multi?: boolean;
   placeholder?: string;
 }
 
 const SelectContext = createContextId<{
   opened: Signal<boolean>,
-  multiple: boolean;
+  multi: boolean;
 }>('SelectContext');
 
+const disabledKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter', ' '];
 
 export const Select = component$((props: SelectProps) => {
   useStyles$(styles);
   const { id } = useContext(FormFieldContext);
   const origin = useSignal<HTMLElement>();
   const opened = useSignal(false);
-  const multiple = props.multiple ?? false;
+  const multi = props.multi ?? false;
   const display = useSignal('');
   const nameId = props.name ?? useId();
   const popoverId = useId();
@@ -46,20 +46,31 @@ export const Select = component$((props: SelectProps) => {
   });
   
   const onClick$ = event$(() => {
-    if (opened.value && !multiple) opened.value = false;
+    if (opened.value && !multi) opened.value = false;
     if (!opened.value) opened.value = true;
   });
-  
-  const onKeyDown$ = event$((event: QwikKeyboardEvent<HTMLElement>) => {
+
+  useTask$(({ track }) => {
+    track(() => opened.value);
+    if (!opened.value) return;
+    const active = origin.value?.querySelector<HTMLElement>('input:checked');
+    // Wait for dialog to open
+    if (active) requestAnimationFrame(() => active.focus()) ;
+  })
+
+  useKeyboard(origin, disabledKeys, $((event, el) => {
+    const key = event.key;
     if (!opened.value) {
-      if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) opened.value = true;
+      if (disabledKeys.includes(key)) opened.value = true;
     } else {
-      if (event.key === 'Tab') opened.value = false;
-      if (!multiple) {
-        if (['Enter', ' '].includes(event.key)) opened.value = false;
+      if (key === 'ArrowLeft' || key === 'ArrowUp') focusPreviousInput(el);
+      if (key === 'ArrowRight' || key === 'ArrowDown') focusNextInput(el);
+      if (key === 'Tab') opened.value = false;
+      if (!multi) {
+        if (['Enter', ' '].includes(key)) opened.value = false;
       }
     }
-  });
+  }));
 
   useVisibleTask$(() => {
     const form = origin.value!.querySelector<HTMLInputElement>(`input[name="${nameId}"]`)?.form;
@@ -68,23 +79,14 @@ export const Select = component$((props: SelectProps) => {
     return () => form?.removeEventListener('reset', handler);
   });
   
-  useContextProvider(SelectContext, { multiple, opened });
+  useContextProvider(SelectContext, { multi, opened });
   useContextProvider(FieldContext, {
     name: nameId,
     change: $(() => update())
   });
 
-  const selectionList = multiple 
-  ? <MultiSelectionList role="listbox" aria-labelledby={'label-' + id}>
-    <Slot />
-  </MultiSelectionList>
-  : <SelectionList role="listbox" aria-labelledby={'label-' + id}>
-    <Slot />
-  </SelectionList>
-
   return <>
     <div class="field select" ref={origin}
-      onKeyDown$={onKeyDown$}
       onClick$={(e, el) => e.target === el ? onClick$() : null}
       onBlur$={() => opened.value = false}
       >
@@ -96,7 +98,7 @@ export const Select = component$((props: SelectProps) => {
         aria-invalid="false"
         aria-autocomplete="none"
         aria-expanded={opened.value}
-        aria-controls={id}
+        aria-controls={popoverId}
         onClick$={onClick$}
       >
         <span class={display.value ? 'value' : 'placeholder'}>
@@ -108,7 +110,9 @@ export const Select = component$((props: SelectProps) => {
       </button>
       <Slot name="suffix"/>
       <Popover origin={origin} open={opened} position="block" id={popoverId}>
-        {selectionList}
+        <div class="listbox" role="listbox" aria-labelledby={'label-' + id} aria-multiselectable={multi}>
+          <Slot />
+        </div>
       </Popover>
     </div>
   </>
@@ -116,24 +120,28 @@ export const Select = component$((props: SelectProps) => {
 
 
 export const Option = component$((props: SelectionItemProps) => {
-  const { multiple, opened } = useContext(SelectContext);
+  const { multi, opened } = useContext(SelectContext);
+  const { name, change } = useContext(FieldContext);
+  const id = useId();
+  const ref = useSignal<HTMLInputElement>();
 
-  const focus = event$((ev: any, el: HTMLElement) => {
-    el.focus();
-    // TODO: set position
-  });
+  useKeyboard(ref, ['Enter', ' '], $((event, input) => {
+    if (event.key === 'Enter' || event.key === ' ') input.click();
+  }));
 
-  if (multiple) {
-    return <MultiSelectionItem {...props} role="option" onMouseEnter$={focus} >
-      <Slot />
-    </MultiSelectionItem>
+  if (multi) {
+    return <div class="option">
+      <input id={id} ref={ref} role="option" type="checkbox" name={name} value={props.value} onChange$={change}/>
+      <label for={id}>
+        <Slot/>
+      </label>
+    </div>
   }
 
-  const onClick$ = event$((event: QwikMouseEvent<HTMLElement>) => {
-    // Avoid closing on input selection
-    if ((event.target as HTMLElement).tagName === 'LABEL') opened.value = false;
-  });
-  return <SelectionItem {...props} role="option" onClick$={onClick$} onMouseEnter$={focus}>
-    <Slot />
-  </SelectionItem>
+  return <div class="option">
+    <input id={id} ref={ref} role="option" type="radio" name={name} value={props.value} onChange$={change} />
+    <label for={id} onClick$={() =>  opened.value = false}>
+      <Slot/>
+    </label>
+  </div>
 });

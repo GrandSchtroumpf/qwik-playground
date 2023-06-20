@@ -1,3 +1,10 @@
+section {
+  overflow-x: auto;
+  h2 {
+    position: sticky;
+    left: 0
+  }
+}
 table {
   margin-block: var(--size-3);
   margin-inline: auto;

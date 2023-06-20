@@ -64,7 +64,7 @@ $size: 24px;
       d: path('M 4 13 L 13 13 L 20 13');
       stroke: var(--on-color, var(--on-primary));
     }
-    &:focus-visible + label svg {
+    &:focus + label svg {
       outline: solid 1px var(--divider);
     }
   }

@@ -53,7 +53,7 @@
         height: var(--size-2);
         width: var(--size-2);
         margin: 0;
-        &:focus-visible + label svg {
+        &:focus + label svg {
           outline: solid 1px var(--divider);
         }
         &:checked + label svg {

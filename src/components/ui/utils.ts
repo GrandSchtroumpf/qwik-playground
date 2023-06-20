@@ -4,10 +4,10 @@ import type { QRL, Signal } from "@builder.io/qwik";
 
 export const StyleScopeContext = createContextId<{ scopeId: string }>('StyleScopeContext');
 
-export function useKeyboard(
-  ref: Signal<HTMLElement | undefined>,
+export function useKeyboard<T extends HTMLElement>(
+  ref: Signal<T | undefined>,
   keys: string[],
-  cb: QRL<(event: KeyboardEvent, element: HTMLElement) => any>,
+  cb: QRL<(event: KeyboardEvent, element: T) => any>,
 ) {
   useVisibleTask$(() => {
     const handler = (event: KeyboardEvent) => {
@@ -31,11 +31,16 @@ export function useKeyboard(
 export const nextFocus = $((list?: NodeListOf<HTMLElement>) => {
   if (!list) return;
   const focusedEl = document.activeElement as HTMLElement;
+  console.log(focusedEl);
   if (!focusedEl) return list[0]?.focus();
   const index = Array.from(list).indexOf(focusedEl);
   const nextIndex = (index + 1) % list.length;
   list[nextIndex].focus();
 });
+export const focusNextInput = $((root: HTMLElement) => {
+  const list = root.querySelectorAll('input');
+  nextFocus(list);
+})
 export const previousFocus = $((list?: NodeListOf<HTMLElement>) => {
   if (!list) return;
   const focusedEl = document.activeElement as HTMLElement;
@@ -44,6 +49,10 @@ export const previousFocus = $((list?: NodeListOf<HTMLElement>) => {
   const nextIndex = (index - 1 + list.length) % list.length;
   list[nextIndex].focus();
 });
+export const focusPreviousInput = $((root: HTMLElement) => {
+  const list = root.querySelectorAll('input');
+  previousFocus(list);
+})
 
 
 interface Point {

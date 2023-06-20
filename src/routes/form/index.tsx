@@ -31,7 +31,7 @@ export default component$(() => {
       </FormField>
       <FormField class="outlined">
         <Label>Select from the list</Label>
-        <Select name="select" placeholder="Movie">
+        <Select name="select" placeholder="Movie" multi>
           <Option>-- Select a movie --</Option>
           {MOVIES.map(movie => (
           <Option key={movie.imdbID} value={movie.imdbID}>
