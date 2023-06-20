@@ -65,7 +65,6 @@ export const Form = component$((props: FormProps<any>) => {
     if (!ref.value) return;
     const value = getFormValue(ref.value);
     state.value = value;
-    console.log(value);
   });
   
   const submit = $((event: QwikSubmitEvent<HTMLFormElement>, form: HTMLFormElement) => {

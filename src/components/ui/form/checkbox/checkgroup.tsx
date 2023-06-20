@@ -5,13 +5,13 @@ import type { FieldProps} from "../field";
 import { FieldGroupContext, useGroupName } from "../field";
 import type { MultiSelectionGroupProps} from '../selection-list/multi-selection-list';
 import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../../types";
-import { useKeyboard } from "../../utils";
+import { ArrowsKeys, useKeyboard } from "../../utils";
 import clsq from "~/components/utils/clsq";
 import styles from './checkbox.scss?inline';
 
 export interface CheckgroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 
-const disabledKeys = ['Enter', 'ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'];
+const disabledKeys = [...ArrowsKeys, 'Enter', 'ctrl+a'];
 export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
   useStyles$(styles);
   const root = useSignal<HTMLElement>();

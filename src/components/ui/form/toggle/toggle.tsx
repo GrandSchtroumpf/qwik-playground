@@ -2,14 +2,14 @@ import { $, component$,  Slot, useSignal, useStyles$, useContextProvider, useId,
 import type { FieldProps } from "../field";
 import { FieldContext } from "../field";
 import type { FieldsetAttributes } from "../types";
-import { nextFocus, previousFocus, useKeyboard } from "../../utils";
+import { ArrowsKeys, nextFocus, previousFocus, useKeyboard } from "../../utils";
 import { toggleAll } from "../utils";
 import clsq from "~/components/utils/clsq";
 import styles from './toggle.scss?inline';
 
 export interface CheckgroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 
-const disabledKeys = ['Enter', ' ', 'ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'];
+const disabledKeys = [...ArrowsKeys, 'Enter', ' ', 'ctrl+a'];
 
 const ToggleGroupContext = createContextId<{ multi: boolean }>('ToggleGroupContext');
 
@@ -27,22 +27,20 @@ export const ToggleGroup = component$((props: ToggleGroupProps) => {
 
   useContextProvider(ToggleGroupContext, { multi });
 
-  useKeyboard(root, disabledKeys, $((event) => {
+  useKeyboard(root, disabledKeys, $((event, el) => {
     const key = event.key;
     if (key === 'ArrowDown' || key === 'ArrowRight') {
-      nextFocus(root.value?.querySelectorAll<HTMLElement>('input'));
+      nextFocus(el.querySelectorAll<HTMLElement>('input'));
     }
     if (key === 'ArrowUp' || key === 'ArrowLeft') {
-      previousFocus(root.value?.querySelectorAll<HTMLElement>('input'));
+      previousFocus(el.querySelectorAll<HTMLElement>('input'));
     }
     if (event.target instanceof HTMLInputElement) {
       const input = event.target;
       // Use click instead of setting checked to trigger onChange event
       if (key === 'Enter' || key === ' ') input.click();
     }
-    if (multi && event.ctrlKey && key === 'a') {
-      toggleAll(root);
-    }
+    if (multi && event.ctrlKey && key === 'a') toggleAll(el);
   }));
 
   useContextProvider(FieldContext, {

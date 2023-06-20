@@ -2,7 +2,7 @@ import type { QwikKeyboardEvent } from "@builder.io/qwik";
 import { $, component$, createContextId, Slot, useContext, useContextProvider, useSignal, useId, useVisibleTask$ } from "@builder.io/qwik";
 import { FieldContext } from "../field";
 import type { FieldProps } from "../field";
-import { nextFocus, previousFocus } from "../../utils";
+import { ArrowsKeys, focusNextInput, focusPreviousInput, nextFocus, previousFocus } from "../../utils";
 import type { FieldsetAttributes, UlAttributes } from "../../types";
 import type { SelectionItemProps } from "./types";
 
@@ -17,6 +17,27 @@ export const MultiSelectionListContext = createContextId<MultiSelectionListServi
 export function useMultiSelectionList() {
   const listRef = useSignal<HTMLUListElement>();
   const checkAllRef = useSignal<HTMLInputElement>();
+
+  const updateMode = $(() => {
+    if (!listRef.value || !checkAllRef.value) return;
+    let allChecked = true;
+    let someChecked = false;
+    const checkboxes = listRef.value.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
+    for (const checkbox of checkboxes) {
+      checkbox.checked
+        ? someChecked = true
+        : allChecked = false;
+      if (someChecked && !allChecked) break;
+    }
+    if (allChecked) {
+      checkAllRef.value.checked = true;
+      checkAllRef.value.indeterminate = false;
+    } else {
+      checkAllRef.value.checked = false;
+      checkAllRef.value.indeterminate = someChecked;
+    }
+  })
+
   const service = {
     listRef,
     checkAllRef,
@@ -29,28 +50,11 @@ export function useMultiSelectionList() {
       }
       const shouldCheckAll = amount !== checkboxes.length;
       for (const checkbox of checkboxes) checkbox.checked = shouldCheckAll;
+      updateMode();
     }),
-    updateMode: $(() => {
-      if (!listRef.value || !checkAllRef.value) return;
-      let allChecked = true;
-      let someChecked = false;
-      const checkboxes = listRef.value.querySelectorAll('input[type="checkbox"]') as NodeListOf<HTMLInputElement>;
-      for (const checkbox of checkboxes) {
-        checkbox.checked
-          ? someChecked = true
-          : allChecked = false;
-        if (someChecked && !allChecked) break;
-      }
-      if (allChecked) {
-        checkAllRef.value.checked = true;
-        checkAllRef.value.indeterminate = false;
-      } else {
-        checkAllRef.value.checked = false;
-        checkAllRef.value.indeterminate = someChecked;
-      }
-    }),
-    next: $(() => nextFocus(listRef.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'))),
-    previous: $(() => previousFocus(listRef.value?.querySelectorAll<HTMLElement>('input[type="checkbox"]'))),
+    updateMode,
+    next: $(() => focusNextInput(listRef.value!)),
+    previous: $(() => focusPreviousInput(listRef.value!)),
   };
   useContextProvider(MultiSelectionListContext, service);
   return service;
@@ -64,7 +68,7 @@ export const MultiSelectionGroup = component$((props: MultiSelectionGroupProps) 
 });
 
 
-const disabledKeys = ['Enter', 'ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'];
+const disabledKeys = [...ArrowsKeys, 'Enter'];
 export const MultiSelectionList = component$((props: UlAttributes) => {
   const ref = useSignal<HTMLElement>();
   const toggleAll = $(() => {

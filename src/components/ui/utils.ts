@@ -26,12 +26,12 @@ export function useKeyboard<T extends HTMLElement>(
   });
 }
 
+export const ArrowsKeys = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft'];
 
 
 export const nextFocus = $((list?: NodeListOf<HTMLElement>) => {
   if (!list) return;
   const focusedEl = document.activeElement as HTMLElement;
-  console.log(focusedEl);
   if (!focusedEl) return list[0]?.focus();
   const index = Array.from(list).indexOf(focusedEl);
   const nextIndex = (index + 1) % list.length;

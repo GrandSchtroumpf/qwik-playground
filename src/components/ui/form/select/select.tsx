@@ -8,6 +8,7 @@ import type { SelectionItemProps } from "../selection-list/types";
 import styles from './select.scss?inline';
 import { FormFieldContext } from "../form-field/form-field";
 import { focusNextInput, focusPreviousInput, useKeyboard } from "../../utils";
+import { toggleAll } from "../utils";
 
 
 interface SelectProps<T = any> extends FieldProps<T>, DisplayProps<T> {
@@ -20,7 +21,7 @@ const SelectContext = createContextId<{
   multi: boolean;
 }>('SelectContext');
 
-const disabledKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter', ' '];
+const disabledKeys = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Enter', ' ', 'ctrl+a'];
 
 export const Select = component$((props: SelectProps) => {
   useStyles$(styles);
@@ -68,6 +69,8 @@ export const Select = component$((props: SelectProps) => {
       if (key === 'Tab') opened.value = false;
       if (!multi) {
         if (['Enter', ' '].includes(key)) opened.value = false;
+      } else {
+        if (event.ctrlKey && key === 'a') toggleAll(el);
       }
     }
   }));

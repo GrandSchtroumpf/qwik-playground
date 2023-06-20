@@ -8,7 +8,7 @@ import { useContext } from "@builder.io/qwik";
 import { useContextProvider } from "@builder.io/qwik";
 import styles from './listbox.scss?inline';
 
-const preventKeys = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Enter', ' '];
+const preventKeys = [...ArrowsKeys, 'Enter', ' '];
 
 interface ListboxState {
   active: string;

@@ -9,3 +9,5 @@ export type FieldsetAttributes = QwikJSX.IntrinsicElements['fieldset'];
 export type InputAttributes = QwikJSX.IntrinsicElements['input'];
 export type DialogAttributes = QwikJSX.IntrinsicElements['dialog'];
 export type OutputAttributes = QwikJSX.IntrinsicElements['output'];
+export type AnchorAttributes = QwikJSX.IntrinsicElements['a'];
+export type NavAttributes = QwikJSX.IntrinsicElements['nav'];
