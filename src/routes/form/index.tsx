@@ -23,8 +23,7 @@ export default component$(() => {
     form.reset();
   })
 
-  return <>
-    <Form onSubmit$={save}>
+  return <Form class="form-page" onSubmit$={save}>
       <FormField class="outlined">
         <Label>Text here</Label>
         <Input name="title" placeholder="Some Text here" />
@@ -75,8 +74,7 @@ export default component$(() => {
         <button class="btn" type="reset">Cancel</button>
         <button class="btn-fill primary" type="submit">Save</button>
       </footer>
-    </Form>
-  </>;
+    </Form>;
 });
 
 export const head: DocumentHead = () => {

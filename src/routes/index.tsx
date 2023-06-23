@@ -20,8 +20,8 @@ export default component$(() => {
     document.documentElement.style.setProperty('--chroma', input.value);
   });
 
-  return <>
-    <h2>Welcome to my playground</h2>
+  return <section id="welcome-page" aria-labelledby="welcome-title">
+    <h2 id="welcome-title">Welcome to my playground</h2>
     <article>
       <h3>Qwik & CSS</h3>
       <p>I created this app to play with qwik component and the new color spaces in CSS</p>
@@ -67,7 +67,7 @@ export default component$(() => {
         background-color: color-mix(in oklch)
       </code>
     </article>
-  </>;
+  </section>;
 });
 
 export const head: DocumentHead = () => {

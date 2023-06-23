@@ -11,7 +11,7 @@ export const Icon = component$((props: QwikJSX.IntrinsicElements['svg']) => {
 
 export default component$(() => {
   useStyles$(styles);
-  return <section aria-labelledby="button-title">
+  return <section id="button-page" aria-labelledby="button-title">
     <h2 id="button-title">Buttons</h2>
     <table>
       <thead>

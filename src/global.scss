@@ -21,85 +21,90 @@
   }
 }
 
-
-:root, ::backdrop {
-  --hue: 0;
-  --chroma: 0.01;
-  @media (prefers-color-scheme: dark) {
-    --chroma: 0.02;
+@layer {
+  :root, ::backdrop {
+    --hue: 0;
+    --chroma: 0.01;
+    @media (prefers-color-scheme: dark) {
+      --chroma: 0.02;
+    }
   }
-}
+  :root, ::backdrop, .theme {
+    accent-color: var(--primary);
 
-
-
-
-.theme, :root, ::backdrop {
-  accent-color: var(--primary);
-  --primary-hue: var(--hue);
-  --secondary-hue: calc(var(--hue) + 90);
-  --text: oklch(10% var(--chroma) var(--hue));
-  --background: oklch(90% var(--chroma) var(--hue));
-  --background-blur: none;
+    --primary-hue: var(--hue);
+    --secondary-hue: calc(var(--hue) + 90);
   
-  --primary: oklch(65% 0.3 var(--primary-hue));
-  --on-primary: oklch(100% 0.05 var(--primary-hue));
-
-  --secondary: oklch(65% 0.3 var(--secondary-hue)); // oklch(80% 0.15 var(--hue));
-  --on-secondary: oklch(100% 0.15 var(--secondary-hue));
-
-  --warn: oklch(65% 0.21 30);
-  --on-warn: oklch(100% 0 30);
-
-
-  --overlay: oklch(98% var(--chroma) var(--hue));
-  --overlay-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  
-  --base-surface: 100% var(--chroma) var(--hue);
-  --surface-higher: oklch(var(--base-surface) / 1);
-  --surface-high: oklch(var(--base-surface) / 0.75);
-  --surface: oklch(var(--base-surface) / 0.56);
-  --surface-low: oklch(var(--base-surface) / 0.16);
-  --surface-lower: oklch(var(--base-surface) / 0.08);
-
-  --outline: oklch(50% var(--chroma) var(--hue));
-  --divider: oklch(30% var(--chroma) var(--hue));
-  
-  --background-image: linear-gradient(
-    var(--gradient-direction),
-    var(--gradient-start),
-    var(--gradient-end)
-  );
-
-  --gradient-direction: 160deg;
-  --gradient-start: oklch(95% 0.02 var(--hue));
-  --gradient-end: oklch(93% 0 var(--hue));
-  
-  @media (prefers-color-scheme: dark) {
-    --chroma: 0.02;
-    --text: oklch(100% var(--chroma) var(--hue));
-    --background: oklch(20% var(--chroma) var(--hue));
-
-    --primary: oklch(80% 0.2 var(--primary-hue));
-    --on-primary: oklch(20% 0.15 var(--primary-hue));
-
-    --secondary: oklch(80% 0.2 var(--secondary-hue));
-    --on-secondary: oklch(20% 0.15 var(--secondary-hue));
-
-    --divider: oklch(70% var(--chroma) var(--hue));
-        
-    --overlay: oklch(35% var(--chroma) var(--hue));
+    --text: oklch(10% var(--chroma) var(--hue));
+    --background: oklch(90% var(--chroma) var(--hue));
+    --background-blur: none;
     
-    --base-surface: 90% var(--chroma) var(--hue);
-    --surface-higher: oklch(var(--base-surface) / 0.32);
-    --surface-high: oklch(var(--base-surface) / 0.24);
-    --surface: oklch(var(--base-surface) / 0.16);
-    --surface-low: oklch(var(--base-surface) / 0.12);
-    --surface-lower: oklch(var(--base-surface) / 0.08);
-
-    --gradient-start: oklch(30% var(--chroma) var(--hue));
-    --gradient-end: oklch(15% var(--chroma) var(--hue));    
+    --primary: oklch(65% 0.3 var(--primary-hue));
+    --on-primary: oklch(100% 0.05 var(--primary-hue));
+  
+    --secondary: oklch(65% 0.3 var(--secondary-hue)); // oklch(80% 0.15 var(--hue));
+    --on-secondary: oklch(100% 0.05 var(--secondary-hue));
+  
+    --warn: oklch(65% 0.21 30);
+    --on-warn: oklch(100% 0 30);
+  
+    --overlay: oklch(98% var(--chroma) var(--hue));
+    --overlay-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    
+    --base-surface: 100% var(--chroma) var(--hue);
+    --surface-higher: oklch(var(--base-surface) / 1);
+    --surface-high: oklch(var(--base-surface) / 0.82);
+    --surface: oklch(var(--base-surface) / 0.75);
+    --surface-low: oklch(var(--base-surface) / 0.50);
+    --surface-lower: oklch(var(--base-surface) / 0.32);
+  
+    --disabled: oklch(50% 0 var(--hue));
+    --outline: oklch(30% var(--chroma) var(--hue));
+    --divider: oklch(50% var(--chroma) var(--hue));
+    
+    --background-image: linear-gradient(
+      var(--gradient-direction),
+      var(--gradient-start),
+      var(--gradient-end)
+    );
+  
+    --gradient-direction: 160deg;
+    --gradient-start: oklch(95% 0.02 var(--hue));
+    --gradient-end: oklch(93% 0 var(--hue));
+  
+    @media (prefers-color-scheme: dark) {
+      --chroma: 0.02;
+      --text: oklch(100% var(--chroma) var(--hue));
+      --background: oklch(20% var(--chroma) var(--hue));
+  
+      --primary: oklch(80% 0.2 var(--primary-hue));
+      --on-primary: oklch(20% 0.15 var(--primary-hue));
+  
+      --secondary: oklch(80% 0.2 var(--secondary-hue));
+      --on-secondary: oklch(20% 0.15 var(--secondary-hue));
+  
+      --outline: oklch(50% var(--chroma) var(--hue));
+      --divider: oklch(70% var(--chroma) var(--hue));
+          
+      --overlay: oklch(35% var(--chroma) var(--hue));
+      
+      --base-surface: 90% var(--chroma) var(--hue);
+      --surface-higher: oklch(var(--base-surface) / 0.32);
+      --surface-high: oklch(var(--base-surface) / 0.24);
+      --surface: oklch(var(--base-surface) / 0.16);
+      --surface-low: oklch(var(--base-surface) / 0.12);
+      --surface-lower: oklch(var(--base-surface) / 0.08);
+  
+      --gradient-start: oklch(30% var(--chroma) var(--hue));
+      --gradient-end: oklch(15% var(--chroma) var(--hue));    
+    }
   }
 }
+
+
+
+
+
 
 /****************/
 /* Colors Utils */

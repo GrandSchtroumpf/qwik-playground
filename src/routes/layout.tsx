@@ -23,6 +23,7 @@ export default component$(() => {
       <NavLink href="/accordion">Accordion</NavLink>
       <NavLink href="/tabs">Tabs</NavLink>
       <NavLink href="/button">Button</NavLink>
+      <NavLink href="/dialog">Dialog</NavLink>
     </Navlist>
     <header class="page-header">
       <button class="btn-icon sidenav-trigger" onClick$={() => open.value = true}>

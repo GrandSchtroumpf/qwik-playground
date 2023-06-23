@@ -4,6 +4,17 @@ import { Accordion, Details, DetailsPanel, Summary } from "~/components/ui/accor
 import { FormField, Input, Label } from "~/components/ui/form";
 import styles from './index.scss?inline';
 
+const List = component$(() => {
+  return <ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ul>
+})
+
 export default component$(() => {
   useStyles$(styles);
   return <Accordion>
@@ -23,14 +34,7 @@ export default component$(() => {
   <Details>
     <Summary>List</Summary>
     <DetailsPanel>
-      <ul>
-        <li>One</li>
-        <li>Two</li>
-        <li>Three</li>
-        <li>One</li>
-        <li>Two</li>
-        <li>Three</li>
-      </ul>
+      <List/>
     </DetailsPanel>
   </Details>
   <Details>

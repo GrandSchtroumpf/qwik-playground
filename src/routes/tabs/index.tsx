@@ -6,7 +6,7 @@ import styles from './index.scss?inline';
 
 export default component$(() => {
   useStyles$(styles);
-  return <TabGroup>
+  return <TabGroup id="tab-page">
     <TabList>
       <Tab id="1">Form</Tab>
       <Tab id="2">List</Tab>
