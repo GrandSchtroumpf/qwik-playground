@@ -1,8 +1,9 @@
 import type { QwikJSX} from "@builder.io/qwik";
+import { useVisibleTask$} from "@builder.io/qwik";
 import { useSignal } from "@builder.io/qwik";
 import { component$, Slot, useContext, useStyles$ } from "@builder.io/qwik";
 import type { FieldProps} from "../field";
-import { useFormValue } from "../form";
+// import { useFormValue } from "../form";
 import { FormFieldContext } from "../form-field/form-field";
 import styles from './input.scss?inline';
 
@@ -15,8 +16,11 @@ export const Input = component$((props: InputProps) => {
   useStyles$(styles);
   const { id } = useContext(FormFieldContext);
   const ref = useSignal<HTMLInputElement>();
-  const initialValue = useFormValue(props.name);
-  const value = props.value ?? initialValue;
+  // const initialValue = useFormValue(props.name);
+  const value = props.value; // ?? initialValue;
+
+  // Display the HTMLElement on navigation
+  useVisibleTask$(() => console.log(ref.value))
 
   return <div class="field">
     <Slot name="prefix"/>

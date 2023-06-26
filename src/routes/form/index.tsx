@@ -43,7 +43,7 @@ export default component$(() => {
   return <Form class="form-page" onSubmit$={save} initialValue={value}>
       <FormField class="outline">
         <Label>Text here</Label>
-        <Input name="title" placeholder="Some Text here" />
+        <Input value="Hello World" name="title" placeholder="Some Text here" />
       </FormField>
       <FormField class="outline">
         <Label>Select from the list</Label>
