@@ -4,6 +4,7 @@ import { FieldGroupContext, useGroupName } from '../field';
 import type { FieldsetAttributes, InputAttributes } from "../../types";
 import styles from './radio.scss?inline';
 import clsq from "~/components/utils/clsq";
+import { useFormValue } from "../form";
 
 export interface RadioGroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 
@@ -20,10 +21,12 @@ type RadioProps = Omit<InputAttributes, 'type' | 'children'>;
 export const Radio = component$((props: RadioProps) => {
   useStyles$(styles);
   const id = useId();
-  const nameId = useGroupName(props);
+  const name = useGroupName(props);
+  const initialValue = useFormValue(name);
+  const initialChecked = !!initialValue && initialValue === props.value;
   
   return <div class="radio-item">
-    <input id={id} type="radio" {...props} name={nameId} value={props.value} />
+    <input id={id} type="radio" {...props} name={name} value={props.value} checked={initialChecked} />
     <label for={id}>
       <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
         <circle r="8" cx="12" cy="12"/>

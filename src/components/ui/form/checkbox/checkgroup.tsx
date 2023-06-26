@@ -1,4 +1,4 @@
-import { $, component$, Slot, useContext, useContextProvider, useId, useSignal, useStyles$ } from "@builder.io/qwik";
+import { $, component$, Slot, useContext, useContextProvider, useId, useSignal, useStyles$, useVisibleTask$ } from "@builder.io/qwik";
 import { Checkbox } from "./checkbox";
 import { useMultiSelectionList, MultiSelectionListContext } from '../selection-list/multi-selection-list';
 import type { FieldProps} from "../field";
@@ -8,6 +8,7 @@ import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../../ty
 import { ArrowsKeys, useKeyboard } from "../../utils";
 import clsq from "~/components/utils/clsq";
 import styles from './checkbox.scss?inline';
+import { useFormValue } from "../form";
 
 export interface CheckgroupProps extends FieldProps, Omit<FieldsetAttributes, 'role' | 'tabIndex' | 'onKeyDown$'> {}
 
@@ -45,7 +46,11 @@ export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
 
 
 export const CheckAll = component$(() => {
-  const { checkAllRef, toggleAll } = useContext(MultiSelectionListContext);
+  const { checkAllRef, toggleAll, updateMode } = useContext(MultiSelectionListContext);
+  
+  // If there is an initialValue, verify the mode of the checkAll element
+  useVisibleTask$(() => updateMode());
+  
   return <Checkbox class="check-all" ref={checkAllRef} onChange$={toggleAll}>
     <Slot />
   </Checkbox>
@@ -65,10 +70,12 @@ interface CheckItemProps extends Omit<InputAttributes, 'type' | 'children'>{
 export const CheckItem = component$((props: CheckItemProps) => {
   const { updateMode } = useContext(MultiSelectionListContext);
   const id = useId();
-  const nameId = useGroupName(props);
-  
+  const name = useGroupName(props);
+  const initialValue = useFormValue<string[]>(name);
+  const initialChecked = !!initialValue?.includes(props.value);
+
   return <li class="check-item">
-    <input class="checkbox-input" {...props} name={nameId} id={id} type="checkbox" onChange$={updateMode}/>
+    <input class="checkbox-input" {...props} name={name} id={id} checked={initialChecked} type="checkbox" onChange$={updateMode}/>
     <label class="checkbox-label" for={id}>
       <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="none"></path>

@@ -1,6 +1,7 @@
 import { component$, useStyles$, event$, useSignal, $ } from "@builder.io/qwik";
 import clsq from "~/components/utils/clsq";
 import { useOnReset } from "../../utils";
+import { useFormValue } from "../form";
 import type { InputAttributes } from "../types";
 import styles from './slider.scss?inline';
 
@@ -19,6 +20,7 @@ export const Slider = component$((props: SliderProps) => {
   const min = props.min ? Number(props.min) : 0;
   const max = props.max ? Number(props.max) : 100;
   const step = props.step ? Number(props.step) : 1;
+  const initialValue = useFormValue<string | number>(props.name);
 
   useOnReset(slider, $(() => {
     const input = slider.value?.querySelector<HTMLInputElement>('input');
@@ -34,7 +36,7 @@ export const Slider = component$((props: SliderProps) => {
 
   return <div class={clsq('slider', props.position)} ref={slider}>
     <div class="track" ref={track}></div>
-    <input type="range" {...props} step={step} min={min} max={max} onInput$={move}/>
+    <input type="range" {...props} step={step} min={min} max={max} onInput$={move} value={initialValue}/>
     <div class="thumb" data-value={props.value ?? min ?? 0}></div>
   </div>
 });

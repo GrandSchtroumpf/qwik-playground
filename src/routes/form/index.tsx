@@ -21,9 +21,25 @@ export default component$(() => {
   const save = event$((_: any, form: HTMLFormElement) => {
     toaster.add('Thank you 😊');
     form.reset();
-  })
+  });
 
-  return <Form class="form-page" onSubmit$={save}>
+  const value = {
+    title: 'Hello',
+    select: [MOVIES[3].imdbID, MOVIES[6].imdbID],
+    switch: {
+      a: true,
+      b: false,
+    },
+    range: {
+      start: 10,
+      end: 90
+    },
+    radio: 'c',
+    checkbox: ['a', 'c'],
+    toggle: ['medium', 'high']
+  };
+
+  return <Form class="form-page" onSubmit$={save} initialValue={value}>
       <FormField class="outlined">
         <Label>Text here</Label>
         <Input name="title" placeholder="Some Text here" />
@@ -45,29 +61,29 @@ export default component$(() => {
         <ThumbEnd></ThumbEnd>
       </Range>
       <SwitchGroup name="switch" class="outlined">
-        <legend>Some Switch</legend>
-        <Switch name="1">Switch 1</Switch>
-        <Switch name="2">Switch 2</Switch>
+        <legend>Switches</legend>
+        <Switch name="a">Switch 1</Switch>
+        <Switch name="b">Switch 1</Switch>
       </SwitchGroup>
-      <ToggleGroup name="toggle" class="outlined primary">
+      <ToggleGroup name="toggle" class="outlined primary" multi>
         <legend>Toggle Group</legend>
         <Toggle value="low">low</Toggle>
         <Toggle value="medium">medium</Toggle>
         <Toggle value="high">high</Toggle>
       </ToggleGroup>
       <RadioGroup name="radio" class="outlined">
-        <legend>Some radio</legend>
-        <Radio value="1">Radio 1</Radio>
-        <Radio value="2">Radio 2</Radio>
-        <Radio value="3">Radio 3</Radio>
+        <legend>Radio Group</legend>
+        <Radio value="a">Radio 1</Radio>
+        <Radio value="b">Radio 2</Radio>
+        <Radio value="c">Radio 3</Radio>
       </RadioGroup>
       <CheckGroup name="checkbox" class="outlined">
         <legend>Some Checkbox</legend>
         <CheckAll>Check All</CheckAll>
         <CheckList>
-          <CheckItem value="1">Checkbox 1</CheckItem>
-          <CheckItem value="2">Checkbox 2</CheckItem>
-          <CheckItem value="3">Checkbox 3</CheckItem>
+          <CheckItem value="a">Checkbox 1</CheckItem>
+          <CheckItem value="b">Checkbox 2</CheckItem>
+          <CheckItem value="c">Checkbox 3</CheckItem>
         </CheckList>
       </CheckGroup>
       <footer class="form-actions">
