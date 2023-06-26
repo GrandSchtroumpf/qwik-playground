@@ -41,11 +41,11 @@ export default component$(() => {
   };
 
   return <Form class="form-page" onSubmit$={save} initialValue={value}>
-      <FormField class="outlined">
+      <FormField class="outline">
         <Label>Text here</Label>
         <Input name="title" placeholder="Some Text here" />
       </FormField>
-      <FormField class="outlined">
+      <FormField class="outline">
         <Label>Select from the list</Label>
         <Select name="select" placeholder="Movie" multi>
           <Option>-- Select a movie --</Option>
@@ -56,29 +56,29 @@ export default component$(() => {
           ))}
         </Select>
       </FormField>
-      <Range name="range" class="outlined">
+      <Range name="range" class="outline">
         <legend>Select a range</legend>
         <ThumbStart></ThumbStart>
         <ThumbEnd></ThumbEnd>
       </Range>
-      <SwitchGroup name="switch" class="outlined">
+      <SwitchGroup name="switch" class="outline">
         <legend>Switches</legend>
         <Switch name="a">Switch 1</Switch>
         <Switch name="b">Switch 1</Switch>
       </SwitchGroup>
-      <ToggleGroup name="toggle" class="outlined primary">
+      <ToggleGroup name="toggle" class="outline primary">
         <legend>Toggle Group</legend>
         <Toggle value="low">low</Toggle>
         <Toggle value="medium">medium</Toggle>
         <Toggle value="high">high</Toggle>
       </ToggleGroup>
-      <RadioGroup name="radio" class="outlined">
+      <RadioGroup name="radio" class="outline">
         <legend>Radio Group</legend>
         <Radio value="a">Radio 1</Radio>
         <Radio value="b">Radio 2</Radio>
         <Radio value="c">Radio 3</Radio>
       </RadioGroup>
-      <CheckGroup name="checkbox" class="outlined">
+      <CheckGroup name="checkbox" class="outline">
         <legend>Some Checkbox</legend>
         <CheckAll>Check All</CheckAll>
         <CheckList>

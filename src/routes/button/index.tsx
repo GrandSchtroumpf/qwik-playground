@@ -69,24 +69,24 @@ export default component$(() => {
           </td>
         </tr>
         <tr>
-          <th>btn-outlined</th>
+          <th>btn-outline</th>
           <td>
-            <button class="btn-outlined">Basic</button>
+            <button class="btn-outline">Basic</button>
           </td>
           <td>
-            <button class="btn-outlined primary">Primary</button>
+            <button class="btn-outline primary">Primary</button>
           </td>
           <td>
-            <button class="btn-outlined secondary">Secondary</button>
+            <button class="btn-outline secondary">Secondary</button>
           </td>
           <td>
-            <button class="btn-outlined warn">Warn</button>
+            <button class="btn-outline warn">Warn</button>
           </td>
           <td>
-            <button class="btn-outlined disabled">Diabled</button>
+            <button class="btn-outline disabled">Diabled</button>
           </td>
           <td>
-            <button class="btn-outlined gradient">Gradient</button>
+            <button class="btn-outline gradient">Gradient</button>
           </td>
         </tr>
         <tr>
