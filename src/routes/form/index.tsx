@@ -25,7 +25,7 @@ export default component$(() => {
   });
 
   const value = {
-    title: 'Hello',
+    title: 'Hello World',
     select: [MOVIES[3].imdbID, MOVIES[6].imdbID],
     switch: {
       a: true,
@@ -37,7 +37,7 @@ export default component$(() => {
     },
     radio: 'c',
     checkbox: ['a', 'c'],
-    toggle: ['medium', 'high']
+    toggle: 'medium'
   };
 
   return <Form class="form-page" onSubmit$={save} initialValue={value}>
@@ -66,7 +66,7 @@ export default component$(() => {
         <Switch name="a">Switch 1</Switch>
         <Switch name="b">Switch 1</Switch>
       </SwitchGroup>
-      <ToggleGroup name="toggle" class="outlined primary" multi>
+      <ToggleGroup name="toggle" class="outlined primary">
         <legend>Toggle Group</legend>
         <Toggle value="low">low</Toggle>
         <Toggle value="medium">medium</Toggle>
