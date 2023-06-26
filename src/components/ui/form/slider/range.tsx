@@ -11,6 +11,11 @@ interface RangeProps extends FieldsetAttributes {
   step?: number | string;
 }
 
+interface RangeValue {
+  start: number | string;
+  end: number | string;
+}
+
 const RangeContext = createContextId<RangeService>('RangeContext');
 const useRangeContext = () => useContext(RangeContext);
 
@@ -93,7 +98,9 @@ function useRangeProvider(props: RangeProps) {
 
 export const Range = component$((props: RangeProps) => {
   useStyles$(styles);
+  const { min, max } = props;
   const { slider, track, setPosition } = useRangeProvider(props);
+  const initialValue = useFormValue<RangeValue>(props.name);
 
   // Update UI on resize
   useVisibleTask$(() => {
@@ -110,7 +117,12 @@ export const Range = component$((props: RangeProps) => {
   // Update position on reset
   useOnReset(slider, $(() => {
     requestAnimationFrame(() => {
+      // Need to reset the value because of weird behavior with reset on SPA navigation
       const inputs = slider.value?.querySelectorAll<HTMLInputElement>('input');
+      const start = inputs!.item(0);
+      const end = inputs!.item(1);
+      start.value = (initialValue?.start ?? min ?? 0).toString();
+      end.value = (initialValue?.end ?? max ?? 100).toString();
       setPosition(inputs!.item(0), 'start');
       setPosition(inputs!.item(1), 'end');
     })

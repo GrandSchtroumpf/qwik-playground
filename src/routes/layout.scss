@@ -63,7 +63,6 @@ main {
       }
     }
     nav {
-      width: 200px;
       transform: translateX(calc((100% + 2 * var(--size-2)) * -1));
       transition: transform 0.3s var(--ease-out);
       background-color: var(--overlay);

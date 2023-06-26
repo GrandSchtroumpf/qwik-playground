@@ -5,7 +5,7 @@ import type { FieldProps} from "../field";
 import { FieldGroupContext, useGroupName } from "../field";
 import type { MultiSelectionGroupProps} from '../selection-list/multi-selection-list';
 import type { FieldsetAttributes, InputAttributes, UlAttributes } from "../../types";
-import { ArrowsKeys, useKeyboard } from "../../utils";
+import { ArrowsKeys, useKeyboard, useOnReset } from "../../utils";
 import clsq from "~/components/utils/clsq";
 import styles from './checkbox.scss?inline';
 import { useFormValue } from "../form";
@@ -17,9 +17,11 @@ export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
   useStyles$(styles);
   const root = useSignal<HTMLElement>();
   const lastActive = useSignal<HTMLElement | null>();
-  const { checkAllRef, toggleAll, next, previous } = useMultiSelectionList();
+  const { checkAllRef, toggleAll, updateMode, next, previous } = useMultiSelectionList();
 
   useContextProvider(FieldGroupContext, { name: props.name });
+
+  useOnReset(root, $(() => updateMode()));
 
   useKeyboard(root, disabledKeys, $((event) => {
     const key = event.key;
@@ -47,7 +49,7 @@ export const CheckGroup = component$((props: MultiSelectionGroupProps) => {
 
 export const CheckAll = component$(() => {
   const { checkAllRef, toggleAll, updateMode } = useContext(MultiSelectionListContext);
-  
+
   // If there is an initialValue, verify the mode of the checkAll element
   useVisibleTask$(() => updateMode());
   
