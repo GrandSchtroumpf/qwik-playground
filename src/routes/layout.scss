@@ -1,11 +1,11 @@
-.main-nav {
+.nav-overlay {
   grid-area: nav;
   position: sticky;
   top: 0;
   height: 100dvh;
   padding: var(--size-2);
   box-sizing: border-box;
-  ul {
+  nav {
     display: flex;
     flex-direction: column;
     border-radius: var(--size-0);
@@ -14,19 +14,6 @@
     padding-left: 0;
     list-style: none;
     height: 100%;
-  }
-  li {
-    display: contents;
-  }
-  .btn-list {
-    padding: var(--size-1) var(--size-2);
-    color: inherit;
-    &:hover {
-      background-color: var(--surface);
-    }
-    &:active {
-      background-color: var(--surface-high);
-    }
   }
 }
 
@@ -58,25 +45,27 @@ main {
 }
 
 @media (max-width: 899px) {
-  .main-nav {
+  .nav-overlay {
     position: fixed;
     width: 100vw;
     opacity: 0;
     z-index: 1;
     background-color: oklch(20% var(--chroma) var(--hue) / 0.6);
     pointer-events: none;
+    transition: opacity 0.1s 0.2s var(--ease-out);
     &.open {
       pointer-events: all;
       opacity: 1;
       cursor: pointer;
-      ul {
+      transition: opacity 0.1s var(--ease-out);
+      nav {
         transform: translateX(0);
       }
     }
-    ul {
+    nav {
       width: 200px;
-      transform: translateX(-100%);
-      transition: 0.3s transform var(--ease-out);
+      transform: translateX(calc((100% + 2 * var(--size-2)) * -1));
+      transition: transform 0.3s var(--ease-out);
       background-color: var(--overlay);
     }
   }

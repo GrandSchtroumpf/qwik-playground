@@ -17,14 +17,16 @@ export default component$(() => {
     document.documentElement.style.setProperty('--hue', hue.value);
   })
   return <>
-    <Navlist aria-label="primary" onClick$={() => open.value = false} class={clsq('main-nav', open.value ? 'open' : 'close')}>
-      <NavLink href="/">Theme</NavLink>
-      <NavLink href="/form">Form</NavLink>
-      <NavLink href="/accordion">Accordion</NavLink>
-      <NavLink href="/tabs">Tabs</NavLink>
-      <NavLink href="/button">Button</NavLink>
-      <NavLink href="/dialog">Dialog</NavLink>
-    </Navlist>
+    <div class={clsq('nav-overlay', open.value ? 'open' : 'close')} onClick$={() => open.value = false}>
+      <Navlist aria-label="primary">
+        <NavLink href="/">Theme</NavLink>
+        <NavLink href="/form">Form</NavLink>
+        <NavLink href="/accordion">Accordion</NavLink>
+        <NavLink href="/tabs">Tabs</NavLink>
+        <NavLink href="/button">Button</NavLink>
+        <NavLink href="/dialog">Dialog</NavLink>
+      </Navlist>
+    </div>
     <header class="page-header">
       <button class="btn-icon sidenav-trigger" onClick$={() => open.value = true}>
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
