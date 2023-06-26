@@ -38,7 +38,7 @@ export const Listbox = component$((props: ListboxProps) => {
     active: '',
     selected: [],
     multiple: props.multiple ?? false
-  });
+  }, { deep: false });
   const select = $((id: string) => {
     if (!id) return;
     state.selected = state.selected.includes(id)

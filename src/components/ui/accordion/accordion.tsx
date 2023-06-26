@@ -100,7 +100,7 @@ export const Accordion = component$((props: AccordionProps) => {
   const state = useStore<AccordionState>({
     opened: [],
     multiple: multiple ?? false,
-  });
+  }, { deep: false });
   useVisibleTask$(({ track }) => {
     track(() => state.opened);
     flip(state.opened, ref.value!);

@@ -16,7 +16,7 @@ const TabsContext = createContextId<TabsContextState>('TabsContext');
 export const TabGroup = component$((props: DivAttributes) => {
   useStyles$(styles);
   const ref = useSignal<HTMLElement>();
-  const state = useStore<TabsContextState>({ active: '', leaving: '' });
+  const state = useStore<TabsContextState>({ active: '', leaving: '' }, { deep: false });
   useContextProvider(TabsContext, state);
 
   useVisibleTask$(({ track }) => {

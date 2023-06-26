@@ -13,7 +13,7 @@ export const Carousel = component$(() => {
     nextId: '',
     previousVisible: false,
     nextVisible: true,
-  })
+  }, { deep: false })
   useContextProvider(CarouselContext, { ids });
   useVisibleTask$(({ track }) => {
     track(() => ids.value);

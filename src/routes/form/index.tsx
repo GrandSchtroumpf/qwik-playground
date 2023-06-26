@@ -18,8 +18,9 @@ export default component$(() => {
   useStyles$(styles);
   const toaster = useToaster();
 
-  const save = event$((_: any, form: HTMLFormElement) => {
+  const save = event$((value: any, form: HTMLFormElement) => {
     toaster.add('Thank you 😊');
+    console.log(value);
     form.reset();
   });
 

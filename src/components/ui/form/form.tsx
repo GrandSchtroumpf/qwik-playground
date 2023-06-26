@@ -7,7 +7,7 @@ type FormAttributes = QwikJSX.IntrinsicElements['form'];
 
 
 export interface FormProps<T extends FormFieldRecord> extends Omit<FormAttributes, 'onSubmit$'> {
-  onSubmit$?: QRL<(event: QwikSubmitEvent<HTMLFormElement>, form: HTMLFormElement) => any>;
+  onSubmit$?: QRL<(value: T, form: HTMLFormElement, event: QwikSubmitEvent<HTMLFormElement>) => any>;
   value?: Signal<T>;
   initialValue?: T
 }
@@ -48,7 +48,7 @@ export const Form = component$((props: FormProps<any>) => {
     dirty: false,
     invalid: false,
     value: initialValue ?? {},
-  });
+  }, { deep: false });
   useContextProvider<FormState<any>>(FormContext, state);
 
   const change = event$(() => {
@@ -58,7 +58,7 @@ export const Form = component$((props: FormProps<any>) => {
   
   const submit = $((event: QwikSubmitEvent<HTMLFormElement>, form: HTMLFormElement) => {
     state.submitted = true;
-    if (onSubmit$) onSubmit$(event, form);
+    if (onSubmit$) onSubmit$(state.value, form, event);
   });
 
   return <form {...attributes} ref={ref} onSubmit$={submit} onChange$={change} preventdefault:submit>
